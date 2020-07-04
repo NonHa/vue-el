@@ -1,0 +1,102 @@
+// webpack生产环境的核心配置文件
+var path = require('path')
+var config = require('../config')
+var utils = require('./utils')
+var webpack = require('webpack')
+var merge = require('webpack-merge')
+var baseWebpackConfig = require('./webpack.base.conf')
+
+// extract-text-webpack-plugin这个插件是用来将bundle中的css等文件产出单独的bundle文件的
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var env = config.build.env
+
+var webpackConfig = merge(baseWebpackConfig, {
+  module: {
+    loaders: utils.styleLoaders({
+      sourceMap: config.build.productionSourceMap,
+      extract: true
+    })
+  },
+  output: {
+    path: config.build.assetsRoot,
+    // 文件名称这里使用默认的name也就是main
+    // 文件名称使用 static/js/[name].[chunkhash].js, 其中name就是main,chunkhash就是模块的hash值，用于浏览器缓存的
+    filename: utils.assetsPath('js/[name].js'),
+    // chunkFilename是非入口模块文件，也就是说filename文件中引用了chunckFilename
+    chunkFilename: utils.assetsPath('js/[name].[chunkhash].min.js')
+  },
+  vue: {
+    loaders: utils.cssLoaders({
+      sourceMap: config.build.productionSourceMap,
+      extract: true
+    })
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': env
+    }),
+    // UglifyJsPlugin插件是专门用来压缩js文件的
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    // 生成独立的css文件，下面是生成独立css文件的名称
+    new ExtractTextPlugin(utils.assetsPath('css/[name].css')),
+    new HtmlWebpackPlugin({
+      // 非测试环境生成index.html
+      filename: config.build.index,
+      template: 'index.html',
+      inject: true,
+      // 分类要插到html页面的模块
+      chunksSortMode: 'dependency'
+    }),
+    // 下面的插件是将打包后的文件中的第三方库文件抽取出来，便于浏览器缓存，提高程序的运行速度
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function(module, count) {
+        // 将所有依赖于node_modules下面文件打包到vendor中
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(
+            path.join(__dirname, '../node_modules')
+          ) === 0
+        )
+      }
+    }),
+    // 把webpack的runtime代码和module manifest代码提取到manifest文件中，防止修改了代码但是没有修改第三方库文件导致第三方库文件也打包的问题
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      chunks: ['vendor']
+    })
+  ]
+})
+
+if (config.build.productionGzip) {
+  // 开启Gzi压缩打包后的文件，老铁们知道这个为什么还能压缩吗？？，就跟你打包压缩包一样，把这个压缩包给浏览器，浏览器自动解压的
+  // 你要知道，vue-cli默认将这个神奇的功能禁用掉的，理由是Surge 和 Netlify 静态主机默认帮你把上传的文件gzip了
+  var CompressionWebpackPlugin = require('compression-webpack-plugin')
+  webpackConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      asset: '[path].ge[query]',
+      algorithm: 'gzip',
+      test: new RegExp(
+        '\\.(' +
+        config.build.productionGzipExtensions.join('|') +
+        ')$'
+      ),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
+}
+
+if (config.build.bundleAnalyzerReport) {
+  // 打包编译后的文件打印出详细的文件信息，vue-cli默认把这个禁用了，可以自行配置
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+module.exports = webpackConfig
