@@ -22,8 +22,8 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler)
 
-compiler.plugin('complication', function(complication) {
-  complication.plugin('html-webpack-plugin-after-emit', function(data, cb) {
+compiler.plugin('compilation', function(compilation) {
+  compilation.plugin('html-webpack-plugin-after-emit', function(data, cb) {
     hotMiddleware.publish({
       action: 'reload'
     })
@@ -32,11 +32,10 @@ compiler.plugin('complication', function(complication) {
 })
 
 var context = config.dev.context
-var proxypath = null
 switch (process.env.NODE_ENV) {
-    case 'local': proxypath = 'http://localhost:8001'; break
-    case 'online': proxypath = 'http://elm.cangdu.org'; break
-    default: proxypath = config.dev.proxypath
+    case 'local': var proxypath = 'http://localhost:8001'; break;
+    case 'online': var proxypath = 'http://elm.cangdu.org'; break;
+    default: var proxypath = config.dev.proxypath
 }
 
 var options = {

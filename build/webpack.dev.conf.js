@@ -26,7 +26,7 @@ module.exports = merge(baseWebpackConfig, {
   },
   // debtool是开发工具选项，用来指定如何生成sourcemap文件，cheap-module-eval-source-map此款soucemap文件性价比最高
   devtool: '#eval-source-map',
-  piugins: [
+  plugins: [
     // DefinePlugin内置webpack插件，专门用来定义全局变量的，下面定义一个全局变量 process.env
     new webpack.DefinePlugin({
       'process.env': config.dev.env

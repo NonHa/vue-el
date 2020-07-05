@@ -20,10 +20,10 @@ rm('-rf', assertsPath)
 mkdir('-p', assertsPath)
 cp('-R', 'static/*', assertsPath)
 
-webpack(webpackConfig, function(err, state) {
+webpack(webpackConfig, function(err, stats) {
   spinner.stop()
   if (err) throw err
-  process.stdout.write(state.toString({
+  process.stdout.write(stats.toString({
     colors: true,
     modules: false,
     children: false,
