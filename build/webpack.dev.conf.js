@@ -34,7 +34,7 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     // 当webpack编译错误的时候，来中端打包进程，防止错误代码打包到文件中，你还不知道
-    // new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoErrorsPlugin(),
 
     new HtmlWebpackPlugin({
       filename: 'index.html',

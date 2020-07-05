@@ -1,4 +1,5 @@
 var path = require('path')
+// // 生产和开发环境的相关属性
 var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
@@ -14,6 +15,7 @@ function resolve(dir) {
 }
 module.exports = {
   entry: {
+     // 入口文件是src目录下的main.js
     app: './src/main.js'
   },
   output: {
@@ -53,7 +55,10 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         include: projectRoot,
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        query:{
+          presets:['es2015']
+        }
       }, {
         test: /\.json$/,
         loader: 'json'

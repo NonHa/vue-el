@@ -4,6 +4,7 @@ var config = require('../config')
 var utils = require('./utils')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
+// 引入当前目录下的webpack.base.conf.js配置文件，主要配置的是打包各种文件类型的配置
 var baseWebpackConfig = require('./webpack.base.conf')
 
 // extract-text-webpack-plugin这个插件是用来将bundle中的css等文件产出单独的bundle文件的
