@@ -105,7 +105,7 @@
           <div class="sure_name">
             <img v-if="userMes.auth.real_name" src="../../assets/real_name_select_big.png" alt="">
             <img v-else src="../../assets/real_name_big.png" alt="">
-            <span>实名认证</span>
+            <span>实名认证</span> 
           </div>
           <div class="sure_education">
             <img v-if="userMes.auth.edu != 0" src="../../assets/education_select_big.png" alt="">
