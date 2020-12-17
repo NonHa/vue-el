@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns=http://www.w3.org/1999/xhtml> <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<script type="text/javascript" src="js/base.js"></script>
+	<title>登录</title>
+
+	<style type="text/css">
+		.computer {
+			float: left;
+			width: 129px;
+			height: 102px;
+			margin: 100px 0px 25px 118px;
+		}
+
+		.msg {
+			float: left;
+			width: 100%;
+			font-size: 16px;
+			height: 16px;
+			line-height: 16px;
+			color: #323232;
+			text-align: center;
+		}
+
+		.button {
+			float: left;
+			width: 44%;
+			margin: 160px 27% 50px;
+			padding: 8px 0px;
+			font-size: 14px;
+			height: 14px;
+			line-height: 14px;
+			color: #fff;
+			text-align: center;
+			background-color: #FF6E02;
+		}
+	</style>
+
+	<script type="text/javascript">
+		function ajax_submit(obj) {
+			if (obj.Code > 0) alert(obj.Msg);
+			WeixinJSBridge.call('closeWindow');
+		}
+
+		function submit() {
+			document.getElementById("btn").innerHTML = "提交中...";
+			document.getElementById("btn").onclick = function() {};
+			var href = window.location.search.substr(1);
+			var token = GetArgsFromHref(href, "t");
+			var data = {
+				"operate": "WebScan",
+				"token": token
+			};
+			Ajax(ajax_submit, data);
+		}
+	</script>
+	</head>
+	<body>
+		<img src="img/computer.jpg" class="computer">
+		<div class="msg" id="msg">一瓢婚恋网 登录确认</div>
+		<div class="button" id="btn" onclick="submit();return false;">确认</div>
+		<a onclick="WeixinJSBridge.call('closeWindow');">
+			<div class="msg" style="font-size:14px;height:14px;line-height:14px;color:#a1a1a1;">取消退出</div>
+		</a>
+	</body>
+</html>

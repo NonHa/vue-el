@@ -31,15 +31,17 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
+    //根据模块调用次数，给模块分配ids，常被调用的ids分配更短的id，使得ids可预测，降低文件大小
     new webpack.optimize.OccurrenceOrderPlugin(),
+    //热更新--无刷新实现代码更新
     new webpack.HotModuleReplacementPlugin(),
     // 当webpack编译错误的时候，来中端打包进程，防止错误代码打包到文件中，你还不知道
     new webpack.NoErrorsPlugin(),
-
+    // 生成html 模板文件
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      favicon: 'favicon.ico',
+      favicon: 'yipiao-2.png',
       inject: true
       // 设置为true表示把所有的js文件都放在body标签的屁股
     })

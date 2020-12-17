@@ -1,0 +1,95 @@
+import fetch from '../config/fetch'
+import { getStore } from '../config/mUtils'
+
+/**
+ * 获取首页默认地址
+*/
+
+export const getTest = data => fetch( '/webapi.php', data );
+export const getSession = () => fetch(null , { "operate": "getSession"});
+export const pwLogin = data => fetch(null , data);
+export const WebLogin = data => fetch(null , data);
+export const homeMessage = () => fetch(null , {"operate":"getRecommend","type":1});
+export const GetMyId = () => fetch(null , {"operate":"GetMyId","type":1});
+
+// 修改密码
+export const ModifyPassword = () => fetch(null , {"operate":"ModifyPassword","type":1});
+// 忘记密码后用openid修改
+export const pwdChangeWithOpenid = () => fetch(null , {"operate":"pwdChangeWithOpenid","type":1});
+// 获取忘记的密码
+export const getforgotPwd = () => fetch(null , {"operate":"getforgotPwd","type":1});
+// 检查密码
+export const checkforgotpwd = () => fetch(null , {"operate":"checkforgotpwd","type":1});
+// 判断用户是否存在
+export const orderReservation = () => fetch(null , {"operate":"orderReservation","type":1});
+// 获取用户基本资料
+export const getBasicInfo = () => fetch(null , {"operate":"getBasicInfo","type":1});
+// 更新用户信息
+export const updateUser = () => fetch(null , {"operate":"updateUser","type":1});
+// 更新用户基本资料
+export const updateBasicInfo = () => fetch(null , {"operate":"updateBasicInfo","type":1});
+// 获取用户择偶条件
+export const getSpouseCondition = () => fetch(null , {"operate":"getSpouseCondition","type":1});
+// 更新用户择偶条件
+export const updateSpouseCondition = () => fetch(null , {"operate":"updateSpouseCondition","type":1});
+// 上传图片
+export const addImg = () => fetch(null , {"operate":"addImg","type":1});
+// 更新上传图片
+export const updateImg = () => fetch(null , {"operate":"updateImg","type":1});
+
+// 删除上传图片
+export const delImg = () => fetch(null , {"operate":"delImg","type":1});
+// 获取vip用户信息
+// export const getVVipList = () => fetch(null , {"operate":"getVVipList","type":1});
+// 更新上传图片
+export const getVipList = () => fetch(null , {"operate":"getVipList","type":1});
+// 根据id 获取用户信息
+export const getUserByID = () => fetch(null , {"operate":"getUserByID","type":1});
+
+// 获取评论
+export const getRecommend = () => fetch(null , {"operate":"getRecommend","type":1});
+// 搜索
+export const getSearch = () => fetch(null , {"operate":"getSearch","type":1});
+// 根据id 获取用户信息
+export const preciseSearch = () => fetch(null , {"operate":"preciseSearch","type":1});
+// 根据id 获取用户信息
+export const getScreen = () => fetch(null , {"operate":"getScreen","type":1});
+// 根据id 获取用户信息
+export const sendMsg = () => fetch(null , {"operate":"sendMsg","type":1});
+// 根据id 获取用户信息
+export const getMessageCount = () => fetch(null , {"operate":"getMessageCount","type":1});
+// 根据id 获取用户信息
+export const getInviteMsgList = () => fetch(null , {"operate":"getInviteMsgList","type":1});
+// 根据id 获取用户信息
+export const getChatMsgList = () => fetch(null , {"operate":"getChatMsgList","type":1});
+// 根据id 获取用户信息
+export const getInviteById = () => fetch(null , {"operate":"getInviteById","type":1});
+
+// 根据id 获取用户信息
+export const getChatById = () => fetch(null , {"operate":"getChatById","type":1});
+
+// 根据id 获取用户信息
+export const addRealNameVerify = () => fetch(null , {"operate":"addRealNameVerify","type":1});
+
+// 根据id 获取用户信息
+export const addRealEduVerify = () => fetch(null , {"operate":"addRealEduVerify","type":1});
+// 根据id 获取用户信息
+export const addRealReferrerVerify = () => fetch(null , {"operate":"addRealReferrerVerify","type":1});
+
+// 根据id 获取用户信息
+export const addRealVip = () => fetch(null , {"operate":"addRealVip","type":1});
+
+// 根据id 获取用户信息
+export const getAuthenticate = () => fetch(null , {"operate":"getAuthenticate","type":1});
+// 根据id 获取用户信息
+export const getBindRealTelCheckCode = () => fetch(null , {"operate":"getBindRealTelCheckCode","type":1});
+// 根据id 获取用户信息
+export const getUpdateBindRealTelCheckCode = () => fetch(null , {"operate":"getUpdateBindRealTelCheckCode","type":1});
+// 根据id 获取用户信息
+// export const doBindRealTel = () => fetch(null , {"operate":"doBindRealTel","type":1});
+// 根据id 获取用户信息
+export const doUpdateBindRealTel = () => fetch(null , {"operate":"doUpdateBindRealTel","type":1});
+// 根据id 获取用户信息
+export const getVVIPList = () => fetch(null , {"operate":"getVVIPList","type":1});
+// 根据id 获取用户信息
+export const doBindRealTel = () => fetch(null , {"operate":"doBindRealTel","type":1});

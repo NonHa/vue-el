@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>个人中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<style type="text/css">
+			
+			*.layui-input-block{
+				max-width: 220px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 导航栏 -->
+			<div class="layui-header layui-hide-xs layui-bg-black">
+				<div class="layui-container">
+					<a href="../index.html">
+						<div class="layui-logo" style="color:Aqua;">
+							<h1>一瓢婚恋网</h1>
+						</div>
+					</a>
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="../index.html">首页</a></li>
+						<li class="layui-nav-item">
+							<a href="#">会员群体</a>
+							<dl class="layui-nav-child">
+								<dd><a href="vip.html?v=creater">联合创始人</a></dd>
+								<dd><a href="vip.html?v=vip">名士/名媛</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="physical_store.html">实体门店</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-right">
+						<li class="layui-nav-item"><a href="message.html">消息<span class="layui-badge-dot"></span></a></li>
+						<li class="layui-nav-item">
+							<a href="userbase.html" id=""><img name="touxiang" id="touxiang" src="img/default.jpg" class="layui-nav-img">
+								<font id="nickname">我</font>
+							</a>
+							<dl class="layui-nav-child">
+								<dd><a href="userbase.html">基本资料</a></dd>
+								<dd><a href="security.html">安全设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a id="login" href="#" onclick="login1()" role="button" class="" data-toggle="modal">登录</a></li>
+						<li class="layui-nav-item"><a href="#" id="exit" onclick="exit()" class="">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 主页面 -->
+			<div class="layui-container">
+				<!-- 侧边 -->
+				<div id="sidebar" class="sidebar-left layui-col-sm3 layui-col-md3">
+					<ul class="layui-tree">
+						<div class="layui-anim layui-anim-upbit">
+							<div class="layui-upload">
+								<a class="site-demo-upload">
+									<div class="layui-upload-list" id="headpreview">
+										<img name="touxiang" src="img/default.jpg" alt="点击修改头像" class="headicon">
+									</div>
+								</a>
+							</div>
+						</div>
+						<li class="layui-collapse">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title layui-nav-item">个人信息</h2>
+								<div class="layui-colla-content layui-show">
+									<dd><a href="userbase.html" class="layui-nav-item">基本资料</a></dd>
+									<dd><a href="userdetail.html" class="layui-nav-item">详细资料</a></dd>
+									<dd><a href="matewanted.html" class="layui-nav-item">择偶标准</a></dd>
+								</div>
+							</div>
+						</li>
+						<li class="layui-colla-title"><a href="authenticate.html" class="layui-nav-item">我的认证</a></li>
+						<li class="layui-collapse">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title layui-nav-item">会员服务</h2>
+								<dl class="layui-colla-content">
+									<dd><a href="reservation.html" class="layui-nav-item">爱情定制</a></dd>
+									<dd><a href="vip.html" class="layui-nav-item">线下约会</a></dd>
+									<dd><a href="search.html" class="layui-nav-item">搜索匹配</a></dd>
+								</dl>
+							</div>
+						</li>
+						<li class="layui-collapse">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title layui-nav-item">系统设置</h2>
+								<dl class="layui-colla-content">
+									<dd><a href="security.html" class="layui-nav-item">修改密码</a></dd>
+								</dl>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<!-- 表单 -->
+				<div id="mainbar" class="layui-col-xs12 layui-col-sm9 layui-col-md9">
+					<div class="layui-row">
+						<br />
+						<div class="layui-row text-center">
+							<h2>我的理想择偶标准</h2>
+						</div>
+						<hr class="layui-bg-green"><br />
+
+						<form class="layui-form" action="../webapi.php?rand=0.1002121545435" method="post" lay-filter="spouse_condition">
+							<div class="layui-row">
+								<div class="layui-col-md6 layui-col-xs12">
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方年龄</label>
+										<div class="layui-input-inline small-col">
+											<select name="min_age" lay-filter="min_age" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+										<div class="layui-form-mid">至</div>
+										<div class="layui-input-inline small-col">
+											<select name="max_age" lay-filter="max_age" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方身高</label>
+										<div class="layui-input-inline small-col">
+											<select name="min_height" lay-filter="min_height" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+										<div class="layui-form-mid">至</div>
+										<div class="layui-input-inline small-col">
+											<select name="max_height" lay-filter="max_height" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方体重</label>
+										<div class="layui-input-inline small-col">
+											<select name="min_weight" lay-filter="min_weight" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+										<div class="layui-form-mid">至</div>
+										<div class="layui-input-inline small-col">
+											<select name="max_weight" lay-filter="max_weight" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">对方月收入</label>
+											<div class="layui-input-inline small-col">
+												<select name="min_salary" lay-skin="select">
+													<option value="0">不限</option>
+													<option value="1">3000</option>
+													<option value="2">5000</option>
+													<option value="3">8000</option>
+													<option value="4">12000</option>
+													<option value="5">20000</option>
+													<option value="6">50000</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">至</div>
+											<div class="layui-input-inline small-col">
+												<select name="max_salary" lay-skin="select">
+													<option value="0">不限</option>
+													<option value="1">3000</option>
+													<option value="2">5000</option>
+													<option value="3">8000</option>
+													<option value="4">12000</option>
+													<option value="5">20000</option>
+													<option value="6">50000</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方学历</label>
+										<div class="layui-input-block">
+											<select name="education" lay-verify="required" lay-skin="select">
+												<option value="-1">不限</option>
+												<option value="1">高中</option>
+												<option value="2">专科</option>
+												<option value="3">本科</option>
+												<option value="4">硕士</option>
+												<option value="5">博士</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">婚姻状况</label>
+										<div class="layui-input-block">
+											<select name="marital_status" lay-verify="required" lay-skin="select">
+												<option value="-1">不限</option>
+												<option value="0">未婚</option>
+												<option value="1">离异</option>
+												<option value="2">丧偶</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item" id="area-picker">
+										<div class="layui-form-label">工作地点</div>
+										<div class="layui-input-block" style="max-width: 190px;">
+											<select name="province" class="province-selector" data-value="不限省" lay-verify="required" id="province-1"
+											 lay-filter="province-1">
+												<option value="">请选择省</option>
+											</select>
+										</div>
+										<div class="layui-form-label"></div>
+										<div class="layui-input-block" style="max-width: 190px;">
+											<select name="city" class="city-selector" data-value="不限市" lay-verify="required" id="city-1" lay-filter="city-1">
+												<option value="">请选择市</option>
+											</select>
+										</div>
+										<div class="layui-form-label"></div>
+										<div class="layui-input-block" style="max-width: 190px;">
+											<select name="county" class="county-selector" data-value="不限区" lay-verify="required" id="county-1" lay-filter="county-1">
+												<option value="">请选择区</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="layui-col-md6 layui-col-xs12">
+									<div class="layui-form-item">
+										<label class="layui-form-label">抽烟</label>
+										<div class="layui-input-block">
+											<select name="smoke" lay-skin="select">
+												<option value="-1">不限</option>
+												<option value="0">不接受吸烟</option>
+												<option value="1">可以偶尔抽一点</option>
+												<option value="2">可以经常抽烟</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">喝酒</label>
+										<div class="layui-input-block">
+											<select name="drink" lay-skin="select">
+												<option value="-1">不限</option>
+												<option value="0">不接受喝酒</option>
+												<option value="1">可以偶尔喝一点</option>
+												<option value="2">可以经常喝酒</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方经济</label>
+										<div class="layui-input-block">
+											<input type="checkbox" name="house" title="有房" value="1">
+											<input type="checkbox" name="car" title="有车" value="1">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方子女</label>
+										<div class="layui-input-block">
+											<input type="radio" name="child" title="不限" value="-1">
+											<input type="radio" name="child" title="无子女" value="0">
+											<input type="radio" name="child" title="有子女" value="1">
+										</div>
+										<label class="layui-form-label">生育观念</label>
+										<div class="layui-input-block">
+											<input type="radio" name="wanna_child" title="不限" value="-1">
+											<input type="radio" name="wanna_child" title="丁克家庭" value="0">
+											<input type="radio" name="wanna_child" title="想要孩子" value="1">
+											<input type="radio" name="wanna_child" title="还没想好" value="2">
+										</div>
+									</div>
+									<div class="layui-form-item layui-form-text">
+										<label class="layui-form-label">爱情宣言</label>
+										<div class="layui-input-block">
+											<textarea name="desc" placeholder="可以说一说你的故事or内心想法,或者大胆喊出你的爱情宣言吧!" class="layui-textarea"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+
+							
+							<br><br>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+									<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- 手机按钮 -->
+				<div>
+					<div class="sidebar-mobile-left layui-hide-md layui-hide-sm" id="leftbtn">
+						<i class="layui-icon layui-icon-right" style="font-size: 1.5625rem;"></i>
+					</div>
+					<div id="shade"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/util.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/classie.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/data.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var menuLeft = document.getElementById('sidebar'), //左边菜单栏
+			showLeft = document.getElementById('leftbtn'), //点击按钮
+			barshade = document.getElementById('shade'),
+			body = document.body;
+		showLeft.onclick = function() {
+			classie.toggle(this, 'active');
+			classie.toggle(menuLeft, 'sidebar-open');
+			classie.toggle(barshade, 'bar-shade');
+		};
+		barshade.onclick = function() {
+			classie.toggle(menuLeft, 'sidebar-open');
+			classie.toggle(barshade, 'bar-shade');
+		}
+
+		$(function() {
+			var data = {
+				"operate": "getSpouseCondition"
+			};
+			Ajax(ajax_getSpouseCondition, data);
+		});
+
+		var ajax_getSpouseCondition = function(obj) {
+			if (obj.Code > 0) alert(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				session = obj.session;
+				user_id = session.userid;
+				checkLogin();
+				IconUpload(user_id);
+				console.log(ary);
+				var form = layui.form;
+				if(0==ary.house)ary.house="";
+				if(0==ary.car)ary.car="";
+				form.val("spouse_condition", ary);
+				unconfinearea(ary.job_addr);
+				$("#exit").show();
+				$("#login").hide();
+			}
+		};
+		$(document).ready(function() {
+			//添加age,height,weight选项
+			add_ahw();
+			var form = layui.form;
+
+			form.on('submit', function(data) {
+				console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+				console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+				if (1 == data.field.house);
+				else data.field.house = 0;
+				if (1 == data.field.car);
+				else data.field.car = 0;
+				if(data.field.province==-1){
+					data.field.job_addr = -1;
+				}else if(data.field.city==-1){
+					data.field.job_addr = data.field.province;
+				}else if(data.field.county==-1){
+					data.field.job_addr = data.field.city;
+				}else{
+					data.field.job_addr = data.field.county;
+				}
+				delete data.field.province;
+				delete data.field.city;
+				delete data.field.county;
+				console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+				var postData = {
+					"ary": JSON.stringify(data.field),
+					"operate": "updateSpouseCondition"
+				};
+				Ajax(ajax_submit, postData);
+				return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			});
+
+		})
+
+		function ajax_submit(obj) {
+			if (obj.Code > 0) alert(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				layer.msg("提交成功");
+				window.location.reload();
+			}
+		}
+	</script>
+</html>

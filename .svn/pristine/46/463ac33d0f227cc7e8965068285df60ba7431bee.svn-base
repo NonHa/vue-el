@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>个人中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link href="css/userbase.css">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+				<div class="layui-container ">
+					<div class="layui-row" >
+						<div class="layui-col-xs8">
+							<form class="layui-form" lay-filter="login-form" method="post" action="../webapi.php?rand=0.1002121545435">
+								 <!-- 1.体重 2.身高  4.籍贯 5.民族 3.职业 6.收入状况-->
+								 <input type="text" name="operate" class="layui-hide" value="pwLogin" hidden="hidden">
+								 <div class="layui-form-item">
+								     <div class="layui-inline">
+								       <label class="layui-form-label">手机</label>
+								       <div class="layui-input-inline">
+								         <input type="tel" name="tel" lay-verify="required" class="layui-input" >
+								       </div>
+									</div>
+								 </div>
+								  <div class="layui-form-item">
+								      <div class="layui-inline">
+								        <label class="layui-form-label" >密码</label>
+								        <div class="layui-input-inline">
+								          <input type="password" name="key" lay-verify="required" class="layui-input"/>
+								        </div>
+								  	  </div>
+								  </div>
+								  <div class="layui-form-item">
+								    <div class="layui-input-block">
+								      <button class="layui-btn layui-btn-lg" lay-submit lay-filter="login-form"  id="login-btn">登录</button>
+								      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+								    </div>
+								  </div>
+							</form>
+						</div>
+						
+						<div class="layui-col-xs4">
+							<div id="urlqrcode" style=""></div>
+							<br>使用微信扫码登录
+						</div>
+					</div>
+					
+				</div>
+		</div>
+	</body>
+<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+<script type="text/javascript" src="js/qrcode.js"></script>
+<script src="js/base.js"></script>
+<script type="text/javascript">
+	var form=layui.form;
+	var $ = layui.$;
+	var index = parent.layer.getFrameIndex(window.name);
+	var t = new Date().getTime();
+	var token = (t%10000)+"az"+Math.floor(Math.random()*10000);;
+	form.on("submit()",function(data){
+		layer.load();
+		console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+		Ajax(ajax_login,data.field);
+		return false;
+	});
+	
+	function  ajax_login(obj){
+		if(obj.Code>0){
+			layer.msg(obj.Msg);
+			layer.closeAll('loading');
+		}
+		else {
+	    	//layer.msg(obj.Result);
+			var ary = obj.session;
+			parent.$("#nickname").html(decodeURIComponent(ary["nickname"]));
+			parent.$("#touxiang").attr("src",decodeURIComponent(ary["photo"]));
+			parent.$("#login").hide();
+			parent.$("#exit").show();
+			layer.closeAll('loading');
+			parent.window.location.reload();
+			parent.layer.close(index);
+	    }
+	}
+	$(document).ready(function(){
+		
+		if ($("#urlqrcode").html().length==0) {
+			var data = {"operate":"GetChannel","token":token};
+			Ajax(ajax_channel, data);
+		}
+	});
+	
+	function ajax_channel(obj){
+		if(obj.Code>0)layer.msg(obj.Msg);
+		else { 
+	    	var channel_token = obj.Result;
+	        
+	        if (typeof WebSocket == 'undefined') {
+	            document.getElementById("urlqrcode").innerHTML= "IE系低版本浏览器不支持扫描登录！";
+	            return;
+			}
+	        
+	        var socket = new WebSocket(channel_token);
+			socket.onmessage = function( m ) {
+	        	result = JSON.parse(m.data);
+	        	if(result.uid>0)success(result);
+	            else layer.msg("请关注“一瓢婚恋”公众号再登录！");
+	        }
+	        //生成二维码
+	        var qrcode = new QRCode(document.getElementById("urlqrcode"), {
+				width : 120,
+				height : 120
+			});            
+	        var url = "http://"+window.location.hostname+"/go.php?u=confirm.html&t="+token; 
+			
+			qrcode.makeCode(url);
+		}
+	}
+	
+	function success( result ){
+		$("#login_close").click();
+		var data = { "operate":"WebLogin","uid":result.uid, "timestamp":result.timestamp, "token":result.token };
+	    Ajax(ajax_login, data);
+	}
+</script>
+</html>

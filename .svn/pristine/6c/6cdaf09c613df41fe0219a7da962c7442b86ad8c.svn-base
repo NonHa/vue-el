@@ -1,0 +1,200 @@
+<template>
+  <div style="background-color: #F7F7F8" >
+    <!-- <NavBarHead class="nav_other_class" :title="title" :border="false" @goBack="goBackArticle" @showItem="showArticleItem"></NavBarHead> -->
+   
+   <MineHeader @goHome="goBackHome"></MineHeader>
+   
+     
+  </div>
+</template>
+
+<script>
+
+import MineHeader from '../components/MineHeader'
+export default {
+  components: { MineHeader},
+  data() {
+    return {
+     
+    }
+  },
+  methods: {
+    goBackHome() {
+      this.$router.push({ name: 'Mine'})
+    },
+    
+   
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+  
+
+  .nav_other_class {
+    background-color: rgba(0,0,0,0) !important;
+    // opacity: 0
+  }
+  
+ 
+  
+  .like_num {
+   height: 0.9rem;
+    @include sc(0.8rem, #8C8C8C);
+
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+
+    line-height: 0.9rem;
+  }
+
+  
+  .van-row {
+   
+    height: 2rem;
+    color: #646464 !important;
+    font-size: 0.8rem !important;
+      // @include sc(0.8rem,#646464);
+    font-family: PingFangSC-Regular, PingFang SC !important;
+    font-weight: 400 !important;
+    
+    line-height: 2rem;
+  }
+  .introduce_mes {
+    @include sc(0.9rem,#646464);
+    margin-top: 0.9rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    line-height: 1.1rem;
+  }
+  .van-grid-item:last-child .van-image::before {
+    content: '';
+    position: absolute;
+    
+      @include wh(100%, 100%);
+   
+    opacity: 0.39;
+    background-color: #000;
+
+  }
+  .more_picture {
+    position: absolute;
+    @include sc(1rem,#FFFFFF);
+    
+  }
+
+  .sure_check {
+      @include wh(100%, 6.5rem);
+      background: #FAFAFA;
+      border-radius: 0.3rem;
+      margin-top: 0.9rem;
+      border: 2px solid #E0E0E0;
+      display: flex;
+  }
+  .sure_check div {
+    padding: 0.9rem;
+    text-align: center;
+    flex: 1;
+  }
+  .sure_check img {
+    display: block;
+    margin-left: 0.8rem;
+      @include wh(3.2rem, 3.2rem);
+
+  }
+  .sure_check span {
+    @include sc(0.8rem,#262B40);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    
+    line-height: 24px;
+  }
+  .van-tag--primary.van-tag--plain {
+    @include sc(0.8rem,#505050);
+
+  }
+  .van-tag--primary {
+    background-color: #F6F6F6;
+  }
+  .van-tag {
+    border: 0;
+    margin-left: 0.3rem;
+    margin-top: 0.4rem;
+    padding: 0.4rem 1rem;
+    
+  }
+  .lw_look {
+    @include wh(3.2rem, 3.2rem);
+  }
+
+  .gave_more {
+      @include wh(100%, 6.5rem);
+      display: flex;
+  }
+  .gave_more .sure_name {
+    padding: 0.9rem;
+    text-align: center;
+    flex: 1;
+   
+
+  }
+  .sure_name div {
+     @include wh(5rem, 5rem);
+    border-radius: 50%;
+    border: 1px solid #fff;
+  }
+  .pink {
+    // border: 1px solid ;
+   
+    box-shadow: 0px 6px 30px 0px rgba(255, 128, 123, 0.3);
+    
+  }
+  .gold {
+    
+box-shadow: 0px 6px 30px 0px rgba(206, 164, 118, 0.4);
+  }
+  .blue {
+    
+box-shadow: 0px 6px 30px 0px rgba(64, 72, 104, 0.16);
+  }
+  .gave_more img {
+    display: block;
+    margin-top: 1rem;
+    margin-left: 1.5rem;
+      @include wh(1.9rem, 1.9rem);
+
+  }
+  .gave_more span {
+    @include sc(0.7rem,#CEA476);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    
+    line-height: 0.9rem;
+  }
+  
+  .van-button--primary {
+    background-color: #FF807B;
+    @include sc(0.9rem,#FFFFFF);
+    border: 1px solid #FF807B;
+     @include wh(100%, 2.5rem);
+
+  }
+  .caledar_item {
+    margin-top: 5rem;
+    margin-left: 0.9rem;
+    width: 19.6rem;
+    
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+  }
+  .link_content {
+    overflow: hidden;
+  }
+  .link_content, .base_search {
+    background-color: #FFFFFF;
+  }
+   .base_search {
+     margin-top: 0.9rem;
+   }
+</style>

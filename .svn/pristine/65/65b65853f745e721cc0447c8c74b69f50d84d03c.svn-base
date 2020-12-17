@@ -1,0 +1,159 @@
+@import './mixin';
+
+span.van-tab__text van-tab__text--ellipsis {
+  color: #FF807B;
+}
+
+.van-tabs__wrap--scrollable .van-tab {
+  padding: 0 0.8rem;
+}
+
+.van-tab {
+  font-size: 0.8rem;
+}
+
+
+.van-nav-bar {
+  height: 2.5rem;
+}
+
+.van-nav-bar .van-icon {
+  color: #262b40;
+}
+
+.van-nav-bar__text {
+  color: #262b40;
+
+}
+
+.van-nav-bar__left, .van-nav-bar__right {
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding: 0 1rem;
+  line-height: 1rem;
+}
+.van-nav-bar__right {
+  top: -0.6rem;
+}
+
+.van-calendar__selected-day {
+  color: #FF807B;
+}
+
+.van-calendar {
+  padding: 0 0.9rem;
+  @include wh(100%, 18rem);
+  background-color: #FFFFFF;
+
+}
+.van-calendar__header {
+  box-shadow: 0 0 0 0 rgba(125,126,128,.16);
+}
+.van-calendar__month-title {
+  // display: none;
+}
+.van-calendar__weekday {
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+
+  line-height: 1.1rem;
+  @include sc(0.8rem, #323232);
+
+}
+.van-calendar__header-title {
+  position: relative;
+  left: -6.5rem;
+  top: 1rem;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  line-height: 1.1rem;
+  @include sc(0.9rem, #323232);
+
+}
+
+.van-radio__icon {
+  height: 1rem;
+}
+
+.van-radio {
+  height: 4rem;
+  line-height: 4rem;
+}
+
+.van-radio__label {
+  margin-left: 0.7rem;
+  @include sc(0.8rem, #262B40);
+
+}
+
+.img-icon {
+  @include wh(0.9rem, 0.9rem);
+
+}
+.van-hairline--top .van-button__text {
+  @include sc(1.1rem, #FF807B);
+  
+
+}
+.van-dialog__confirm {
+  width: 2rem;
+}
+
+.van-dialog__footer::before {
+  position: absolute;
+  top: 9px;
+  left: 4rem;
+  display: inline;
+  @include wh(2.8rem, 2rem);
+
+}
+.van-dialog__confirm .van-button__content {
+  justify-content: flex-end
+}
+.van-dialog {
+  @include wh(17.2rem, 9.5rem);
+    
+  background: #FFFFFF;
+  border-radius: 10px;
+
+}
+.van-dialog__header {
+  text-align: left;
+  @include sc(1rem, #262B40);
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  line-height: 1.1rem;
+  // margin-left: 1.1rem;
+}
+.van-dialog__content {
+  
+  margin-top: 0.9rem;
+}
+.sureSet {
+  position: absolute;
+  @include wh(2rem, 2rem);
+  @include sc(0.9rem, #FF807B);
+  right: 1.2rem;
+  bottom: 0.6rem;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+
+  line-height: 1.2rem;
+
+}
+.van-dialog__message {
+  text-align: left;
+  @include sc(0.8rem, #505050);
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  line-height: 1.1rem;
+  padding: 1.3rem 1.1rem;
+}
+
+.van-tabs__wrap  .van-tab--active .van-tab__text{
+  color: #FF807B !important;
+}
+
+.van-field__body {
+  padding: 0.9rem !important;
+}

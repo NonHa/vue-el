@@ -1,0 +1,22 @@
+a {color: inherit;} 
+a:link {text-decoration:none;}
+a:visited {text-decoration:none;}
+a:hover {text-decoration:none;}
+a:active {text-decoration:none;}
+a img {border:none;}
+a div {border:none;}
+ol {margin: 0px; padding: 0px; list-style-type:none;}
+ul {margin: 0px; padding: 0px; list-style-type:none;} 
+li {margin: 0px; padding: 0px; list-style-type:none;}
+
+body {background-color: #fff; margin: 0px; padding: 0px;-webkit-tap-highlight-color: rgba(0,0,0,0);font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}
+.emptybar { clear:both; width: 100%;min-height: 20px;}
+textarea {font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}
+
+/*自定义的check radio*/
+.base_radio {width: 24px;height: 18px;float: left;cursor: pointer;text-align: center;margin-right: 5px;
+    background-image: url(../img/radio.gif);background-repeat: no-repeat;background-position: -24px 0;}
+.base_radio_on {background-position: 0 0;}
+/*.base_radio_class { opacity: 0;cursor: pointer;-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter: alpha(opacity=0);}*/
+.base_check {width: 16px;height: 16px;float:left;cursor: pointer;text-align: center;background-image: url(../img/uncheck.png);}
+.base_check_on {background-image: url(../img/check.png);}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content=" initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/base.js" type="text/javascript"></script>
+    <script src="js/json.js" type="text/javascript"></script>
+    <style type="text/css">
+        .title {float:left; clear:both; width:100px;height:16px;padding-bottom:6px;margin:30px 0px 40px 30px;font-size:16px; color:#323232; line-height:16px;border-bottom:2px solid #009688; }
+        .msg {float:left; clear:both; height:200px;width:700px;border:1px solid #c1c1c1;margin-left:30px; color:#323232;font-size:14px;
+            font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}
+        .info {float:left; clear:both; width:600px;height:14px;margin:10px 0px 0px 30px;color:#a1a1a1;font-size:14px;line-height:16px;}        
+        .button {float:left;clear:both; width:160px;height:14px;font-size:14px;line-height:14px; color:#fff;padding:9px 0px;margin-left:30px;  
+            text-align:center;background-color:#009688;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;
+            cursor:pointer; overflow: hidden;}
+    </style>
+    <script type="text/javascript">
+        var user  =  GetCookie("login_uid");
+   
+        function save(){
+            var str = document.getElementById("menu").value;
+            if(str.length<1)return false;
+            
+            document.getElementById("btn").onclick = function (){ void(0);return false; }; 
+            var data = {"operate":"SetMenu", "menu":str};
+            Ajax(ajax_save, data);
+        }
+        
+        function ajax_save(obj){
+            document.getElementById("btn").onclick = function (){ save();return false; }; 
+            if(obj.Code>0)alert( obj.Msg );
+            else alert( obj.Result );
+        } 
+
+        function ajax_getmenu(obj){
+            if(obj.Code>0)alert(obj.Msg);
+            else {
+                //alert(obj.Result);
+                //{"button":[{ "type":"view","name":"一瓢婚恋","url":"http://hr.sinlun.com/go.php?u=index" }]}    
+                document.getElementById("menu").value = obj.Result;
+            }
+        }
+        
+		window.onload = function(){
+			if(user != 10001){location = "dashboard.html"; return;}
+			var data = {"operate":"GetMenu"};
+            Ajax(ajax_getmenu, data);
+        }
+    </script>
+</head>
+<body>
+    <div class="title" id="subtitle">自定义菜单</div>
+	<div class="emptybar" style="min-height:20px;"></div>
+    
+    <textarea class="msg" id="menu"></textarea>
+    <div class="info" style="margin-bottom:40px;">json格式，慎重修改！</div>
+    <a href="#" onclick="save();return false;" id="btn"><div class="button">保存</div></a>
+    
+
+	<div class="emptybar" style="min-height:40px;"></div>
+</body>
+</html>

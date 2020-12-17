@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content=" initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/jquery.js" type="text/javascript"></script>
+	<script src="js/ajaxfileupload.js"  type="text/javascript"></script>
+    <script src="js/base.js" type="text/javascript"></script>
+    <script src="js/json.js" type="text/javascript"></script>
+    <style type="text/css">      
+        .title {float:left; width:160px;height:16px;padding-bottom:6px;margin:30px 896px 30px 30px;font-size:16px; color:#323232; line-height:16px;border-bottom:2px solid #F98484; }
+        .info {float:left; width:900px;margin:0px 0px 10px 30px;height:14px;font-size:14px; color:#c1c1c1;line-height:14px;padding:8px 20px;border:1px solid #e0e0e0;background-color:#F4F5F9;}
+        .box {float:left; width:940px;height:174px;margin:0px 0px 10px 30px; border:1px solid #e0e0e0;background-color:#F4F5F9;}
+		.reservation{height: 140px;}
+        .box .index {float:left; width:200px;height:14px;border-right:1px solid #e0e0e0;padding:80px 0px; text-align:center;font-size:14px; color:#323232; line-height:14px;}
+        .box img {float:left;width:270px; height:120px;padding:10px;display:block;}
+        .box .btn {float:left;width:80px;height:14px;font-size:14px;line-height:14px; color:#323232;padding:7px 0px; margin:10px 350px 10px 0px;
+            text-align:center;border:1px solid #c1c1c1;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; cursor:pointer; overflow: hidden;}
+        .box .msg {float:left;width:80px;height:12px;font-size:12px;line-height:12px; color:#646464;margin-right:350px; }
+        .box .link {float:left;height:14px;width:650px;margin-left:10px;padding:4px;font-size:14px;border:1px solid #e0e0e0; }
+        .box .up { float:left;height:14px;width:50px;margin-left:5px;padding:3px 0px 5px;font-size:14px;line-height:14px;border:1px solid #e0e0e0;
+            text-align:center;color:#646464;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; cursor:pointer; overflow: hidden; }
+    </style>
+    <script type="text/javascript">
+        var cur = 0;
+
+        function upload() {
+            if(cur == 0)return; 
+            
+            var obj = document.getElementById("upfile");
+			var size = obj.files[0].size;
+			if(size > 500*1024){
+				alert("您只能上传小于500K的图片!");
+				return;
+			}
+            
+			var file_upl = obj.value;
+			var ext = file_upl.substr(file_upl.lastIndexOf("."));
+            ext = ext.toLowerCase();
+			if( ext==".jpg" ){
+                document.getElementById('upmsg'+cur).innerHTML = "正在上传...";                
+                if(cur<6){
+					var newfile = "img/banner/indexad" + cur ;
+				}else{
+					var newfile = "img/banner/zw" + cur ;
+				}
+                var phpfile = uploadAction( newfile );
+                if(phpfile == false){alert("请先登录!");return;}
+                phpfile += "&isUniq=1";
+                /////////////////////////////////////////////
+                //原生的上传代码
+                //document.forms["form1"].action = str;              
+                //document.forms["form1"].submit();
+                
+                ////////////////////////////////////////////
+                //ajax无刷新上传, 记得添加jquery.js 和 ajaxfileupload.js 框架(库)
+                
+                $.ajaxFileUpload({
+					url: phpfile,                    //处理图片脚本
+					secureuri: false,
+					fileElementId: 'upfile',         //file控件id
+					dataType: 'json',
+					success : function (data, status){
+						if(typeof(data.msg) != 'undefined'){
+							if(data.msg == ''){
+								document.getElementById('upmsg'+cur).innerHTML = "图片上传成功!";
+                                document.getElementById('img'+cur).src = getSaeStorageUrl( newfile )+".jpg?r="+Math.random();                                    
+							}else{
+								document.getElementById('upmsg'+cur).innerHTML = decodeURIComponent(data.msg);
+							}
+						}
+					},
+					error: function(data, status, e){
+						document.getElementById('upmsg'+cur).innerHTML = e;
+					}
+				})
+                
+                //ajax无刷新上传 END
+                ///////////////////////////////////////////////
+			}
+			else  alert("您只能上传jpg图片!");
+		}
+        
+        function sel( m ){
+            cur = m;
+            document.getElementById("upfile").click(); 
+        }
+        
+        function ajax_save(obj){
+            if(obj.Code>0) alert(obj.Msg);
+            else  alert("保存成功！");
+        }
+        
+        function save( m ){
+            var url = document.getElementById('txt_url'+m).value;
+            var data = {"operate":"SaveSlideUrl","index":m,"url":encodeURIComponent(url)};
+            Ajax(ajax_save, data);       
+        }
+        
+        function ajax_slide(obj){
+            if(obj.Code>0)alert(obj.Msg);
+            else {
+                //alert(obj.Result);
+                var rec = JSON.parse( obj.Result );
+                for(var i=1;i<7;i++){
+                    if(rec[i-1].string.length>0)document.getElementById('txt_url'+i).value = decodeURIComponent(rec[i-1].string);
+                }
+				
+            }
+        }
+        
+        window.onload = function(){
+            for(var i=1;i<6;i++)document.getElementById('img'+i).src = getSaeStorageUrl("img/banner/indexad"+i+".jpg");
+            for(var i=6;i<9;i++)document.getElementById('img'+i).src = getSaeStorageUrl("img/banner/zw"+(i-5)+".jpg");
+			var data = {"operate":"GetSlideUrl"};
+			Ajax(ajax_slide, data);
+        }
+  
+    </script>
+</head>
+<body>
+<form name="form1" method="post" action="" id="form1" enctype="multipart/form-data" >
+    <input type="file" name="upfile" id="upfile" style="display:none" onchange="upload()" />
+    
+    <div class="title">首页、预约界面幻灯片</div>    
+    <div class="info">图片建议1080x480px，或保持此长宽比，jpg格式，小于200K。</div>
+    
+    <div class="box">
+        <div class="index">首页第一页</div>
+        <img src="" id="img1">
+        <div class="btn" onclick="sel(1)">更换图片</div>
+        <div class="msg" id="upmsg1"></div>
+        <input type="text" id="txt_url1" class="link" placeholder="输入转跳链接URL" />
+        <div class="up" onclick="save(1)">保存</div>
+    </div>
+    
+    <div class="box">
+        <div class="index">首页第二页</div>
+        <img src="" id="img2">
+        <div class="btn" onclick="sel(2)" >更换图片</div>
+        <div class="msg" id="upmsg2"></div>
+        <input type="text" id="txt_url2" class="link" placeholder="输入转跳链接URL" />
+        <div class="up" onclick="save(2)">保存</div>
+    </div>
+    
+    <div class="box">
+        <div class="index">首页第三页</div>
+        <img src="" id="img3">
+        <div class="btn" onclick="sel(3)">更换图片</div>
+        <div class="msg" id="upmsg3"></div>
+        <input type="text" id="txt_url3" class="link" placeholder="输入转跳链接URL" />
+        <div class="up" onclick="save(3)">保存</div>
+    </div>
+    
+    <div class="box">
+        <div class="index">首页第四页</div>
+        <img src="" id="img4">
+        <div class="btn" onclick="sel(4)">更换图片</div>
+        <div class="msg" id="upmsg4"></div>
+        <input type="text" id="txt_url4" class="link" placeholder="输入转跳链接URL" />
+        <div class="up" onclick="save(4)">保存</div>
+    </div>
+    
+    <div class="box">
+        <div class="index">首页第五页</div>
+        <img src="" id="img5">
+        <div class="btn" onclick="sel(5)">更换图片</div>
+        <div class="msg" id="upmsg5"></div>
+        <input type="text" id="txt_url5" class="link" placeholder="输入转跳链接URL" />
+        <div class="up" onclick="save(5)">保存</div>
+    </div>
+    
+    <div class="box reservation">
+        <div class="index">预约第一页</div>
+        <img src="" id="img6">
+        <div class="btn" onclick="sel(6)">更换图片</div>
+        <div class="msg" id="upmsg6"></div>
+    </div>
+    <div class="box reservation">
+        <div class="index">预约第二页</div>
+        <img src="" id="img7">
+        <div class="btn" onclick="sel(7)">更换图片</div>
+        <div class="msg" id="upmsg7"></div>
+    </div>
+	<div class="box reservation">
+	    <div class="index">预约第三页</div>
+	    <img src="" id="img8">
+	    <div class="btn" onclick="sel(8)">更换图片</div>
+	    <div class="msg" id="upmsg8"></div>
+	</div>
+    <div class="emptybar" style="min-height:40px;"></div>
+</form>
+</body>
+</html>

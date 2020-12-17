@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content=" initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/base.js" type="text/javascript"></script>
+    <script src="js/json.js" type="text/javascript"></script>
+    <style type="text/css">
+        .title {float:left; width:860px;height:16px;margin:30px 0px 0px 30px;padding-bottom:10px;font-size:16px; color:#323232; line-height:16px; border-bottom:1px solid #e0e0e0;}
+        .subtitle {float:left; width:860px;height:16px;padding:0px 0px 15px 30px;font-size:14px; color:#323232; line-height:14px;border-bottom:1px solid #e0e0e0; }
+
+        .label {float:left;clear:left;width:100px;height:14px;color:#323232;font-size:14px;line-height:14px;margin:9px 0px 39px 40px;}
+        .input {float:left;width:370px;height:30px;color:#323232;font-size:14px;line-height:14px;border:1px solid #e0e0e0; padding:8px 4px;
+            margin-left:30px;font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}
+        .radio_text {float:left;height:14px;margin:0px 20px 0px 0px;color:#646464;font-size:14px;line-height:18px;}
+        .info {float:left;width:370px;height:14px;margin:5px 0px 2px 30px;color:#a1a1a1;font-size:14px;line-height:16px;}
+        .check {float:left;clear:both;width:200px;height:14px;color:#323232;font-size:14px;line-height:14px;margin-left:30px;padding:8px 0px;}
+        
+        .msg {float:left;height:100px;width:480px;padding:4px;margin:0px 0px 30px 30px;font-size:14px;color:#323232;border:1px solid #e0e0e0;resize: none;overflow-y:auto }
+        .foot {float:left; clear:left;width:668px;margin-left:170px;height:40px;padding:0px 10px;font-size:14px; color:#8d8d8d; line-height:14px;
+            text-align:right;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0; }       
+        .foot .alt {float:right;padding:12px 0px;}
+        
+        
+        .button {float:left;clear:both;width:100px;height:14px;font-size:14px;line-height:14px; color:#fff;padding:9px 0px; margin:40px 0px 40px 170px;
+            text-align:center;background-color:#009688;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; cursor:pointer; overflow: hidden;}
+        
+    </style>
+    <script type="text/javascript">
+        function save(){
+            var dat = {};
+            dat.welcome = document.getElementById('txt_welcome').value;
+            dat.reply = document.getElementById('txt_reply').value;
+            
+            var str = JSON.stringify(dat);
+    		var data = {"operate":"saveSetup", "dat":str};
+			Ajax(ajax_save, data); 
+        }
+        
+        function ajax_save(obj){
+            document.getElementById("btn").onclick = function (){ save();return false; }; 
+            if(obj.Code>0)alert( obj.Msg );
+            else {
+                //alert( obj.Result );
+                alert( "保存成功！" );                
+            }
+        }
+        
+        function ajax_getdata(obj){
+			if(obj.Code>0){ alert(obj.Msg);return; }
+            else {
+                //alert(obj.Result);
+                var ary = JSON.parse( obj.Result );                
+
+                document.getElementById("txt_welcome").value =  ary[0]["string"];                         
+                document.getElementById("txt_reply").value =  ary[1]["string"]; 
+            }
+        }
+        
+		window.onload = function(){
+            var data = {"operate":"getSetup"};
+            Ajax(ajax_getdata, data);
+        }
+    </script>
+</head>
+<body>
+<form name="form1" method="post" action="" id="form1" enctype="multipart/form-data" >
+        
+    <div class="title" id="title">设置</div>
+    <div class="emptybar" style="min-height:40px;"></div>
+    
+    <div class="label">关注自动回复</div>
+    <input class="input" name="txt_welcome" type="text" maxlength="128" id="txt_welcome" style="width:480px;" />
+    
+    <div class="label">消息自动回复</div>
+    <input class="input" name="txt_reply" type="text" maxlength="128" id="txt_reply" style="width:480px;" />
+
+    
+    
+    <a onclick="save();return false;" id="btn"><div class="button">保存</div></a>
+	<div class="emptybar" style="min-height:40px;"></div>
+</form>
+</body>
+</html>

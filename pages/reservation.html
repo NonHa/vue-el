@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>爱情定制</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+	</head>
+	<style type="text/css">
+		.zw1 {
+			background-image: url(http://yipiao-yipiao.stor.sinaapp.com/img/banner/zw1.jpg);
+			background-repeat: no-repeat;
+			background-size: cover;
+			-webkit-background-size: cover;
+			-o-background-size: cover;
+			background-position: center 0;
+			zoom: 1;
+		}
+
+		.zw2 {
+			background-image: url(http://yipiao-yipiao.stor.sinaapp.com/img/banner/zw2.jpg);
+			background-repeat: no-repeat;
+			background-size: cover;
+			-webkit-background-size: cover;
+			-o-background-size: cover;
+			background-position: center 0;
+			zoom: 1;
+		}
+
+		.zw3 {
+			background-image: url(http://yipiao-yipiao.stor.sinaapp.com/img/banner/zw3.jpg);
+			background-repeat: no-repeat;
+			background-size: cover;
+			-webkit-background-size: cover;
+			-o-background-size: cover;
+			background-position: center 0;
+			zoom: 1;
+		}
+		
+		.zw1,.zw2,.zw3{
+			cursor:pointer;
+		}
+		
+		.card {
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+			transition: 0.3s;
+			width: 400px;
+			border-radius: 5px;
+			margin-top: 500px;
+			margin-left: 1400px;
+			background-color: rgba(254, 219, 207, 0);
+			color: white;
+		}
+
+		.card:hover {
+			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+		}
+
+		.card img {
+			border-radius: 5px 5px 0 0;
+		}
+
+		.card .container {
+			padding: 2px 16px;
+		}
+
+		.card .container h2 {
+			padding: 20px 1px;
+			
+		}
+		
+		
+		@media screen and (max-width:46.875rem) {
+			.card{
+				position: fixed;
+				right:0.0625rem;
+			}
+		}
+	</style>
+	<body>
+		<div class="layui-container ">
+			<div class="layui-carousel" id="carouse1">
+				<div carousel-item >
+					<div class="zw1">
+						<div class="card ">
+							<div class="container">
+								<h2>资深红娘一对一服务</h2>
+								资深红娘团队,专业婚恋测评,全程一对一贴心服务<br>
+								<h2>线下门店全直营</h2>
+								不做加盟，打造一线品质服务<br>
+							</div>
+						</div>
+					</div>
+					<div class="zw2">
+						<div class="card ">
+							<div class="container" style="color: #000000;">
+								<h2> 安全隐私保护</h2>
+								专属红娘多重认证资料，为你建立专属私密征婚档案<br>
+							</div>
+						</div>
+					</div>
+					<div class="zw3">
+						<div class="card ">
+							<div class="container" style="color: #000000;">
+								<h2> 精选优质会员</h2>
+								根据你的要求，多重渠道为你甄选高诚意优质会员，提高婚配效率<br>
+								<h2>全方位托管式服务</h2>
+								从“专业配对”、“心灵情感”、“婚恋资讯”三个维度。全程为你提高高品质0全方位的高端婚恋服务。<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="form2">
+				<form lay-filter="reservation" class="layui-form" style="overflow: hidden;" >
+					<div class="layui-form-item">
+						<div class="layui-form-label">您的姓名</div>
+						<div class="layui-input-block">
+							<input type="text" name="name" required  lay-verify="required" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-form-label">电话号码</div>
+						<div class="layui-input-block">
+						   <input type="text" name="tel" required  lay-verify="required" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-inline">
+							  <button class="layui-btn" lay-submit lay-filter="reservation" >提交预约</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var $ =layui.$,
+		carousel = layui.carousel
+		form = layui.form;
+		
+		$(document).ready(function(){
+			// checkLogin();
+			Ajax(function(obj){
+				if(obj.Code>0)layer.alert(obj.Msg);
+				else {
+					session = obj.session;
+					user_id = session.userid;
+					checkLogin();
+					if(session){
+						form.val("reservation",{
+							"name":session.nickname,
+							"tel":session.tel
+						});
+					}
+				}
+				
+			},{"operate":"getSession"});
+			
+			layui.use('carousel', function() {
+				//建造实例
+				carousel.render({
+					elem: '#carouse1',
+					full: 'true',
+					anim: 'updown',
+					interval: 5000,
+				});
+			});
+			
+			$(".zw1,.zw2,.zw3").on("click",function(e){
+				layer.msg('', {
+					type: 1,
+					time: -1 ,
+					// title: '红娘预约',
+					shadeClose: true,
+					shade: 0.2,
+					maxmin: false, //开启最大化最小化按钮
+					area: ['350px', '200px'],
+					content: $("#form2").show()
+				  });
+			});
+			
+			form.on("submit(reservation)",function(data){
+				data.field.operate="orderReservation";
+				var loadindex = layer.load(2, {shade: 0.3}); //0代表加载的风格，支持0-2
+				if(!isChinese(data.field.name)||!isMobile(data.field.tel)){
+					layer.alert("您的输入不符合格式，请检查输入！");
+					layer.close(loadindex);
+				}else{
+					console.log(data.field);
+					Ajax(ajax_orderback,data.field);
+				}
+				return false;
+			});
+			
+			if(session.isvip == 1){
+				$(".zw1").click();
+			}
+		});
+		
+		function ajax_orderback(obj){
+			if(obj.Code>0){
+				layer.alert(obj.Msg);
+			} else {
+				layer.msg('您的预约信息已接收，稍后我们的客服人员将会电话联系您!', {
+				  icon: 1,
+				  skin: 'layer-ext-moon',
+				  time: 5000
+				});
+			}
+				layer.closeAll("loading");
+		}
+	</script>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content=" initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/base.js" type="text/javascript"></script>
+    <script src="js/json.js" type="text/javascript"></script>
+    <style type="text/css">
+        .title {float:left; width:860px;height:16px;margin:30px 0px 0px 30px;padding-bottom:10px;font-size:16px; color:#323232; line-height:16px; border-bottom:1px solid #e0e0e0;}
+        .subtitle {float:left; width:860px;height:16px;padding:0px 0px 15px 30px;font-size:14px; color:#323232; line-height:14px;border-bottom:1px solid #e0e0e0; }
+
+        .label {float:left;clear:left;width:100px;height:14px;color:#323232;font-size:14px;line-height:14px;margin:9px 0px 39px 40px;}
+        .input {float:left;width:370px;height:14px;color:#323232;font-size:14px;line-height:14px;border:1px solid #e0e0e0; padding:8px 4px;
+            margin-left:30px;font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}
+        .info {float:left;width:370px;height:14px;margin:5px 0px 2px 30px;color:#a1a1a1;font-size:14px;line-height:16px;}
+        .check {float:left;clear:both;width:200px;height:14px;color:#323232;font-size:14px;line-height:14px;margin-left:30px;padding:8px 0px;}
+        
+        .msg {float:left;height:160px;width:480px;padding:4px;margin-left:30px;font-size:14px;color:#646464;border:1px solid #e0e0e0;resize: none;overflow-y:hidden }
+        .foot {float:left; clear:left;width:468px;margin-left:170px;height:40px;padding:0px 10px;font-size:14px; color:#8d8d8d; line-height:14px;
+            text-align:right;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0; }       
+        .foot .alt {float:right;padding:12px 0px;}
+        
+        .button {float:left;clear:both;width:100px;height:14px;font-size:14px;line-height:14px; color:#fff;padding:9px 0px; margin:40px 0px 40px 170px;
+            text-align:center;background-color:#009688;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; cursor:pointer; overflow: hidden;}
+        
+        .select {float:left;width:120px;height:14px;margin:0px 10px 0px 30px;padding: 8px 5px;font-size:14px;line-height:14px;color:#646464;
+        	border:1px solid #c1c1c1; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;}
+        .select .btn { float:right;margin-top:6px; width: 0; height: 0; border-left: 6px solid transparent; border-top: 6px solid #646464; border-right: 6px solid transparent;}
+        .select ul { border:1px solid #e0e0e0;display:none;padding:5px 0px; margin:8px 0px 8px -6px;width:130px;background-color:#fff;position: relative;z-index:99}
+        .select li { padding: 8px 5px;font-size:14px;line-height:14px;cursor: pointer; }
+        .select li:hover { background-color:#e0e0e0; }
+        
+        .pic {float:left;width:200px;height:200px;margin:10px 10px 0px 30px; border:1px solid #c1c1c1;}        
+        .btn {float:left;width:80px;height:14px;font-size:14px;line-height:14px; color:#323232;padding:7px 0px; margin:10px 0px;
+            text-align:center;border:1px solid #c1c1c1;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; cursor:pointer; overflow: hidden;}
+        
+        .check_text {float:left;height:14px;margin:-2px 5px 16px;width:80px;color:#646464;font-size:14px;line-height:18px;}
+    </style>
+    <script type="text/javascript">
+        //var user = self.parent.topFrame.user;
+        var admin = 0;
+        
+        function save(){
+            var data = {};
+           
+            str = document.getElementById('txt_name').value;
+            str = str.substr(0,6);            
+   
+            var power = "";
+        	var x = document.getElementsByName('power');
+        	for(var i=0;i<x.length;i++){
+            	if(x[i].checked)power += "1";
+                else power += "0";
+                if(i<x.length-1)power += ",";
+        	}
+
+            document.getElementById("btn").onclick = function(){};
+            var ary = {"operate":"SaveAdmin", "id":admin, "name":str, "power":power};
+            Ajax(ajax_save, ary);
+        }
+        
+        function ajax_save(obj){
+            document.getElementById("btn").onclick = function (){ save();return false; }; 
+            if(obj.Code>0)alert( obj.Msg );
+            else {
+                //alert( obj.Result );
+                alert( "保存成功！" );
+                location = "admin.html";
+            }
+        }
+
+		function ajax_getadmin(obj){
+			if(obj.Code==1);
+            else if(obj.Code>0){ alert(obj.Msg);return; }
+            else {
+                //alert(obj.Result);
+                var ary = JSON.parse( obj.Result );                
+
+                document.getElementById("txt_name").value =  ary["name"]; 
+                
+                var str = ary["power"];
+                var a = str.split(",");                
+                var x = document.getElementsByName('power');
+        		for(var i=0;i<a.length;i++){
+                    if(a[i]==1)x[i].checked = true;
+                    else x[i].checked = false;
+                }
+           }
+                     
+        }
+       
+		window.onload = function(){
+			var href = window.location.search.substr(1);   
+            admin = GetArgsFromHref(href, "i"); 
+            if(admin > 0){                
+            	var data = {"operate":"GetAdmin","id":admin};
+            	Ajax(ajax_getadmin, data);
+            }
+        }
+    </script>
+</head>
+<body>
+<form name="form1" method="post" action="" id="form1" enctype="multipart/form-data" >
+    <input type="file" name="upfile" id="filebox" style="display:none" onchange="upload()" />
+        
+    <div class="title" id="title">管理员</div>
+    <div class="emptybar" style="min-height:40px;"></div>
+    
+    <div class="label">姓名</div>
+    <input class="input" name="txt_name" type="text" maxlength="6" id="txt_name" style="width:160px;" />
+    <div class="info" style="color:#FF0000;display:none;" id="nameerr">请填写管理员姓名</div>
+    <div class="info" style="margin-bottom:20px;" id="nameinfo">最多6个字符</div>
+    
+    <div class="label">管理权限</div>
+    <div style="float:left;width:160px;">
+        <label class="check"><input type="checkbox" name="power">系统管理</label> 
+    	<label class="check"><input type="checkbox" name="power">用户管理</label>
+        <label class="check"><input type="checkbox" name="power">日常管理</label>   
+    </div>
+    
+    <a onclick="save();return false;" id="btn"><div class="button">保存</div></a>
+	<div class="emptybar" style="min-height:40px;"></div>
+</form>
+</body>
+</html>

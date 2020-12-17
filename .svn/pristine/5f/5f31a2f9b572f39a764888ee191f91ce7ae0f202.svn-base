@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=1080px, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<script src="js/base.js" type="text/javascript"></script>
+		<style type="text/css">
+			tr td img {
+				width: 30px;
+			}
+
+			tr td a {
+				color: #01AAED;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="">
+			<div class="layui-row">
+				<div class="layui-col-md12 layui-form">
+					<table class="layui-table" lay-filter="user-table" id="user-table" lay-skin="nob" lay-size="lg">
+						<colgroup>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>
+								</th>
+								<th>编号</th>
+								<th>申请人</th>
+								<th>会员类型</th>
+								<th>提交时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<div class="layui-row">
+						<div class="layui-col-lg3">
+							<input type="checkbox" id="allChoose" name="allChoose" lay-filter="allChoose" title="全选" lay-skin="primary">
+							<button type="button" class="layui-btn layui-btn-normal" onclick="verifyPassList(1)"> 通过</button>
+							<button type="button" class="layui-btn layui-btn-danger" onclick="verifyPassList(2)"> 不通过</button>
+						</div>
+						<div class="layui-col-lg9">
+							<div id="demo7"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script id="user-template" type="text/x-handlebars-template">
+		{{#each this}}
+			<tr ondblclick="location='user_search.html?id={{this.openid}}'" >
+				<td><input type="checkbox" name="userChecked" id="{{this.id}}" value="{{this.id}}" title="" lay-skin="primary"></td>
+				<td>{{this.id}}</td>
+				<td><a href="user_search.html?id={{this.openid}}">{{decodeURIComponent this.nickname}} </a></td>
+				<td>{{getVip this.ag1}} </td>
+				<td>{{getDateString this.create_time}}</td>
+				<td> <a href="#" onclick="verifyPass({{this.id}},1)">通过 </a> <a href="#" onclick="verifyPass({{this.id}},2)">不通过 </a></td>
+			</tr>
+		{{/each}}
+	</script>
+	<link rel="stylesheet" href="../../resource/layui-v2.5.6/layui/css/layui.css">
+	<script src="../chat-widget/dist/handlebars.min.js"></script>
+	<script src="../../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		Handlebars.registerHelper('decodeURIComponent', function(aString) {
+			return decodeURIComponent(aString);
+		})
+		Handlebars.registerHelper('getDateString', function(aString) {
+			return getDateString(parseInt(aString)*1000);
+		})
+		Handlebars.registerHelper('getVip', function(aString) {
+			switch (parseInt(aString)){
+				case 1:
+					return "联合创始人";
+					break;
+				case 2:
+					return "钻石会员";
+					break;
+				case 3:
+					return "精英会员";
+					break;
+				default:
+					return "错误提交";
+					break;
+			}
+		})
+	</script>
+	<script type="text/javascript">
+		var $ = layui.$,
+			form = layui.form,
+			layer = layui.layer,
+			laypage = layui.laypage;
+
+		form.on('checkbox(allChoose)', function(data) {
+			var child = $("tbody tr td input[type='checkbox']");
+			child.each(function(index, item) {
+				item.checked = data.elem.checked;
+			});
+			form.render('checkbox');
+		});
+
+		$(function() {
+			var href = window.location.search.substr(1);
+			var data = {
+				"operate": "CountVerify",
+				lab: "real_vip"
+			};
+			Ajax(ajax_count, data);
+		});
+
+
+		function ajax_count(obj) {
+			if (obj.Code > 0) {
+				layer.msg(obj.Msg);
+				return;
+			} else {
+				//layer.msg(obj.Result);
+				count = obj.Result;
+				if (count == 0){
+					layer.msg("暂时没有待处理的请求！");
+					$("tbody").html("暂时没有待处理的请求！");
+					return;
+				} 
+				laypage.render({
+					elem: 'demo7',
+					count: count,
+					layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip'],
+					jump: function(obj) {
+						console.log(obj.curr);
+						var data = {
+							"operate": "ListVerify",
+							"page": obj.curr - 1,
+							"pre": "10",
+							lab: "real_vip",
+						};
+						Ajax(ajax_list, data);
+					}
+				});
+			}
+		}
+
+		function ajax_list(obj) {
+			if (obj.Code > 0) {
+				layer.msg(obj.Msg);
+				return;
+			} else {
+				//layer.msg(obj.Result);
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				var template = Handlebars.compile($("#user-template").html());
+				$("tbody").html(template(ary));
+				form.render();
+			}
+		}
+
+		function verifyPass(ids,isPass) {
+			layer.msg('认证的编号有' + ids + '。确认'+(isPass==1?"":"不")+'通过吗？', {
+				time: 20000, //20s后自动关闭
+				btn: ['确定', '取消'],
+				yes: function() {
+					layer.closeAll();
+					var data = {
+						"operate": "verifyPass",
+						"ids": ids,
+						"isPass":isPass
+					};
+					Ajax(function(){
+						window.location.reload();
+					}, data);
+				},
+				btn2: function() {
+					layer.closeAll();
+					return false;
+				}
+			});
+			
+		}
+
+		function verifyPassList(isPass) {
+			var arr = [];
+			$("input:checkbox[name='userChecked']:checked").each(function(i) {
+				arr[i] = $(this).val();
+			});
+			ids = arr.join(","); //将数组合并成字符串
+			console.log(ids);
+			if(ids==false)return false;
+			verifyPass(ids,isPass);
+		}
+	</script>
+</html>

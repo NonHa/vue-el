@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=1180px, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" href="../img/yipiao-2.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/qrcode.js" type="text/javascript"></script>
+    <script src="js/json.js" type="text/javascript"></script>
+    <script src="js/base.js" type="text/javascript"></script>
+    <style type="text/css">
+        .title {float:left;width:100%;margin:36px 0px 20px;;font-size:17px;color:#222222; height:20px;line-height:20px;}
+        .title .block {float:left;width:5px;height:20px;background-color:#009688;margin-right:5px;}
+        .sum {float:left;position: relative;width:700px;height:200px;}
+        .sum .back {position:absolute; left:5px; width:650px;top:70px;height:135px;background-color:#ededed;}
+        .sum .text {position:absolute; left:25px;top:80px; width:200px;height:32px;font-size:14px;color:#646464;}
+        .sum .num {position:absolute; left:25px;top:112px; width:200px;height:32px;font-size:30px;font-weight:bold; color:#222222;}
+        
+        .info {float:left;width:300px;height:200px;}
+        .info .text {float:left; clear:both; font-size:14px;margin:2px 0px 10px 20px;color:#222222;}
+        .info2 {float:left;width:150px;height:200px;}
+        .info2 .text {float:left; clear:both; font-size:14px;margin:2px 0px 10px 20px;color:#222222;}
+		
+        .space {float:left;width:100%;}
+        .space .button {float:left;height:14px;font-size:14px;line-height:14px; color:#fff;padding:8px 15px;margin:0px 5px 15px 0px;
+            text-align:center;background-color:#009688;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; overflow: hidden;}
+        .space table { border-collapse:collapse;width:100%; font-size:13px; line-height:20px; color:#646464;}
+        .space tr { border-left:1px solid #c1c1c1; height:80px; border-right:1px solid #c1c1c1;border-bottom:1px solid #c1c1c1;}
+        .space td { text-align:center; vertical-align:middle;border:none; }
+        .space .rows { height:48px;border-top:1px solid #c1c1c1;background-color:#ededed;overflow: hidden;}
+        .space .name {color:#337AD9;font-size:16px;}
+       
+    </style>
+    <script type="text/javascript">
+		function toDay( time ){
+    		var myDate = new Date();
+       	 	myDate.setTime(time*1000);
+    		var str = myDate.getFullYear().toString(); //yyyy
+    		str += "-";
+        
+    		var m = myDate.getMonth()+1; //0-11
+    		if(m<10)str += "0"+m+"-";
+    		else str += m+"-";
+    
+    		m = myDate.getDate();  //1-31
+    		if(m<10)str += "0"+m;
+    		else str += m;
+        
+    		return str;
+		}
+        
+        function  ajax_onload(obj){
+		    if(obj.Code>0)alert(obj.Msg);
+		    else { 
+                //alert(obj.Result);
+                var ary = JSON.parse( obj.Result );
+                
+                document.getElementById("users").innerHTML = ary.users;
+                document.getElementById("vip1").innerHTML = ary.vip1; 
+                document.getElementById("vip2").innerHTML = ary.vip2; 
+                document.getElementById("vip3").innerHTML = ary.vip3; 
+                document.getElementById("daily_active").innerHTML = ary.daily_active; 
+                document.getElementById("daily_yesterday_active").innerHTML = ary.daily_yesterday_active; 
+                document.getElementById("month_active").innerHTML = ary.month_active;
+				
+                document.getElementById("real_vip").innerHTML = ary.real_vip;
+                document.getElementById("real_vip_unfinish").innerHTML = ary.real_vip_unfinish;      
+                document.getElementById("real_name").innerHTML = ary.real_name; 
+                document.getElementById("real_name_unfinish").innerHTML = ary.real_name_unfinish;      
+				document.getElementById("real_edu").innerHTML = ary.real_edu;
+				document.getElementById("real_edu_unfinish").innerHTML = ary.real_edu_unfinish;         
+				document.getElementById("real_referrer").innerHTML = ary.real_referrer; 
+                document.getElementById("real_referrer_unfinish").innerHTML = ary.real_referrer_unfinish;         
+				document.getElementById("order").innerHTML = ary.order; 
+                document.getElementById("order_unfinish").innerHTML = ary.order_unfinish;      
+            }
+        }
+        
+        window.onload = function(){            
+            //拉取数据
+            var data = {"operate":"sumData"};
+            Ajax(ajax_onload, data);
+        }
+    </script>
+</head>
+    
+<body>
+<div style="width:1000px;margin:50px;">
+<div style="float:left;width:700px">
+    <div class="sum" style="height:200px;">
+        <div class="title"><div class="block"></div>关注用户</div>
+        
+        <div class="text">总人数</div>
+        <div class="num" style="left:96px;top:64px;"><span id="users">0</span><span style="font-size:14px;font-weight:normal;">个</span></div>
+ 	</div>
+    
+    <div class="sum" style="height:200px;">
+        <div class="title"><div class="block"></div>会员人数</div>
+        
+        <div class="text">联合创始人</div>
+        <div class="text" style="left:200px">钻石会员</div>
+        <div class="text" style="left:400px">普通会员</div>
+        <div class="num" style="left:96px;top:64px;"><span id="vip1">0</span><span style="font-size:14px;font-weight:normal;">人</span></div>
+        <div class="num" style="left:280px;top:64px;"><span id="vip2">0</span><span style="font-size:14px;font-weight:normal;">人</span></div>
+        <div class="num" style="left:464px;top:64px;"><span id="vip3">0</span><span style="font-size:14px;font-weight:normal;">人</span></div>
+ 	</div>
+    
+    <div class="sum"  style="height:280px;">
+        <div class="title"><div class="block"></div>活跃人数</div>
+        
+        <div class="text">今天</div>
+		<div class="text" style="left:200px">昨日</div>
+		<div class="text" style="left:400px">本月</div>
+        <div class="num" style="left:96px;top:64px;"><span id="daily_active">0</span><span style="font-size:14px;font-weight:normal;">人</span></div>
+        <div class="num" style="left:280px;top:64px;"><span id="daily_yesterday_active">0</span><span style="font-size:14px;font-weight:normal;">人</span></div>
+        <div class="num" style="left:464px;top:64px;"><span id="month_active">0</span><span style="font-size:14px;font-weight:normal;">人</span></div>
+    </div>
+
+</div>
+
+    <div class="info2" onclick="location='real-vip.html'">
+        <div class="title"><div class="block"></div>会员申请</div>
+        <div class="text">总数: <span id="real_vip" style="margin-left:20px;font-size:24px;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+        <div class="text">未处理: <span id="real_vip_unfinish" style="margin-left:20px;font-size:24px;color:#F00;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+    </div>
+	
+    <div class="info2" onclick="location='real-name.html'">
+        <div class="title"><div class="block"></div>实名认证</div>
+        <div class="text">总数: <span id="real_name" style="margin-left:20px;font-size:24px;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+        <div class="text">未处理: <span id="real_name_unfinish" style="margin-left:20px;font-size:24px;color:#F00;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+    </div>
+    
+    <div class="info2" onclick="location='real-edu.html'">
+        <div class="title"><div class="block"></div>学历认证</div>
+        <div class="text">总数: <span id="real_edu" style="margin-left:20px;font-size:24px;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+        <div class="text">未处理: <span id="real_edu_unfinish" style="margin-left:20px;font-size:24px;color:#F00;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+    </div>
+	<div class="info2" onclick="location='real-referrer.html'">
+	    <div class="title"><div class="block"></div>推荐人认证</div>
+	    <div class="text">总数: <span id="real_referrer" style="margin-left:20px;font-size:24px;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+	    <div class="text">未处理: <span id="real_referrer_unfinish" style="margin-left:20px;font-size:24px;color:#F00;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+	</div>
+	<div class="info" onclick="location='order.html'">
+	    <div class="title"><div class="block"></div>预约</div>
+	    <div class="text">总数: <span id="order" style="margin-left:20px;font-size:24px;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+	    <div class="text">未处理: <span id="order_unfinish" style="margin-left:20px;font-size:24px;color:#F00;font-weight:bold;">0</span>&nbsp;&nbsp;条</div>
+	</div>
+    
+    
+    <div class="emptybar" style="min-height:30px;"></div>
+
+</div>
+</body>
+	<link rel="stylesheet" href="../../resource/layui-v2.5.6/layui/css/layui.css">
+	<script src="../../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		var $ = layui.$;
+		var power = GetCookie("login_power").split(',');
+		if (power[2] == 0) {
+			$(".info").hide();
+			$(".info2").hide();
+		}
+	</script>
+</html>

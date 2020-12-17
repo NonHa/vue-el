@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=1180px, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <title>一瓢婚恋平台  后台管理</title>
+    <script src="js/qrcode.js" type="text/javascript"></script>
+    <script src="js/base.js" type="text/javascript"></script>
+    <style type="text/css">
+			body{
+			    margin: 0;
+			    padding: 0;
+			    background: url("../img/zw1.jpg");
+			    font-family: sans-serif;
+			    background-size: cover;
+				background-position: center 0;
+				zoom: 1;
+				background-repeat: no-repeat;
+				height: 100%;
+				-webkit-background-size: cover;
+				-o-background-size: cover;
+			}
+			.box{
+			    position: absolute;
+			    top:50%;
+			    left: 50%;
+			    transform: translate(-50%,-50%);
+			    width: 400px;
+			    padding: 40px;
+			    background: rgba(0,0,0,.8);
+			    box-sizing: border-box;
+			    box-shadow: 0 15px 25px rgba(0,0,0,.5);
+			    border-radius: 10px;
+			 
+			}
+			.box h2{
+			    margin: 0 0 30px;
+			    padding: 0;
+			    color: #fff;
+			    text-align: center;
+			}
+			.box .inputBox{
+			    position: relative;
+			}
+			.box .inputBox input{
+			    width: 100%;
+			    padding: 10px 0;
+			    font-size: 16px;
+			    color: #fff;
+			    margin-bottom: 30px;
+			    border-bottom: 1px solid #fff;
+			    outline: none;
+			    background: transparent;
+			 
+			}
+			.box .inputBox label{
+			    position: absolute;
+			    top:0;
+			    left: 0;
+			    padding: 10px 0;
+			    font-size: 16px;
+			    color: #fff;
+			    pointer-events: none;
+			    transition: .5s;
+			}
+			.box .inputBox input:focus ~ label,
+			.box .inputBox input:valid ~label{
+			    top:-30px;
+			    left: 0;
+			    color: #03a9f4;
+			    font-size: 12px;
+			}
+			.box input[type='submit']{
+			    background: transparent;
+			    border: none;
+			    outline: none;
+			    color: #03a9f4;
+			    padding: 10px 20px;
+			    border-radius: 5px;
+			    cursor: pointer;
+			    top: 50%;
+			    left: 50%;
+    </style>
+    <script type="text/javascript">
+        var save = false;
+        
+        function check(){
+            if(save){
+                save = false;
+                document.getElementById('checkimg').src="img/uncheck.png";
+            }
+            else {
+                save = true;
+                document.getElementById('checkimg').src="img/check.png";
+            }
+        }
+        
+        function  ajax_login(obj){
+		    if(obj.Code>0)alert(obj.Msg);
+		    else { 
+                var result = JSON.parse(obj.Result);
+                if(result.uid>0){
+                    SetCookie("login_uid",result.uid,0);
+            		SetCookie("login_timestamp",result.timestamp,0);
+            		SetCookie("login_token",result.token,0);
+                    SetCookie("login_name",result.name,0);
+                    SetCookie("login_power",result.power,0);
+                    if(save)SetCookie("login_user",result.uid,240);
+                    location="main.html"; 
+                }
+                else alert("未知错误，请稍后再试！");
+            }
+         }
+        
+        function login(){
+            DelCookie("login_uid");
+            DelCookie("login_timestamp");
+            DelCookie("login_token");
+            
+            var str = document.getElementById('txt_user').value;
+            var str2 = document.getElementById('txt_pw').value;
+            if(str.length<1)return;
+            if(str2.length<6)return;
+            
+            var data = {"operate":"Login","user":str,"key":str2 };
+            Ajax(ajax_login, data);
+        }
+        
+        window.onload = function(){
+            var str = GetCookie("login_user");            
+            if(str !== false)document.getElementById('txt_user').value = str;
+        }
+    </script>
+</head>
+    
+<body style="min-width:1180px">
+   
+    <div class="box">
+        <h2>一瓢婚恋后台管理</h2>
+    <form class="form-box">
+       <div class="inputBox">
+           <input type="text" name="" id="txt_user" required="">
+           <label>账号</label>
+       </div>
+       <div class="inputBox">
+           <input type="password" name="" id="txt_pw" required="">
+           <label>密码</label>
+       </div>
+       <input type="submit" name="" onclick="login();return false;" value="提交">
+    </form>
+     </div>
+   
+</body>
+</html>

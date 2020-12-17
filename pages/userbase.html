@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>个人中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<style type="text/css">
+			.hover:hover{
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 导航栏 -->
+			<div class="layui-header layui-hide-xs layui-bg-black">
+				<div class="layui-container">
+					<a href="../index.html">
+						<div class="layui-logo" style="color:Aqua;">
+							<h1>一瓢婚恋网</h1>
+						</div>
+					</a>
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="../index.html">首页</a></li>
+						<li class="layui-nav-item">
+							<a href="#">会员群体</a>
+							<dl class="layui-nav-child">
+								<dd><a href="vip.html?v=creater">联合创始人</a></dd>
+								<dd><a href="vip.html?v=vip">名士/名媛</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="physical_store.html">实体门店</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-right">
+						<li class="layui-nav-item"><a href="message.html">消息<span class="layui-badge-dot"></span></a></li>
+						<li class="layui-nav-item">
+							<a href="userbase.html" id=""><img name="touxiang" id="touxiang" src="img/default.jpg" class="layui-nav-img">
+								<font id="nickname">我</font>
+							</a>
+							<dl class="layui-nav-child">
+								<dd><a href="userbase.html">基本资料</a></dd>
+								<dd><a href="security.html">安全设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a id="login" href="#" onclick="login1()" role="button" class="" data-toggle="modal">登录</a></li>
+						<li class="layui-nav-item"><a href="#" id="exit" onclick="exit()" class="">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 主页面 -->
+			<div class="layui-container">
+				<!-- 侧边 -->
+				<div id="sidebar" class="sidebar-left layui-col-sm3 layui-col-md3">
+					<ul class="layui-tree">
+						<div class="layui-anim layui-anim-upbit">
+							<div class="layui-upload">
+								<a class="site-demo-upload">
+									<div class="layui-upload-list" id="headpreview">
+										<img name="touxiang" src="img/default.jpg" alt="点击修改头像" class="headicon">
+									</div>
+								</a>
+							</div>
+						</div>
+						<li class="layui-collapse">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title layui-nav-item">个人信息</h2>
+								<div class="layui-colla-content layui-show">
+									<dd><a href="userbase.html" class="layui-nav-item">基本资料</a></dd>
+									<dd><a href="userdetail.html" class="layui-nav-item">详细资料</a></dd>
+									<dd><a href="matewanted.html" class="layui-nav-item">择偶标准</a></dd>
+								</div>
+							</div>
+						</li>
+						<li class="layui-colla-title"><a href="authenticate.html" class="layui-nav-item">我的认证</a></li>
+						<li class="layui-collapse">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title layui-nav-item">会员服务</h2>
+								<dl class="layui-colla-content">
+									<dd><a href="reservation.html" class="layui-nav-item">爱情定制</a></dd>
+									<dd><a href="vip.html" class="layui-nav-item">线下约会</a></dd>
+									<dd><a href="search.html" class="layui-nav-item">搜索匹配</a></dd>
+								</dl>
+							</div>
+						</li>
+						<li class="layui-collapse">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title layui-nav-item">系统设置</h2>
+								<dl class="layui-colla-content">
+									<dd><a href="security.html" class="layui-nav-item">修改密码</a></dd>
+								</dl>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- 表单 -->
+				<div id="mainbar" class="layui-col-xs12 layui-col-sm9 layui-col-md9">
+					<div class="layui-row">
+						<br/>
+						<div class="layui-row text-center">
+							<h2>我的基本资料</h2>
+						</div>
+						<hr class="layui-bg-green"><br />
+						<div class="layui-row layui-col-space10" style="height: 50px;">
+							<div class="layui-col-xs3" style=" text-align:right">
+								昵称
+							</div>
+							<div class="layui-col-xs9">
+								<font id="nickname2"></font>
+								<a  href="authenticate.html?v=true_name" style="margin-left: 20px; color: #1E9FFF;">实名认证</a>
+							</div>
+						</div>
+						<div class="layui-row layui-col-space10" style="height: 50px;">
+							<div class="layui-col-xs3" style=" text-align:right;">
+								性别
+							</div>
+							<div class="layui-col-xs9">
+								<label class="layui-icon layui-icon-male" style="font-size: 30px; color: #1E9FFF;" for="boy"></label>男<input
+								 type="radio" id="boy" name="sex" lay-filter="sexfilter" value="1" title="男" onchange="alert('性别只能通过实名认证修改!')">
+								&nbsp;&nbsp;&nbsp;
+								<label class="layui-icon layui-icon-female" style="font-size: 30px; color: #ff0b75;" for="girl"></label>女<input
+								 type="radio" id="girl" name="sex" lay-filter="sexfilter" value="2" title="女"  onchange="alert('性别只能通过实名认证修改!')">
+							</div>
+						</div>
+						<div class="layui-row layui-col-space10" style="height: 50px;">
+							<div class="layui-col-xs3" style=" text-align:right">
+								手机
+							</div>
+							<div class="layui-col-xs9">
+								<font id="tel" size="" color=""></font>
+								<a href="authenticate.html?v=tel" style="margin-left: 20px;color: #1E9FFF;">绑定/修改手机</a>
+							</div>
+						</div>
+						<div class="layui-row layui-col-space10" style="height: 50px;">
+							<div class="layui-col-xs3" style=" text-align:right">
+								我的相册
+							</div>
+							<div class="layui-col-xs9">
+								<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+									<div class="layui-col-space2">
+										<ul class="flow-default layui-row" id="album"><button class="layui-icon layui-icon-addition site-demo-upload" style="font-size: 40px; color: #9e9e9e;margin-top: 10px; "  ></button></ul><br />
+										<div class="layui-upload-list" id="preview"></div>
+									</div>
+								</blockquote>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- 手机按钮 -->
+			<div>
+				<div class="sidebar-mobile-left layui-hide-md layui-hide-sm" id="leftbtn" >
+					<i class="layui-icon layui-icon-right" style="font-size: 1.5625rem;" ></i>
+				</div>
+				<div id="shade"></div>
+			</div>
+		</div>
+	</body>
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/util.js"></script>
+	<script src="js/userbase.js"></script>
+	<script src="js/classie.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var menuLeft = document.getElementById('sidebar'), //左边菜单栏
+			showLeft = document.getElementById('leftbtn'), //点击按钮
+			barshade = document.getElementById('shade'),
+			body = document.body;
+		showLeft.onclick = function() {
+			classie.toggle(this, 'active');
+			classie.toggle(menuLeft, 'sidebar-open');
+			classie.toggle(barshade, 'bar-shade');
+		};
+		barshade.onclick = function() {
+			classie.toggle(menuLeft, 'sidebar-open');
+			classie.toggle(barshade, 'bar-shade');
+		}
+
+	</script>
+</html>

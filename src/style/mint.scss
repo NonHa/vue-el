@@ -1,0 +1,20 @@
+.mint-tabbar > .mint-tab-item.is-selected {
+  color: #262B40
+}
+
+a.mint-tab-item {
+  color: #ACAFBA;
+}
+
+.mint-tabbar > .mint-tab-item.is-selected {
+  background: #FFFFFF;
+}
+
+.mint-tabbar {
+  background: #FFFFFF;
+  
+}
+
+.mint-tabbar.is-fixed {
+  z-index: 999;
+}

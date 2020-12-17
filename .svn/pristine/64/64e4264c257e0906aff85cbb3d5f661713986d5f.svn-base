@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=1080px, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<script src="js/base.js" type="text/javascript"></script>
+		<style type="text/css">
+			.search_container {
+				height: 70px;
+				width: 100%;
+				margin: 20px auto 0 auto;
+			}
+
+			.parent {
+				/* position: relative; */
+			}
+
+			.search {
+				width: 80%;
+				height: 40px;
+				border-radius: 18px;
+				outline: none;
+				border: 1px solid #c2c2c2;
+				padding-left: 20px;
+				/* position: absolute; */
+			}
+
+			.search_btn {
+				height: 40px;
+				width: 40px;
+				margin-left: -40px;
+				border: none;
+				outline: none;
+				cursor: pointer;
+			}
+
+			.middle {
+
+				float: none;
+
+				display: inline-block;
+
+				vertical-align: middle;
+
+
+			}
+			tr td img {
+				width: 40px;
+			}
+			
+			tr td a {
+				color: #01AAED;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="layui-container">
+			<div class="search_container">
+				<form action="" lay-filter="search" method="post" class="parent layui-form" id="search_form">
+					<input type="text" name="search" lay-verify="required" autocomplete="off" id="search_input" class="search" placeholder="输入电话/id/昵称/openid">
+					<label class="search_btn " type="submit" lay-submit id="dosearch"><i class="layui-icon layui-icon-search"></i>   </label>
+				</form>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-md12">
+				<table class="layui-table" lay-filter="user-table" id="user-table" lay-skin="nob" lay-size="lg">
+					<colgroup>
+						<col>
+						<col>
+						<col>
+						<col>
+						<col>
+					</colgroup>
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>头像</th>
+							<th>昵称</th>
+							<th>电话</th>
+							<th>关注时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script id="user-template" type="text/x-handlebars-template">
+		{{#each this}}
+			<tr ondblclick="location='user_detail.html?id={{this.id}}'" >
+				<td>{{this.id}}</td>
+				<td><img src="{{decodeURIComponent this.photo}}"></td>
+				<td>{{decodeURIComponent this.nickname}}</td>
+				<td>{{this.tel}}</td>
+				<td>{{getDateString this.join}}</td>
+				<td><a href="user_detail.html?id={{this.id}}">详细资料 </a> <a href="#" onclick="delUser({{this.id}},{{this.isvip}})">{{vipSet this.isvip}} </a></td>
+			</tr>
+		{{/each}}
+	</script>
+	<link rel="stylesheet" href="../../resource/layui-v2.5.6/layui/css/layui.css">
+	<script src="../chat-widget/dist/handlebars.min.js"></script>
+	<script src="../../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="../js/data.js"></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript">
+		Handlebars.registerHelper('decodeURIComponent', function(aString) {
+			return decodeURIComponent(aString);
+		})
+		Handlebars.registerHelper('getDateString', function(aString) {
+			return getDateString(parseInt(aString)*1000);
+		})
+		Handlebars.registerHelper('vipSet', function(aString) {
+			if(parseInt(aString)==1){
+				return "停用会员";
+			}else{
+				return "设为会员";
+			}
+			
+		})
+	</script>
+	<script type="text/javascript">
+		var $ = layui.$,
+			form = layui.form,
+			layer = layui.layer,
+			laypage = layui.laypage;
+		var id = 0;
+		form.on('submit', function(data){
+			console.log(data.elem.id); //被执行事件的元素DOM对象，一般为button对象
+			console.log(data.form); //被执行提交的form对象，一般在存在form标签时才会返回
+			console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+			var search_input = $("#search_input").val();
+			if (search_input != ""||search_input!=undefined) {
+				var data={
+					operate:"userSearch",
+					val:search_input
+				}
+				Ajax(ajax_userSearch,data);
+			}
+			return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+		});
+		
+		$(function(){
+			var href = window.location.search.substr(1);
+			var vid= GetArgsFromHref(href, "id");
+			if (vid == "") return;
+			var data={
+				operate:"userSearch",
+				val:vid
+			}
+			Ajax(ajax_userSearch,data);
+		});
+		
+		function ajax_userSearch(obj){
+			
+				if (obj.Code > 0) {
+					layer.msg(obj.Msg);
+					return;
+				} else {
+					var ary = JSON.parse(obj.Result);
+					if(ary==null||ary=="null"){
+						layer.msg("未找到！");
+					}else{
+						var template = Handlebars.compile($("#user-template").html());
+						$("tbody").html(template(ary));
+					}
+				}
+			
+		}
+		
+		function delUser(ids,isvip) {
+			if (parseInt(isvip) == 0) {
+				 layer.msg('请选择会员类型', {
+				        time: 20000, //20s后自动关闭
+				        btn: ['联合创始人', '钻石会员', '精英会员'],
+						yes: function() {
+							layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+								time: 20000, //20s后自动关闭
+								btn: ['确定', '取消'],
+								yes: function() {
+									layer.closeAll();
+									Ajax(function(){
+										if (obj.Code > 0) {
+											layer.msg(obj.Msg);
+											return;
+										} else {
+											window.location.reload();
+										}
+									}, {"operate": "addUserVip","ids": ids,vip_id:1});
+								},
+								btn2: function() {
+									layer.closeAll();
+									return false;
+								}
+							});
+						},
+						btn2: function() {
+							layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+								time: 20000, //20s后自动关闭
+								btn: ['确定', '取消'],
+								yes: function() {
+									layer.closeAll();
+									var data = {"operate": "addUserVip","ids": ids,vip_id:2};
+									Ajax(function(){
+										if (obj.Code > 0) {
+											layer.msg(obj.Msg);
+											return;
+										} else {
+											window.location.reload();
+										}
+									}, data);
+								},
+								btn2: function() {
+									layer.closeAll();
+									return false;
+								}
+							});
+						},
+						btn3: function() {
+							layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+								time: 20000, //20s后自动关闭
+								btn: ['确定', '取消'],
+								yes: function() {
+									layer.closeAll();
+									var data = {"operate": "addUserVip","ids": ids,vip_id:3};
+									Ajax(function(){
+										if (obj.Code > 0) {
+											layer.msg(obj.Msg);
+											return;
+										} else {
+											window.location.reload();
+										}
+									}, data);
+								},
+								btn2: function() {
+									layer.closeAll();
+									return false;
+								}
+							});
+						}
+				      });
+			} else{
+				layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+					time: 20000, //20s后自动关闭
+					btn: ['确定', '取消'],
+					yes: function() {
+						layer.closeAll();
+						var data = {
+							"operate": "stopUserVip",
+							"ids": ids
+						};
+						Ajax(function(){
+							if (obj.Code > 0) {
+								layer.msg(obj.Msg);
+								return;
+							} else {
+								window.location.reload();
+							}
+						}, data);
+					},
+					btn2: function() {
+						layer.closeAll();
+						return false;
+					}
+				});
+			}
+			
+		}
+		
+		function delUsers() {
+			var arr = [];
+			$("input:checkbox[name='userChecked']:checked").each(function(i) {
+				arr[i] = $(this).val();
+			});
+			ids = arr.join(","); //将数组合并成字符串
+			console.log(ids);
+			delUser(ids);
+		}
+	</script>
+</html>

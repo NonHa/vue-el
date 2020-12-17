@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>消息中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.mobile.css">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layim.css">
+		<link href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				background-color: #EEEEEE;
+			}
+
+			.chat-img {
+				width: 60px;
+				height: 60px;
+				margin-right: 10px;
+				border-radius: 10%;
+			}
+
+			.chat-spain {
+				position: absolute;
+				left: 46px;
+				top: -4px;
+			}
+
+			.chat-name {
+				font-size: 14px;
+				margin-top: 10px;
+			}
+
+			.chat-msg {
+				font-size: 12px;
+				color: #c2c2c2;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.chat-time {
+				text-align: right;
+				margin-top: 10px;
+				font-size: 12px;
+				color: #c2c2c2;
+			}
+
+			#chat-list-page {
+				width: 100%;
+				float: left;
+				position: relative;
+				display: block;
+				box-sizing: border-box;
+				height: 100%-40px;
+			}
+
+			#chat-page {
+				width: 0px;
+				float: left;
+				position: relative;
+				display: block;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="" style="height: 100%;background-color: #EEEEEE;">
+			<!-- <div class="layui-row" style="background-color: #;">
+				<br>
+				<h1 style="text-align: center;">聊天消息</h1>
+				<hr class="layui-bg-green"><br />
+			</div> -->
+			<div class="" id="chat-list-page">
+				<div class="layui-row" id="chat-list" style="margin: 5px;"></div>
+				<div class="layui-row" id="chat-more" style="text-align: center;">
+					<a href="#" onclick="getMoreChatMsgClick()" style="color: blue;">加载更多</a>
+				</div>
+			</div>
+			<div id="chat-page">
+				<div class="layui-row" style="background-color:  #36373C;color:  #fff;height: 50px;">
+					<div class="layui-col-xs2" style="margin-top: 10px;">
+						<i class="layui-icon layui-icon-left" onclick="goChatListPage()" style="font-size: 30px;"></i>
+					</div>
+					<div class="layui-col-xs8" style="text-align: center;">
+						<p id="chat-nickname" style="line-height: 50px;">昵称nickname</p>
+					</div>
+					<div class="layui-col-xs2" style="margin-top: 10px;">
+						<i class="layui-icon layui-icon-more" style="font-size: 30px; margin-left: 20px;"></i>
+					</div>
+				</div>
+				<div class="layui-row layim-chat-main" style="background-color: #eeeeee;">
+					<div class="layim-chat-system" id="chat-msg-more"><span layim-event="chatLog" onclick="getChatById()">查看更多记录</span></div>
+					<ul>
+						
+					</ul>
+
+					<div class="layim-chat-footer" style="background-color: #EEEEEE;">
+						<div class="layim-chat-send"><input type="text" autocomplete="off" ><button class="layim-send layui-disabled"
+							>发送</button></div>
+						<div class="layim-chat-tool" data-json="%7B%22username%22%3A%22%E8%B4%A4%E5%BF%83%22%2C%22avatar%22%3A%22%2F%2Ftva1.sinaimg.cn%2Fcrop.0.0.118.118.180%2F5db11ff4gw1e77d3nqrv8j203b03cweg.jpg%22%2C%22id%22%3A%22100001%22%2C%22type%22%3A%22friend%22%2C%22cid%22%3A31868%2C%22content%22%3A%22%E5%97%A8%EF%BC%8C%E6%AC%A2%E8%BF%8E%E4%BD%93%E9%AA%8CLayIM%E3%80%82%E6%BC%94%E7%A4%BA%E6%A0%87%E8%AE%B0%EF%BC%9A1596877469084%22%2C%22timestamp%22%3A1596877469084%2C%22name%22%3A%22%E8%B4%A4%E5%BF%83%22%2C%22historyTime%22%3A1596877469089%2C%22sign%22%3A%22%E5%97%A8%EF%BC%8C%E6%AC%A2%E8%BF%8E%E4%BD%93%E9%AA%8CLayIM%E3%80%82%E6%BC%94%E7%A4%BA%E6%A0%87%E8%AE%B0%EF%BC%9A1596877469084%22%7D"><span
+							 class="layui-icon layim-tool-face" title="选择表情" onclick="face()"></span><span class="layui-icon layim-tool-image"
+							 title="上传图片" onclick="" id="upload-img"></span><!-- <span class="layui-icon layim-tool-image"
+							 title="发送文件" onclick="" data-type="file"  id="upload-video"></span> --></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</body>
+
+	<script id="chat-template" type="text/x-handlebars-template">
+		{{#each this}}
+				<div class="layui-row"  onclick="getChatByIdClick('{{ag1}}', '{{decodeURIComponent this.photo}}', '{{decodeURIComponent this.nickname}}' )">
+					<div class="layui-col-xs3">
+						<img class="chat-img" src="{{decodeURIComponent this.photo}}" >
+						<div class="chat-spain" >
+							<span id="count-{{ag1}}" class="layui-badge {{msgCountHide this.msg_count}}" style="border-radius: 10px;">{{this.msg_count}}</span>
+						</div>
+					</div>
+					<div class="layui-col-xs6">
+						<div class="chat-name">
+							{{decodeURIComponent this.nickname}}
+						</div>
+						<div class="chat-msg">
+							{{this.lab}}
+						</div>
+					</div>
+					<div class="layui-col-xs3">
+						<div class="chat-time" >
+							{{getDateString this.create_time}}
+						</div>
+						
+					</div>
+				</div>
+				<div class="layui-row">
+					<hr class="layui-bg-gray">
+				</div>
+		{{/each}}
+	</script>
+	<!-- partial -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
+	<!-- <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'> -->
+	<link rel="stylesheet" href="chat-widget/dist/style.css">
+	<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script src="chat-widget/dist/handlebars.min.js"></script>
+	<script src="chat-widget/dist/list.min.js"></script>
+
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="js/util.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/data.js"></script>
+	<script src="js/classie.js" type="text/javascript" charset="utf-8"></script>
+	<!-- <script src="chat-widget/dist/script.js"></script> -->
+	<script type="text/javascript">
+		var layer = layui.layer,
+			util = layui.util;
+		var invite_photo, invite_name, chat_photo, chat_name, chat_page;
+		var chat_list_page = 1;
+		$(function() {
+			$(".null_bottom_bar").hide();
+			getChatMsgClick();
+		});
+		$("#chat-page").hide();
+
+		function getChatMsgClick() {
+			console.log("getChatMsgClick");
+			$("#chat-list").html("");
+			// chat.to = '';
+			getChatMsgList(chat_list_page);
+		}
+
+		function getMoreChatMsgClick() {
+			chat_list_page++;
+			getChatMsgList(chat_list_page);
+		}
+
+		function getChatMsgList(page) {
+			var data = {
+				"operate": "getChatMsgList",
+				"page": page
+			};
+			Ajax(ajax_getChatMsgList, data);
+		}
+
+		function ajax_getChatMsgList(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				session = obj.session;
+				user_id = session.userid;
+				console.log(ary);
+				if (null == ary) {
+					$("#chat-more").html('<font color="gray">没有更多了</font>');
+				} else {
+					var template = Handlebars.compile($("#chat-template").html());
+					$("#chat-list").html(template(ary));
+				}
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		Handlebars.registerHelper('decodeURIComponent', function(aString) {
+			return decodeURIComponent(aString);
+		})
+		Handlebars.registerHelper('getDateString', function(aString) {
+			return getDateString(parseInt(aString) * 1000);
+		})
+		Handlebars.registerHelper('timeAgo', function(aString) {
+			return util.timeAgo(new Date(parseInt(aString) * 1000));
+		})
+		Handlebars.registerHelper('msgCountHide', function(aString) {
+			if (parseInt(aString) == 0) {
+				return "layui-hide";
+			}
+			return "";
+		})
+		Handlebars.registerHelper('ag1', function() {
+			return (session.openid ==this.to ? this.from : this.to);
+		})
+		
+	</script>
+
+	<script type="text/javascript">
+		function goChatListPage() {
+			$(".bottom_bar").show();
+			$("#chat-list-page").show();
+			$("#chat-list-page").animate({
+				"width": "100%"
+			}, 200, "swing");
+			$("#chat-page").animate({
+				"width": "0px"
+			}, 200, "swing", function() {
+				$("#chat-page").hide();
+			});
+		}
+		
+		
+		function getChatByIdClick(id, photo, name){
+			$("#count-"+id).hide();
+			$(".bottom_bar").hide();
+			$("#chat-page").show();
+			$("#chat-list-page").animate({
+				"width": "0px"
+			}, 200, "swing", function() {
+				$("#chat-list-page").hide();
+			});
+			$("#chat-page").animate({
+				"width": "100%"
+			}, 200, "swing",function(){
+				$("#chat-nickname").html(name);
+				$("#chat-msg-more").html('<span layim-event="chatLog" onclick="getChatById()">查看更多记录</span>');
+				$(".layim-chat-main ul").html('');
+				getChatById();
+			});
+			
+			chat_photo = photo;
+			chat_name = name;
+			chat_openid =id;
+			
+		}
+		function getChatById() {
+			chat_page = $(".layim-chat-main ul .layim-chat-li").length;
+			var data = {
+				"operate": "getChatById",
+				"from": chat_openid,
+				"page":chat_page
+			};
+			Ajax(ajax_getChatById, data);
+		}
+		
+		function ajax_getChatById(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				if (chat_page==0) {
+
+				}
+				if(ary==null||ary=="null"||ary.length<10){
+					$("#chat-msg-more").html("<span>没有更多了</span>");
+				}
+				if(ary != null && ary != "null"){
+					for (let i = 0; i < ary.length; i++) {
+						switch (ary[i].lab){
+							case "img":
+								var str_msg='<img src="'+decodeURIComponent(ary[i].desc.url)+'" style="max-width: 100%;">';
+								break;
+							case "audio":
+								var str_msg='audio';
+								break;
+							case "video":
+								var str_msg='video';
+								break;
+							default:
+								var str_msg=ary[i].lab;
+								break;
+						}
+						if(ary[i].from==session.openid){//我的消息
+							$(".layim-chat-main ul").prepend(
+								'<li class="layim-chat-system"><span>'+getDateString(parseInt(ary[i]["create_time"])*1000)+'</span></li>\
+								<li class="layim-chat-li layim-chat-mine">\
+									<div class="layim-chat-user"><img src="'+decodeURIComponent(session.photo)+'" alt="100001"><cite>我</cite></div>\
+									<div class="layim-chat-text">'+str_msg+'</div>\
+								</li>'
+							);
+						}else{//对方的消息
+							$(".layim-chat-main ul").prepend(
+								'<li class="layim-chat-system"><span>'+getDateString(parseInt(ary[i]["create_time"])*1000)+'</span></li>\
+								<li class="layim-chat-li">\
+									<div class="layim-chat-user"><img src="'+chat_photo+'"\
+										 alt="100001"><cite>'+chat_name+'</cite></div>\
+									<div class="layim-chat-text">'+str_msg+'</div>\
+								</li>'
+							);
+						}
+						
+					}
+				}
+				
+				
+				if (chat_page==0) {
+					// $(".layim-chat-main ul li:last")[0].scrollIntoView();
+					var e=document.getElementsByClassName("layim-chat-main")[0];
+					e.scrollTop=e.scrollHeight;
+				}else{
+					$(".layim-chat-main ul .layim-chat-li")[ary.length-1].scrollIntoView();
+				}
+			}
+		}
+		
+		
+		$(".layim-chat-send input").bind('input propertychange',function(){
+			//做一些事情
+			var val = $(this).val();              
+			console.log(val);
+			if (val == "") {
+				$(".layim-chat-send button").addClass("layui-disabled");
+			} else{
+				$(".layim-chat-send button").removeClass("layui-disabled");
+			}
+		});
+		 $(".layim-chat-send input").keyup(function(event){
+			if(event.keyCode==13){
+				send();
+			}
+		  });
+		$(".layim-chat-send button").bind("click",send);
+		
+		function send(){
+			var msgToSend = $(".layim-chat-send input").val();
+			if (msgToSend.trim() != '' && chat_openid != '') {
+				if(msgToSend=="invite"){
+					msgToSend="intite.";
+				}
+				var data = {
+					"operate": "sendMsg",
+					"lab": msgToSend,
+					"to": chat_openid,
+					"msg_key": 1
+				};
+				layer.load();
+				Ajax(function(obj) {
+					if (obj.Code > 0) {
+						layer.closeAll();
+						layer.msg(obj.Msg);
+						return;
+					} else {
+						layer.closeAll();
+					}
+				
+				}, data);
+				$(".layim-chat-main ul").append(
+					'<li class="layim-chat-system"><span>刚刚</span></li>\
+					<li class="layim-chat-li layim-chat-mine">\
+						<div class="layim-chat-user"><img src="'+decodeURIComponent(session.photo)+'" alt="100001"><cite>我</cite></div>\
+						<div class="layim-chat-text">'+msgToSend+'</div>\
+					</li>'
+				);
+				$(".layim-chat-send input").val("");
+				// $(".layim-chat-main ul li:last")[0].scrollIntoView();
+				var e=document.getElementsByClassName("layim-chat-main")[0];
+				e.scrollTop=e.scrollHeight;
+			}
+		}
+		
+		function sendImg(url){
+			var data = {
+				"operate": "sendMsg",
+				"to":chat_openid,
+				"lab": "img",
+				"url":url
+			};
+			layer.load();
+			Ajax(function(obj) {
+				if (obj.Code > 0) {
+					layer.closeAll();
+					layer.msg(obj.Msg);
+					return;
+				} else {
+					layer.closeAll();
+				}
+			
+			}, data);
+			$(".layim-chat-main ul").append(
+				'<li class="layim-chat-system"><span>刚刚</span></li>\
+				<li class="layim-chat-li layim-chat-mine">\
+					<div class="layim-chat-user"><img src="'+decodeURIComponent(session.photo)+'" alt="100001"><cite>我</cite></div>\
+					<div class="layim-chat-text"><img src="'+decodeURIComponent(url)+'" style="max-width: 100%;"></div>\
+				</li>'
+			);
+			// $(".layim-chat-main ul li:last")[0].scrollIntoView();
+			var e=document.getElementsByClassName("layim-chat-main")[0];
+			e.scrollTop=e.scrollHeight;
+		}
+		
+		layui.upload.render({
+			elem: '#upload-img'
+			,multiple: true
+			,url: ""
+			,accept:"images"
+			,size:2048
+			,field:'imgfile'
+			,acceptMime:'image/*'
+			,choose: function(obj){
+				var item=this.item;
+				console.log(item);
+				files = this.files = obj.pushFile();  //将每次选择的文件追加到文件队列
+				lab = "chat";
+				newfile = "img/chat/" + user_id + "/";
+				obj.preview(function (index, file, result) {
+					// $("img[name='touxiang']").attr("src",result);
+				});
+				
+				this.url = "../upload.php?file="+encodeURIComponent( newfile );
+				this.url += "&file_id="+this.field;	
+				this.url += "&uid=web";
+			},before: function(obj){
+				layer.load(1);
+			}
+			,done: function(data,index){
+			  //上传完毕
+			  if(typeof(data.msg) != 'undefined'){
+				if(data.msg == ''){
+					delete files[index];
+					sendImg(data.url);
+					
+				}else {
+					layer.msg(decodeURIComponent(data.msg));
+				}
+			  }else{
+				  layer.msg("发送异常");
+			  }
+			  layer.closeAll('loading'); //关闭loading
+			}
+			,error: function(){
+				//请求异常回调
+				layer.msg("请求异常!");
+				layer.closeAll('loading'); //关闭loading
+			}
+		});
+	</script>
+</html>

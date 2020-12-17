@@ -1,0 +1,332 @@
+@import './mixin';
+
+span.van-tab__text van-tab__text--ellipsis {
+  color: #FF807B;
+}
+
+.van-tabs__wrap--scrollable .van-tab {
+  padding: 0 0.8rem;
+}
+
+.van-tab {
+  font-size: 0.8rem;
+}
+
+
+.van-nav-bar {
+  height: 2.5rem;
+}
+
+.van-nav-bar .van-icon {
+  color: #262b40;
+}
+
+.van-nav-bar__text {
+  color: #262b40;
+
+}
+
+.van-nav-bar__left, .van-nav-bar__right {
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding: 0 1rem;
+  line-height: 1rem;
+}
+.van-nav-bar__right {
+  top: -0.6rem;
+}
+
+.van-calendar__selected-day {
+  color: #FF807B;
+}
+
+.van-calendar {
+  padding: 0 0.9rem;
+  @include wh(100%, 18rem);
+  background-color: #FFFFFF;
+
+}
+.van-calendar__header {
+  box-shadow: 0 0 0 0 rgba(125,126,128,.16);
+}
+.van-calendar__month-title {
+  // display: none;
+}
+.van-calendar__weekday {
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+
+  line-height: 1.1rem;
+  @include sc(0.8rem, #323232);
+
+}
+.van-calendar__header-title {
+  position: relative;
+  left: 0rem;
+  top: 0.5rem;
+  text-align: left;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  line-height: 1.1rem;
+  @include sc(0.9rem, #323232);
+
+}
+
+.van-radio__icon {
+  height: 1rem;
+}
+
+.van-radio {
+  height: 4rem;
+  line-height: 4rem;
+}
+
+.van-radio__label {
+  margin-left: 0.7rem;
+  @include sc(0.8rem, #262B40);
+
+}
+
+.img-icon {
+  @include wh(0.9rem, 0.9rem);
+
+}
+.van-hairline--top .van-button__text {
+  @include sc(1.1rem, #FF807B);
+  
+
+}
+.van-dialog__confirm {
+  width: 2rem;
+}
+
+.van-dialog__footer::before {
+  position: absolute;
+  top: 9px;
+  left: 4rem;
+  display: inline;
+  @include wh(2.8rem, 2rem);
+
+}
+.van-dialog__confirm .van-button__content {
+  justify-content: flex-end
+}
+.van-dialog {
+  @include wh(17.2rem, 9.5rem);
+    
+  background: #FFFFFF;
+  border-radius: 10px;
+
+}
+.van-dialog__header {
+  text-align: left;
+  @include sc(1rem, #262B40);
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  line-height: 1.1rem;
+  // margin-left: 1.1rem;
+}
+.van-dialog__content {
+  
+  margin-top: 0.9rem;
+}
+.sureSet, .sureSet2, .sureSet3 {
+  position: absolute;
+  @include wh(2rem, 2rem);
+  @include sc(0.9rem, #FF807B);
+  right: 4.2rem;
+  bottom: 0.6rem;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  line-height: 1.2rem;
+}
+
+.sureSet2 {
+  @include sc(0.9rem, #000);
+  left: 4.2rem;
+}
+.sureSet3 {
+  right: 4.2rem;
+}
+.van-dialog__message {
+  text-align: left;
+  @include sc(0.8rem, #505050);
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  line-height: 1.1rem;
+  padding: 1.3rem 1.1rem;
+}
+
+.van-tabs__wrap  .van-tab--active .van-tab__text{
+  color: #FF807B !important;
+}
+
+.van-field__body {
+  padding: 0.9rem !important;
+}
+
+.van-dialog {
+  padding: 0 1.3rem;
+}
+
+.link_content .btn_color, 
+.button .link_content .btn_color,
+.link_content .btn_color_blue,
+.van-button--primary {
+  background-color: #FF807B;
+  @include sc(0.9rem,#FFFFFF);
+  border: 1px solid #FF807B;
+   @include wh(100%, 2.5rem);
+}
+.link_content .btn_color_blue {
+  background-color: #485175;
+  
+  border: 1px solid #485175;
+  
+}
+.button .link_content .btn_color_blue {
+  background-color: #485175;
+  
+  border: 1px solid #485175;
+  
+}
+.button  .link_content .primary_blue {
+  background-color: #FFF;
+  @include sc(0.9rem,#485175);
+  border: 1px solid #485175;
+   @include wh(100%, 2.5rem);
+}
+.button .link_content .primary_bc_blue {
+  background-color: #FF807B;
+  @include sc(0.9rem,#FFFFFF);
+  border: 1px solid #FF807B;
+   @include wh(100%, 2.5rem);
+}
+.button .link_content .primary_pink {
+  background-color: #FFFFFF;
+  
+  
+  border: 1px solid #FF807B;
+   @include wh(100%, 2.5rem);
+}
+.button .link_content .primary_pink .van-button__text {
+  @include sc(0.9rem,#FF807B);
+}
+.button  .link_content .primary_blue .van-button__text {
+  @include sc(0.9rem,#485175);
+
+}
+.button .link_content .btn_color .van-button__text {
+  @include sc(0.9rem,#FFF);
+
+}
+
+.van-field__label {
+  margin-top: 0.8rem;
+  line-height: 1rem;
+  font-size: 0.8rem;
+}
+.login_dialog .van-field__body {
+  background-color: #fff;
+  border: 1px solid #eee;
+  padding: 0.5rem !important;
+  border-radius: 0.4rem;
+}
+.van-field__error-message, .van-field__control {
+  color: #FF807B !important;
+}
+.image_album .van-image {
+  height: 6rem;
+}
+
+.icon_cell .van-radio__icon--checked .van-icon {
+  background-color: #cea476;
+  border-color: #cea476
+}
+.head_string .icon_cell .van-radio__icon--checked .van-icon {
+  background-color: #FF807B;
+  border-color: #FF807B;
+}
+.cell_heigth_select {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.6rem;
+  background: #FFF9F2;
+  border-radius: 0.3rem;
+  border: 2px solid #CEA476;
+  @include wh(100%, 3.5rem);
+
+}
+.cell_heigth {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.6rem;
+  background: #FFFFFF;
+  border-radius: 0.3rem;
+  border: 2px solid #D2D2D2;
+  @include wh(100%, 3.5rem);
+
+}
+.mint-toast-text {
+  color: #fff;
+  font-size: 20px;
+}
+.field_radio .van-radio {
+  height: 3rem;
+}
+.field_radio .van-field__body {
+  border: 0;
+}
+.van-overlay {
+  z-index: 100 !important;
+}
+ .van-dialog {
+  z-index: 200 !important;
+}
+.van-tag {
+  background: #F6F6F6;
+  border-radius: 0.8rem;
+}
+.van-calendar__selected-day {
+  border-radius: 50%;
+  height: 2rem !important;
+  width: 2rem !important;
+  background-color: #FF807B !important;
+  color: #ffff !important;
+}
+.van-calendar__selected-day .van-calendar__top-info{
+  color:#FF807B !important;
+  top: 45px;
+  
+}
+.name_dialog .van-field__body {
+  background-color: #F8F8F8 ;
+  border: 0;
+}
+.name_dialog .van-cell {
+  background-color: #fff;
+}
+.van-pull-refresh {
+  overflow: visible !important;
+}
+.van-pull-refresh__head {
+  z-index: -1;
+}
+.van-toast__text {
+  color: #fff;
+  font-size: 14px;
+}
+.van-tabbar {
+  z-index: 50;
+}
+// .mint-toast  {
+//   z-index: 9999;
+// }
+// .van-button--primary {
+//   background-color: #FF807B;
+//   @include sc(0.9rem,#FFFFFF);
+//   border: 1px solid #FF807B;
+//    @include wh(100%, 2.5rem);
+
+// }
+

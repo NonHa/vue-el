@@ -1,0 +1,33 @@
+<template>
+  <div>
+    <van-calendar
+      title="请选择时间"
+      :show-mark="false"
+      color="#FFFFFF"
+      :show-subtitle="false"
+      :lazy-render="false"
+      :poppable="false"
+      row-height="3rem"
+      :show-confirm="false"
+      
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {}
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+
+  .van-calendar__days {
+    @include sc(1.1rem, #FF807B);
+
+  }
+  
+</style>

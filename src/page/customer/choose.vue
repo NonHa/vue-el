@@ -1,0 +1,53 @@
+<template>
+  <div>
+     <div class="link_content">
+        <div class="base_search">
+          <div class="main_title">
+            <span>择偶标准</span>
+          </div>
+          <Cell :cellList="cellList"></Cell>
+        </div>
+        
+      </div>
+     
+  </div>
+</template>
+
+<script>
+import Cell from '../components/Cell'
+
+export default {
+  components: { Cell },
+  data() {
+    return {
+      cellList: [
+        { title: '年龄', value: '22~32岁'},
+        { title: '身高', value: '175~185cm'},
+        { title: '年收入', value: '20w~100w'},
+        { title: '学历', value: '本科'},
+        { title: '生活工作地', value: '湖南-长沙'},
+        { title: '户籍（老家）', value: '不限'},
+        { title: '期望结婚时间', value: '三年内'},
+        { title: '婚姻状况', value: '从未结婚'},
+        { title: '饮酒', value: '无'},
+        { title: '抽烟', value: '无'},
+        { title: '有无子女', value: '无'},
+        { title: '是否想要孩子', value: '想要孩子'},
+        { title: '体重', value: '不限'},
+        { title: '星座', value: '不限'},
+        { title: '职业', value: '不限'},
+        { title: '期望结婚时间', value: '三年内结婚'},
+      ],
+      getMoreList: {},
+    }
+  },
+   created() {
+    this.getMoreList = this.$route.params.moreMes
+    console.log('moreMes => moreMes', this.$route.params.moreMes);
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+  
+</style>

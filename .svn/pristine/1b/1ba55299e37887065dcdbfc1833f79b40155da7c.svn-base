@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	  <title>用户界面</title>
+	  <link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+	  <link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+	  <link rel="stylesheet" type="text/css" href="css/main.css"/>
+	  <script src="js/classie.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app" >
+			<!-- 导航 -->
+			<div class="layui-header layui-bg-black layui-hide-xs">
+				<div class="layui-container">
+					<div class="layui-logo" style="color:Aqua;">
+						<h1>一瓢婚恋网</h1>
+					</div>
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="../index.html">首页</a></li>
+						<li class="layui-nav-item">
+							<a href="#">会员群体</a>
+							<dl class="layui-nav-child">
+								<dd><a href="vip.html?v=creater">联合创始人</a></dd>
+								<dd><a href="vip.html?v=vip">名士/名媛</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="physical_store.html">实体门店</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-right">
+						<li class="layui-nav-item"><a href="message.html">消息<span class="layui-badge-dot"></span></a></li>
+						<li class="layui-nav-item">
+							<a href="userbase.html" id=""><img name="touxiang" id="touxiang" src="img/default.jpg" class="layui-nav-img">
+								<font id="nickname">我</font>
+							</a>
+							<dl class="layui-nav-child">
+								<dd><a href="userbase.html">基本资料</a></dd>
+								<dd><a href="security.html">安全设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a id="login" href="#" onclick="login1()" role="button" class="" data-toggle="modal">登录</a></li>
+						<li class="layui-nav-item"><a href="#" id="exit" onclick="exit()" class="">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 主页面 -->
+			<div class="layui-container">
+				<div class="personinfo">
+					<div class="layui-row layui-col-space10" style="margin-top: 15px;">
+						<div class="layui-col-md3 layui-col-sm5 layui-col-xs4" >
+							<div class="layui-anim layui-anim-upbit">
+								<img name="personicon" src="img/default.jpg" class="headicon pimg">
+							</div>
+						</div>
+						<div class="layui-col-md9 layui-col-sm7 layui-col-xs8">
+							<div id="u1" ></div>
+							<hr class="layui-bg-green">
+							<div id="u2" ></div>
+						</div>
+					</div>
+					<div class="layui-row">
+						<div id="personalbum" class="ul_imgflow">
+							
+						</div>
+					</div>
+					<div class="layui-row layui-col-space10 operation operation-mobile">
+						<div class="layui-col-md4 layui-col-xs4">
+							<button class="layui-btn layui-btn-fluid" onclick="toInvite()">线下邀约</button>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4">
+							<button class="layui-btn layui-btn-fluid" onclick="hello()">打招呼</button>
+						</div>
+						<div class="layui-col-md4 layui-col-xs4">
+							<button class="layui-btn layui-btn-fluid" onclick="connect()" >缘分牵线</button>
+						</div>
+					</div>
+					
+				</div>
+				<!-- 填充表单 -->
+				<div class="layui-fluid">
+					<!-- 详细信息 -->
+					<div id="uid1" class="layui-show" >
+					<blockquote class="layui-elem-quote">详细信息</blockquote>
+						<form lay-filter="usedetail" class="layui-form">
+							    <div class="layui-inline">
+							      <label class="layui-form-label">年龄</label>
+							      <div class="layui-input-block tag">
+							        <input type="text" disabled="disabled" name="birthday" class="layui-input" value="">
+							      </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">身高</label>
+								  <div class="layui-input-block tag">
+								    <input type="text" disabled="disabled" name="height" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">体重</label>
+								  <div class="layui-input-block tag">
+								    <input type="text" disabled="disabled" name="weight" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">星座</label>
+								  <div class="layui-input-block tag">
+								    <input type="text" disabled="disabled" name="constellation" class="layui-input" value="">
+								  </div>
+								</div>
+								
+								<div class="layui-inline">
+								  <label class="layui-form-label">工作地区</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="job_addr" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">职位</label>
+								  <div class="layui-input-block tag">
+								    <input type="text" disabled="disabled" name="job" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">月薪</label>
+								  <div class="layui-input-block tag">
+								    <input type="text" disabled="disabled" name="salary" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">学历</label>
+								  <div class="layui-input-block tag">
+								    <input type="text" disabled="disabled" name="education" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">婚姻状况</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="marital_status" class="layui-input" value="">
+								  </div>
+								  <label class="layui-form-label">何时结婚</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="when_marry" class="layui-input" value="">
+								  </div>
+								</div>
+								
+								<div class="layui-inline">
+								  <label class="layui-form-label">家庭状况</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="child" class="layui-input" value="">
+								  </div>
+								  <label class="layui-form-label">何时要孩子</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="wanna_child" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">个人喜好</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="smoke" class="layui-input" value="">
+								  </div>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="drink" class="layui-input" value="">
+								  </div>
+								</div>
+								<div class="layui-inline">
+								  <label class="layui-form-label">经济状况</label>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="house" class="layui-input" value="">
+								  </div>
+								  <div class="layui-input-block">
+								    <input type="text" disabled="disabled" name="car" class="layui-input" value="">
+								  </div>
+								</div>
+						</form>
+					</div>
+					<!-- 择偶标准 -->
+					<div id="uid2" class="layui-show">
+					<blockquote class="layui-elem-quote">择偶标准</blockquote>
+						<form lay-filter="wantmate" class="layui-form">
+							<div class="layui-inline">
+							  <label class="layui-form-label">理想年龄</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="age" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-inline">
+							  <label class="layui-form-label">理想身高</label>
+							  <div class="layui-input-block tag">
+							    <input type="text" disabled="disabled" name="high" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-inline">
+							  <label class="layui-form-label">理想体重</label>
+							  <div class="layui-input-block tag">
+							    <input type="text" disabled="disabled" name="weight" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-inline">
+							  <label class="layui-form-label">理想薪资</label>
+							  <div class="layui-input-block tag">
+							    <input type="text" disabled="disabled" name="salary" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-inline">
+							  <label class="layui-form-label">工作地区</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="job_addr" class="layui-input" value="">
+							  </div>
+							</div>
+							
+							<div class="layui-inline">
+							  <label class="layui-form-label">学历要求</label>
+							  <div class="layui-input-block tag">
+							    <input type="text" disabled="disabled" name="education" class="layui-input" value="">
+							  </div>
+							</div>
+							
+							<div class="layui-inline">
+							  <label class="layui-form-label">婚姻状况</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="marital_status" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-inline">
+							  <label class="layui-form-label">家庭状况</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="child" class="layui-input" value="">
+							  </div>
+							  <label class="layui-form-label">何时要孩子</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="wanna_child" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-inline">
+							  <label class="layui-form-label">嗜好要求</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="smoke" class="layui-input" value="">
+							  </div>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="drink" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-form-item">
+							  <label class="layui-form-label">爱情宣言</label>
+							  <div class="layui-input-block">
+							    <input type="text" disabled="disabled" name="desc" class="layui-input" value="">
+							  </div>
+							</div>
+							<div class="layui-form-item layui-hide-md layui-hide-sm">
+								<div class="layui-input-block">
+									<img  style="width: 50%;" src="img/white.png" >
+								</div>
+							</div>
+						</form>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:1000;width:100%;height:100%;display:none;">
+				<div id="innerdiv" style="position:absolute;">
+				<img id="bigimg" style="border:1px solid #ffffff; border-radius: 10px;" src="" />
+				</div>
+			</div>
+			
+			<div style="position: fixed; right: 20px; bottom: 100px; z-index: 50;" class="layui-hide-xs">
+				<ul>
+					<li title="联系客服"><div id="callme" class="clickItem"><i class="layui-icon layui-icon-service" style="font-size: 50px; color: #ff007f;" ></i></div></li>
+					<li title="关注我们"><div id="showqr" class="clickItem"><i class="layui-icon layui-icon-star" style="font-size: 50px; color: #aaff7f;" ></i></div></li>
+					<li title="回到顶部"><div id="toTop" class="clickItem"><i class="layui-icon layui-icon-top" style="font-size: 50px; color: #55aaff;" ></i></div></li>
+				</ul>
+				<div class="layui-hide">
+					<img src="img/qrcode_for_gh_0d3d8e8259fa_258.jpg"  height="150px">
+					<p>扫码关注微信公众号</p>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="js/base.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/data.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/util.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/personinfo.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var layer = layui.layer;
+	function toInvite(){
+		if (to=="") {
+			layer.msg("对方信息错误，无法邀约！");
+			return;
+		}
+		var addr_str = "";
+		for (let i = 0; i < OFFLINE_STORE.length; i++) {
+			addr_str += "<option value='"+i+"'>"+OFFLINE_STORE[i]+"</option>"
+		}
+		var content = '	<div class="layui-form-item">\
+							<div class="layui-inline">\
+								<label class="layui-form-label">时间</label>\
+								<div class="layui-input-block">\
+									<input type="text" name="date" id="date"  placeholder="请选择邀约时间" autocomplete="off" class="layui-input">\
+								</div>\
+							</div>\
+						</div>\
+						<div class="layui-form-item">\
+							<label class="layui-form-label">地点</label>&nbsp;&nbsp;&nbsp;\
+							<div class="layui-inline">\
+								<select name="addr" id="addr" lay-skin="select" class="layui-select">\
+									'+addr_str+'\
+								</select>\
+							</div>\
+						</div>';
+		layer.open({
+				type: 1, //此处以iframe举例
+				title: '请选择邀请时间与地点',
+				area: ['70%', '60%'],
+				shade: 1,
+				maxmin: true,
+				offset: "auto",
+				content: content,
+				btn: ['提交', '关闭'],
+				yes: function() {
+					layer.load();
+					var date = $("#date").val();
+					var addr = $("#addr").val();
+					if ("" == date) {
+						return false;
+					} else{
+						var meet_time = Date.parse(new Date(date))/ 1000;
+						var data = {
+							"operate":"sendMsg",
+							"lab":"invite",
+							"to":to,
+							"status":1,
+							"addr":addr,
+							"meet_time":meet_time
+						};
+						Ajax(ajax_invite, data);
+					}
+				},
+				btn2: function() {
+					layer.closeAll();
+				},
+				zIndex: layer.zIndex, //重点1
+				success: function(layero) {
+					layer.setTop(layero); //重点2
+					layui.laydate.render({
+					    elem: '#date',
+						type: 'datetime',
+					  });
+				}
+			})
+			
+	}
+	
+	function ajax_invite(obj){
+		if (obj.Code > 0) {
+			layer.closeAll();
+			layer.msg(obj.Msg);
+		}
+		else {
+			layer.closeAll();
+			layer.msg("消息已发送！");
+		}
+	}
+	
+	function hello(){
+			if (to=="") {
+				layer.msg("对方信息错误，无法打招呼！");
+				return;
+			}
+			var data = {
+				"operate":"sendMsg",
+				"lab":getRandomHello(HELLO),
+				"to":to,
+				"msg_key":1
+			};
+			Ajax(ajax_invite, data);
+		
+	}
+	
+	function connect(){
+		if(session.isvip == 1){
+			window.open("reservation.html");
+		}else{
+			layer.open({
+			    type: 1,
+			    shadeClose: false,
+				closeBtn: 0,
+				anim: 2,
+			    title: '开通会员之后才可以使用缘分牵线哦',
+				btn:['确认','取消'],
+				btn1: function(){
+					window.open("viewvip.html");
+					layer.closeAll();
+				}
+			});
+		}
+	}
+	
+	function getRandomHello(arr) {
+	  return arr[Math.floor(Math.random()*arr.length)];
+	}
+</script>
+</html>

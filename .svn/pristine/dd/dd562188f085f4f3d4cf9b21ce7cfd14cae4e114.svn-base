@@ -1,0 +1,242 @@
+<template>
+  <div>
+   <div v-if="index == 0">
+      <van-skeleton  title avatar :row="1"  :loading="loading" />
+    <div class="content_show"  @click="cancelVisite">
+      <div class="avator_content">
+        <img src="../../images/dog.jpg" alt="">
+      </div>
+      <div class="title_name">
+        <span class="name">
+          严女士
+        </span>
+         <span class="title">
+        周女士 你好，能否有幸约你线下见一面呢？
+        </span>
+      </div>
+      <div class="time">
+        10/23 14:56
+      </div>
+    </div>
+     <div class="content_show" @click="goSuccessMes">
+      <div class="avator_content" style="border: 2px solid #FF807B;">
+        <img src="../../images/dog.jpg" alt="">
+      </div>
+      <div class="title_name">
+        <span class="name">
+          严女士
+          <div>成功邀约</div>
+        </span>
+         <span class="title">
+         有缘遇见你，愿我们有个愉快的约会~
+        </span>
+      </div>
+      <div class="time">
+        10/23 14:56
+      </div>
+    </div>
+     <div class="content_show" >
+       
+      <div style="position: relative">
+          <div class="avator_content">
+          <img src="../../images/dog.jpg" alt="">
+          
+        </div>
+        <div class="getMessage"></div>
+      </div>
+      <div class="title_name">
+        <span class="name">
+          严女士
+        </span>
+         <span class="title">
+         对方回复你了，快来看看…
+        </span>
+      </div>
+      <div class="time">
+        10/23 14:56
+      </div>
+    </div>
+    
+    </van-skeleton>
+   </div>
+
+    <div v-else>
+      <van-skeleton v-if="index == 1" title avatar :row="1"  :loading="loading" />
+    <div class="content_show"  @click="dotAcceptVisite">
+      <div class="avator_content">
+        <img src="../../images/dog.jpg" alt="">
+      </div>
+      <div class="title_name">
+        <span class="name">
+          严女士
+        </span>
+         <span class="title">
+        抱歉！我无法赴约，祝愿你早日找到良人…
+        </span>
+      </div>
+      <div class="time">
+        10/23 14:56
+      </div>
+    </div>
+     <div class="content_show"  @click="AcceptVisite">
+      <div class="avator_content" style="border: 2px solid #FF807B;">
+        <img src="../../images/dog.jpg" alt="">
+      </div>
+      <div class="title_name">
+        <span class="name">
+          严女士
+          <div>成功邀约</div>
+        </span>
+         <span class="title">
+         有缘遇见你，愿我们有个愉快的约会~
+        </span>
+      </div>
+      <div class="time">
+        10/23 14:56
+      </div>
+    </div>
+     <div class="content_show" @click="acceptResult">
+       
+      <div style="position: relative">
+          <div class="avator_content">
+          <img src="../../images/dog.jpg" alt="">
+          
+        </div>
+        <div class="getMessage"></div>
+      </div>
+      <div class="title_name">
+        <span class="name">
+          严女士
+        </span>
+         <span class="title">
+         对方回复你了，快来看看…
+        </span>
+      </div>
+      <div class="time">
+        10/23 14:56
+      </div>
+    </div>
+    </van-skeleton>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    index: {
+      type: Number
+    }
+  },
+  data() {
+    return {
+      loading: true
+    }
+  },
+  methods: {
+    goSuccessMes() {
+      this.$router.push({ name: 'setAcceptSuccess', params: { state: 'SUC'}})
+    },
+    cancelVisite() {
+      this.$router.push({ name: 'acceptCancel', params: { state: 'CAN'}})
+
+    },
+    dotAcceptVisite() {
+      this.$router.push({ name: 'setAcceptCancel', params: { state: 'cancel'}})
+      
+    },
+    AcceptVisite() {
+      this.$router.push({ name: 'setAcceptSuccess', params: { state: 'accept'}})
+
+    },
+    acceptResult() {
+      this.$router.push({ name: 'acceptResult'})
+
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import '../../style/mixin';
+  .van-skeleton {
+    padding: 0.9rem;
+    
+    border-bottom: 1px solid #E0E0E0;
+    height: 5rem;
+  }
+  .van-skeleton__title+.van-skeleton__row {
+    margin-top: 0.2rem;
+  }
+  .van-skeleton__avatar {
+    width: 3rem !important;
+    height: 3rem !important;
+        // @include wh(3rem, 3rem);
+
+  }
+  .content_show {
+   
+    display: flex;
+    padding: 0.9rem;
+    border-bottom: 1px solid #E0E0E0;
+    height: 5rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+  }
+  .avator_content {
+   
+    @include wh(3rem, 3rem);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    background-color: #f2f3f5;
+    overflow: hidden;
+  }
+  .getMessage {
+    position: absolute;
+    top: 0;
+    // left: 1rem;
+    right: 0.3rem;
+    @include wh(0.9rem, 0.9rem);
+    background: #FF5050;
+    border: 2px solid #FFFFFF;
+    z-index: 2;
+    border-radius: 50%;
+  }
+  .avator_content img {
+    @include wh(100%, 100%);
+
+  }
+  .title_name {
+    flex: 1;
+    margin-left: 0.5rem;
+    line-height: 2rem;
+  }
+  .title_name .name{
+    position: relative;
+    @include sc(0.8rem, #262B40);
+    font-weight: 400;
+
+  }
+  .title_name .name div {
+    position: absolute;
+    top: 0.3rem;
+    left: 3rem;
+    @include wh(3rem, 1.1rem);
+    border-radius: 15px;
+    line-height: 1.1rem;
+    text-align: center;
+    @include sc(0.6rem, #FF807B);
+
+    border: 1px solid #FF807B;
+  }
+   .title_name .title{
+    @include sc(0.6rem, #6E6E6E);
+    font-weight: 400;
+    margin-top: 0.5rem;
+  }
+  .time {
+    @include sc(0.6rem, #B4B4B4);
+    font-weight: 400;
+    margin-top: 0.4rem;
+
+  }
+</style>

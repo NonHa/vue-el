@@ -1,0 +1,125 @@
+<template>
+  <div>
+   
+    <NavBarHead :title="title" @goBack="goBackArticle" @showItem="showArticleItem"></NavBarHead>
+    <div class="content_item" style="padding: 0 0.9rem">
+      <div class="title_head">
+        什么样的人值得你去爱?
+      </div>
+      <div class="time">
+        06月21日 17:40
+      </div>
+      <div class="img_main">
+        <img src="" alt="">
+      </div>
+      <div class="content_mian">
+        一个女人来咨询恋爱的苦恼。 
+        男友一个接着一个，无法忍受空窗期，甚至出现过上午刚和男友分手，晚上就和另一个男人去看电影。
+        刚开始男人对她的欣赏让她感到享受，可不出三个月，她就知道这不是我想要的那个人。 
+        她说服自己，反正换人也是一样，就忍忍吧。 
+        在爱情里，我们都在等待英雄，以为“那个人”的出现，可以把自己从孤独的泥潭中拉出来。
+         可是，等待英雄的过程中，我们又把自己看得太重要，一切都是我想要，我需要，我认为。 
+         与其说在等待爱情，不如说，这是在等待一种全新的生活。
+          像那个女人渴望的那样，在全新的生活中，自己活得有价值感，不会过分依赖别人的赞美来建立自信，心里再也没有空荡荡的一块，由衷地感觉到“我值得被爱”。 
+          但现实是，美好的愿望却无法阻止自己持续制造无爱的关系。
+      </div>
+      <div class="cope_right">
+        ©️文章转载/侵权，请联系邮箱：yipi
+      </div>
+      
+    </div>
+     <div class="goBack_add_goNext" style="padding: 0 0.9rem">
+        <div class="goBack">
+          上一篇：<span>为什么你总想改变对方？</span>
+        </div>
+        <div class="goNext">
+          下一篇：<span>温柔，才是感情中最高级的沟通</span>
+        </div>
+      </div>
+  </div>
+</template>
+
+<script>
+import NavBarHead from '../components/NavBarTab'
+
+export default {
+  components: {
+       NavBarHead
+    },
+  data() {
+    return {
+       title: '文章详情'
+    }
+  },
+  methods: {
+    goBackArticle() {
+      this.$router.push({ path: '/article'})
+    },
+    showArticleItem() {
+
+    }
+  }
+   
+}
+</script>
+
+<style lang="scss" scoped>
+   @import '../../style/mixin';
+
+  .content_item {
+    margin-top: 3rem;
+    background-color: #fff;
+    font-family: PingFangSC-Medium, PingFang SC;
+    border-bottom: 1px solid #E0E0E0;
+    padding-bottom: 1rem !important;
+  }
+  .title_head {
+    @include wh(100%, 2rem);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #403C3C;
+    line-height: 1.8rem;
+  }
+  .time {
+    @include wh(100%, 1.1rem);
+    @include sc(0.7rem,#8C8C8C);
+    font-weight: 400;
+    line-height: 1.1px;
+    margin-top: 0.4rem;
+  }
+  .img_main {
+    @include wh(100%, 13rem);
+
+  }
+   .img_main  img {
+    @include wh(100%, 100%);
+
+   }
+   .content_mian {
+     margin-top: 0.9rem;
+    width: 100%;
+      @include sc(1rem,#3C3C3C);
+    font-weight: 400;
+    line-height: 1.4rem;
+   }
+   .cope_right {
+     margin-top: 1.1rem;
+    
+    height: 1.5rem;
+      @include sc(0.8rem,#8C8C8C);
+    font-family: AppleColorEmoji;
+ 
+    line-height: 1.1rem;
+   }
+   .goBack_add_goNext {
+     margin-top: 1.1rem;
+      @include sc(0.9rem,#3C3C3C);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    line-height: 1.8rem;
+    padding-bottom: 1rem !important;
+   }
+   .goBack_add_goNext span {
+     text-decoration:underline
+   }
+</style>

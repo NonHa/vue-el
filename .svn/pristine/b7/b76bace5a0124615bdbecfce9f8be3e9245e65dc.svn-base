@@ -1,0 +1,129 @@
+<template>
+  <div>
+     <div class="img_show">
+        <img class="img_bg" src="../../assets/bg_personal_center.png" alt="">
+        <div class="go_back_right">
+          <img @click="goBackHome" src="../../assets/icon_return_black.png" alt="">
+         
+        </div>
+         <div class="title">
+          我的认证
+        </div>
+        <div class="more">
+          认证项越多，曝光率越高
+        </div>
+      <div  class="imageMes">
+         <div>
+            <img src="../../assets/real_name_select.png" alt="">
+            <span>实名认证</span>
+          </div>
+          <div>
+            <img src="../../assets/work_select.png" alt="">
+            <span>视频认证</span>
+
+          </div>
+          <div>
+            <img src="../../assets/education_select.png" alt="">
+            <span>工作认证</span>
+
+          </div>
+      </div>
+        
+     
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    
+  },
+  watch: {
+    stateMes: {
+      handler(val) {
+        console.log(val, 'mes');
+        if (val) {
+          this.state = '邀约成功'
+        } else {
+          this.state = '邀约已拒绝'
+
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    $route(to, from) {
+      if (from.path == '/home/message') {
+         this.stateMes = this.sucState
+      } else if (from.path == '/customer/visite') {
+          this.state = '邀约待接受'
+      }
+      
+    }
+  },
+  data() {
+    return {
+      state: '邀约待接受',
+      stateMes: false
+    }
+  },
+  created() {
+    console.log(this.sucState, 'state');
+   
+    console.log(this.stateMes);
+  },
+  methods: {
+    goBackHome() {
+      this.$emit('goHome')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import '../../style/mixin';
+
+.img_show {
+  height: 11rem;
+}
+ .imageMes {
+   display: flex;
+    @include wh(19.2rem, 10rem);
+  background-color: #fff;
+  justify-content: center;
+    align-items: center;
+
+ }
+ .imageMes div {
+   flex: 1;
+   display: flex;
+    flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
+ .imageMes img {
+    @include wh(5rem, 5rem);
+    
+ }
+ .title {
+   position: absolute;
+   width: 5rem;
+   top: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+ }
+ .more {
+    position: absolute;
+   
+   top: 5rem;
+	left: 50%;
+  transform: translateX(-50%);
+    @include sc(1.1rem, #262B40);
+   width: 100%;
+   text-align: center;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    line-height: 1.4rem;
+ }
+</style>

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>消息中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<style type="text/css">
+			.list-1::-webkit-scrollbar {
+				/*滚动条整体样式*/
+
+				width: 5px;
+				/*高宽分别对应横竖滚动条的尺寸*/
+
+				height: 1px;
+
+			}
+
+			.list-1::-webkit-scrollbar-thumb {
+				/*滚动条里面小方块*/
+
+				border-radius: 5px;
+
+				-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+
+				background: #f2f5f8;
+
+			}
+
+			.list-1::-webkit-scrollbar-track {
+				/*滚动条里面轨道*/
+
+				-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+
+				border-radius: 5px;
+
+				background: #444753;
+
+			}
+
+			.chat-1::-webkit-scrollbar {
+				/*滚动条整体样式*/
+
+				width: 10px;
+				/*高宽分别对应横竖滚动条的尺寸*/
+
+				height: 1px;
+
+			}
+
+			.chat-1::-webkit-scrollbar-thumb {
+				/*滚动条里面小方块*/
+
+				border-radius: 10px;
+
+				-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+
+				background: #787878;
+
+			}
+
+			.chat-1::-webkit-scrollbar-track {
+				/*滚动条里面轨道*/
+
+				-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+
+				border-radius: 10px;
+
+				background: #f1f1f1;
+
+			}
+
+			.list-1 li:hover {
+				background-color: #6a6c75;
+			}
+			
+			@media (max-width:768px) { 
+				.tb-text{
+					/* margin-top: 20px; */
+				}
+				.tb-text2{
+					/* margin-top: 20px; */
+					color: #c2c2c2;
+				}
+				.tb-img{
+					width: 60px;
+				}
+				
+				.tb-btn{
+					height: 30px;
+					line-height: 30px;
+					padding: 0 10px;
+					font-size: 12px;
+				}
+				.no-padding{
+					padding: 0px;
+				}
+			}
+			
+			@media (min-width:769px) {
+				.tb-text{
+					margin-top: 18px;
+				}
+				.tb-text2{
+					margin-top: 18px; color: #c2c2c2;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 导航栏 -->
+			<div class="layui-header layui-bg-black layui-hide-xs">
+				<div class="layui-container">
+					<div class="layui-logo" style="color:Aqua;">
+						<h1>一瓢婚恋网</h1>
+					</div>
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="../index.html">首页</a></li>
+						<li class="layui-nav-item">
+							<a href="#">会员群体</a>
+							<dl class="layui-nav-child">
+								<dd><a href="vip.html?v=creater">联合创始人</a></dd>
+								<dd><a href="vip.html?v=vip">名士/名媛</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="physical_store.html">实体门店</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-right">
+						<li class="layui-nav-item"><a href="message.html"><i class="layui-icon layui-icon-dialogue"></i> 消息<span class="layui-badge-dot"></span></a></li>
+						<li class="layui-nav-item">
+							<a href="userbase.html" id=""><img name="touxiang" id="touxiang" src="img/default.jpg" class="layui-nav-img">
+								<font id="nickname">我</font>
+							</a>
+							<dl class="layui-nav-child">
+								<dd><a href="userbase.html">基本资料</a></dd>
+								<dd><a href="security.html">安全设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a id="login" href="#" onclick="login1()" role="button" class="" data-toggle="modal">登录</a></li>
+						<li class="layui-nav-item"><a href="#" id="exit" onclick="exit()" class="">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 主页面 -->
+			<div class="layui-container ">
+				<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+					<legend>消息中心</legend>
+				</fieldset>
+				<div class="layui-tab">
+					<ul class="layui-tab-title">
+						<li class="layui-this" onclick="getInviteMsgClick()">邀约消息 <span class="layui-badge" id="NewInviteMsgCount">0</span></li>
+						<li onclick="getChatMsgClick()">聊天消息 <span class="layui-badge" id="NewNotInviteMsgCount">0</span></li>
+					</ul>
+					<div class="layui-tab-content no-padding" >
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table" lay-skin="nob">
+								<colgroup >
+									<col style="">
+									<col style="width: 200px;">
+									<col>
+								</colgroup>
+								<tbody id="invite_tbody">
+<!-- 									<tr>
+										<td>
+											<img src="img/1.jpg" class="layui-circle tb-img" >
+										</td>
+										<td>
+											<h3 class="tb-text" >姓名联合创始人</h3>
+											<div class="layui-text tb-text">
+												嗨~可以一起喝杯咖啡吗？
+											</div>
+											<div class="layui-text tb-text2" >
+												10分钟前 
+											</div>
+										</td>
+										<td style="max-width: 100px;">
+											<a type="button" class="layui-btn tb-btn" href="#" onclick="getInviteById()">点击查看</a>
+										</td>
+									</tr>
+ -->								</tbody>
+							</table>
+						</div>
+						<div class="layui-tab-item">
+							<div class="container clearfix">
+								<div class="people-list sidebar-left" id="people-list">
+									<div class="search">
+										<input type="text" placeholder="search" />
+										<i class="fa fa-search"></i>
+									</div>
+									<ul class="list list-1 " style="overflow-y: scroll;color: white;" id="chat-ul">
+									</ul>
+								</div>
+
+								<div class="chat">
+									<div class="chat-header clearfix" id="chat-header">
+										<div class="layui-hide-md layui-hide-sm" style="float: right;">
+											<button id="showLeftPush" type="button"><i class="layui-icon layui-icon-right"></i> </button>
+										</div>
+									</div> <!-- end chat-header -->
+
+									<div class="chat-history chat-1" id="chat-histor">
+										<div class="layui-flow-more" ><a href="#" onclick="getChatById();"><cite>加载更多</cite></a></div>
+										<ul>
+											<li class="clearfix">
+												<div class="message-data align-right">
+													<span class="message-data-time">213212</span>
+													<span class="message-data-name">545</span> <i class="layui-badge-dot layui-bg-blue"></i>
+												</div>
+												<div class="message other-message float-right">
+													<img src="img/1.jpg"  style="max-width: 100%;">
+												</div>\
+											</li>
+											<li class="clearfix">
+												<div class="message-data align-right">
+													<span class="message-data-time">213212</span>
+													<span class="message-data-name">545</span> <i class="layui-badge-dot layui-bg-blue"></i>
+												</div>
+												<div class="message other-message float-right">
+													<img src="img/1.jpg"  style="max-width: 100%;">
+												</div>\
+											</li>
+											<li class="clearfix">
+												<div class="message-data align-right">
+													<span class="message-data-time">213212</span>
+													<span class="message-data-name">545</span> <i class="layui-badge-dot layui-bg-blue"></i>
+												</div>
+												<div class="message other-message float-right">
+													<img src="img/1.jpg"  style="max-width: 100%;">
+												</div>\
+											</li>
+											<li class="clearfix">
+												<div class="message-data align-right">
+													<span class="message-data-time">213212</span>
+													<span class="message-data-name">545</span> <i class="layui-badge-dot layui-bg-blue"></i>
+												</div>
+												<div class="message other-message float-right">
+													<img src="img/1.jpg"  style="max-width: 100%;">
+												</div>\
+											</li>
+										</ul>
+
+									</div> <!-- end chat-history -->
+
+									<div class="chat-message clearfix">
+										<textarea name="message-to-send" id="message-to-send" placeholder="输入您的消息" rows="3"></textarea>
+
+										<i class="layui-icon layui-icon-mike" id="upload-audio"></i> &nbsp;&nbsp;&nbsp;
+										<i class="layui-icon layui-icon-picture" id="upload-img"></i>&nbsp;&nbsp;&nbsp;
+										<i class="layui-icon layui-icon-video" id="upload-video"></i> &nbsp;&nbsp;&nbsp;
+
+										<button>发送</button>
+
+									</div> <!-- end chat-message -->
+
+								</div> <!-- end chat -->
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</body>
+
+	<script id="message-template" type="text/x-handlebars-template">
+		<li class="clearfix">
+	    <div class="message-data align-right">
+	      <span class="message-data-time" >{{time}}, 今天</span> &nbsp; &nbsp;
+	      <span class="message-data-name" >{{name}}</span> <i class="layui-badge-dot layui-bg-blue"></i>
+	    </div>
+	    <div class="message other-message float-right">
+	      {{#if img}}
+			<img src="{{messageOutput}}"  style="max-width: 100%;">
+	      {{else}}
+	          {{messageOutput}}
+	      {{/if}}
+	    </div>
+	  </li>
+	</script>
+
+	<script id="message-response-template" type="text/x-handlebars-template">
+		<li>
+	    <div class="message-data">
+	      <span class="message-data-name"><i class="layui-badge-dot layui-bg-green"></i> {{name}}</span>
+	      <span class="message-data-time">{{time}}, Today</span>
+	    </div>
+	    <div class="message my-message">
+		  {{#if img}}
+		  			<img src="{{response}}"  style="max-width: 100%;">
+		  {{else}}
+		      {{response}}
+		  {{/if}}
+	    </div>
+	  </li>
+	</script>
+	<!-- partial -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"> -->
+	<!-- <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'> -->
+	<link rel="stylesheet" href="chat-widget/dist/style.css">
+	<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script src="chat-widget/dist/handlebars.min.js"></script>
+	<script src="chat-widget/dist/list.min.js"></script>
+
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="js/util.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/data.js"></script>
+	<script src="js/classie.js" type="text/javascript" charset="utf-8"></script>
+	<script src="chat-widget/dist/script.js"></script>
+	<script type="text/javascript">
+		var layer = layui.layer,
+			util = layui.util;
+		var invite_photo, invite_name, chat_photo, chat_name,chat_page;
+		$(function(){
+
+			var data = {
+				"operate": "getMessageCount"
+			};
+			Ajax(ajax_onload, data);
+			
+			var menuLeft = document.getElementById( 'people-list' ),
+				showLeftPush = document.getElementById( 'showLeftPush' ),
+				body = document.body;
+			showLeftPush.onclick = function () {
+				classie.toggle( this, 'active' );
+				classie.toggle( body, 'body-push' );
+				classie.toggle( menuLeft, 'sidebar-push-toright' );
+			};
+			
+		});
+
+		function ajax_onload(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				session = obj.session;
+				user_id = session.userid;
+				checkLogin();
+				console.log(ary);
+				$("#NewNotInviteMsgCount").html(ary.NewNotInviteMsgCount);
+				$("#NewInviteMsgCount").html(ary.NewInviteMsgCount);
+
+				getInviteMsgList(1);
+			}
+		}
+
+		function getInviteMsgClick() {
+			console.log("getInviteMsgClick");
+			$("#invite_tbody").html("");
+			getInviteMsgList(1);
+		}
+
+		function getChatMsgClick() {
+			if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+				location="message_detail.html";
+			}else{
+				console.log("getChatMsgClick");
+				$("#chat-ul").html("");
+				chat.to='';
+				getChatMsgList(1);
+			}
+		}
+
+		function getInviteMsgList(page) {
+			var data = {
+				"operate": "getInviteMsgList",
+				"page": page
+			};
+			Ajax(ajax_getInviteMsgList, data);
+		}
+
+		function getChatMsgList(page) {
+			var data = {
+				"operate": "getChatMsgList",
+				"page": page
+			};
+			Ajax(ajax_getChatMsgList, data);
+		}
+
+		function ajax_getInviteMsgList(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				if (0 == ary.length) {
+					$("#invite_tbody").append("没有新消息");
+				} else {
+					for (let i = 0; i < ary.length; i++) {
+						var timeAgo = util.timeAgo(new Date(parseInt(ary[i].create_time) * 1000));
+						$("#invite_tbody").append('<tr>\
+											<td>\
+												<img src="' + decodeURIComponent(ary[i].photo) +
+							'" class="layui-circle tb-img" >\
+											</td>\
+											<td>\
+												<h3 class="tb-text" >' +
+							decodeURIComponent(ary[i].nickname) +
+							'</h3>\
+												<div class="layui-text tb-text" ">\
+													嗨~，可以一起喝杯咖啡吗？\
+												</div>\
+												<div class="layui-text tb-text2" >\
+													' +
+							timeAgo +
+							'\
+												</div>\
+											</td>\
+											<td>\
+												<a type="button" class="layui-btn tb-btn" href="#" onclick="getInviteById(\'' +
+							ary[i].from + '\',\'' + decodeURIComponent(ary[i].photo) + '\',\'' + decodeURIComponent(ary[i].nickname) +
+							'\')">点击查看</a>\
+											</td>\
+										</tr>');
+					}
+				}
+			}
+		}
+
+		function ajax_getChatMsgList(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				if (null == ary) {
+					$("#chat-ul").append("没有新消息");
+				} else {
+					for (let i = 0; i < ary.length; i++) {
+						var timeAgo = util.timeAgo(new Date(parseInt(ary[i].create_time) * 1000));
+						$("#chat-ul").append('	<li class="clearfix " onclick="getChatByIdClick(\'' +
+							(session.openid == ary[i].to ? ary[i].from : ary[i].to) + '\',\'' + decodeURIComponent(ary[i].photo) + '\',\'' +
+							decodeURIComponent(ary[i].nickname) +
+							'\')">\
+													<img src="' + decodeURIComponent(ary[i].photo) +
+							'" alt="avatar" height="55px" width="55px" />\
+													<div class="about">\
+														<div class="name">' + decodeURIComponent(
+								ary[i].nickname) +
+							'</div>\
+														<div class="status">\
+															<i class="layui-badge-dot"></i> 离线\
+														</div>\
+													</div>\
+												</li>'
+						);
+					}
+					$(".chat-header").html("");
+					$(".chat-history ul").html("");
+					$(".chat-history .layui-flow-more").html("");
+					// $(".chat-message").html("");
+				}
+			}
+		}
+
+		function getInviteById(id, photo, name) {
+			invite_photo = photo;
+			invite_name = name;
+			var data = {
+				"operate": "getInviteById",
+				"from": id
+			};
+			Ajax(ajax_getInviteById, data);
+		}
+		
+		function getChatByIdClick(id, photo, name){
+			chat_photo = photo;
+			chat_name = name;
+			chat_openid =id;
+			$(".chat-history .layui-flow-more").html('<a href="#" onclick="getChatById();"><cite>加载更多</cite></a>');
+			$(".chat-history ul").html('');
+			getChatById();
+		}
+		
+		function getChatById() {
+			chat_page=$(".chat-history ul li").length;
+			var data = {
+				"operate": "getChatById",
+				"from": chat_openid,
+				"page":chat_page
+			};
+			Ajax(ajax_getChatById, data);
+		}
+
+		function ajax_getInviteById(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				session = obj.session;
+				user_id = session.userid;
+				console.log(ary);
+
+				var content = '<ul class="layui-timeline">';
+				for (let i = 0; i < ary.length; i++) {
+					if (session.openid == ary[i].to) {
+						var str_from = '<img name="invite_photo" id="invite_photo" src="' + invite_photo + '" class="layui-nav-img">' +
+							invite_name;
+					} else {
+						var str_from = '<img name="invite_photo" id="invite_photo" src="' + decodeURIComponent(session.photo) +
+							'" class="layui-nav-img">' + decodeURIComponent(session.nickname);
+					}
+					content +=
+						'<li class="layui-timeline-item">\
+									<i class="layui-icon layui-timeline-axis"></i>\
+									<div class="layui-timeline-content layui-text">\
+										<h3 class="layui-timeline-title">' +
+						str_from + '&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-time" ></i>  			<font size="1px" color="#666666" >' +
+						getDateString(parseInt(ary[i].create_time) * 1000) + '</font></h3>\
+										<p>\
+											' + INVITE_STR[
+							ary[i].status] + '\
+											<br>时间：' + getDateString(parseInt(ary[i].meet_time) * 1000) +
+						'\
+											<br>地点：<a href="#" onclick = "openMap('+ary[i].addr+')">' + OFFLINE_STORE[ary[i].addr] + '</a>\
+										</p>\
+									</div>\
+								</li>';
+				}
+				content += '</ul>';
+				layer.closeAll();
+				var msg_to = session.openid == ary[0].to ? ary[0].from : ary[0].to;
+				var yes, btn1, btn2, btn3, btn4, btn5;
+				if (ary[0].to == session.openid) {
+					switch (parseInt(ary[0].status)) {
+						case 0:
+							var btn = ['确定'];
+							yes = function(index, layero) {
+								layer.close(index);
+							};
+
+							break;
+						case 1:
+							var btn = ['接受', '修改', '拒绝', '关闭'];
+							yes = function(index, layero) {
+								var data = {
+									"operate": "sendMsg",
+									"to": msg_to,
+									"lab": "invite",
+									"status": 3,
+									"addr": ary[0].addr,
+									"meet_time": ary[0].meet_time
+								};
+								Ajax(ajax_sendMsg, data);
+							};
+							btn2 = function(index, layero) {
+								updateInvite(msg_to);
+							};
+							btn3 = function(index, layero) {
+								if (confirm("确定要拒绝对方吗？")) {
+									var data = {
+										"operate": "sendMsg",
+										"to": msg_to,
+										"lab": "invite",
+										"status": 5,
+										"addr": ary[0].addr,
+										"meet_time": ary[0].meet_time
+									};
+									Ajax(ajax_sendMsg, data);
+								} else {
+									return false;
+								}
+							};
+							btn4 = function(index, layero) {
+								layer.close(index);
+							};
+							break;
+						case 2:
+							var btn = ['接受', '修改', '拒绝', '关闭'];
+							yes = function(index, layero) {
+								var data = {
+									"operate": "sendMsg",
+									"to": msg_to,
+									"lab": "invite",
+									"status": 3,
+									"addr": ary[0].addr,
+									"meet_time": ary[0].meet_time
+								};
+								Ajax(ajax_sendMsg, data);
+							};
+							btn2 = function(index, layero) {
+								updateInvite(msg_to);
+							};
+							btn3 = function(index, layero) {
+								if (confirm("确定要拒绝对方吗？")) {
+									var data = {
+										"operate": "sendMsg",
+										"to": msg_to,
+										"lab": "invite",
+										"status": 5,
+										"addr": ary[0].addr,
+										"meet_time": ary[0].meet_time
+									};
+									Ajax(ajax_sendMsg, data);
+								} else {
+									return false;
+								}
+							};
+							btn4 = function(index, layero) {
+								layer.close(index);
+							};
+
+							break;
+						case 3:
+							var btn = ['取消约会', '关闭'];
+							yes = function(index, layero) {
+								var data = {
+									"operate": "sendMsg",
+									"to": msg_to,
+									"lab": "invite",
+									"status": 0,
+									"addr": ary[0].addr,
+									"meet_time": ary[0].meet_time
+								};
+								Ajax(ajax_sendMsg, data);
+							};
+							btn2 = function(index, layero) {
+								layer.close(index);
+							};
+
+							break;
+						case 4:
+							var btn = ['关闭'];
+							yes = function(index, layero) {
+								layer.close(index);
+							};
+							break;
+						case 5:
+							var btn = ['关闭'];
+							yes = function(index, layero) {
+								layer.close(index);
+							};
+							break;
+						default:
+							break;
+					}
+				} else {
+					var btn = ['关闭'];
+					yes = function(index, layero) {
+						layer.close(index);
+					};
+
+				}
+
+				layer.open({
+					type: 1 //此处以iframe举例
+						,
+					title: '邀约进度',
+					area: ['350px', '280px'],
+					shade: 0,
+					maxmin: true,
+					offset: "auto",
+					content: content,
+					btn: btn,
+					yes: yes,
+					btn2: btn2,
+					btn3: btn3,
+					btn4: btn4,
+					btn5: btn5,
+					zIndex: layer.zIndex //重点1
+						,
+					success: function(layero) {
+						layer.setTop(layero); //重点2
+					}
+				});
+			}
+		}
+		
+		function openMap(obj){
+			layer.open({
+				type: 1 //此处以iframe举例
+					,
+				title: '一瓢婚恋-线下咖啡馆位置',
+				area: ['350px', '400px'],
+				// content: "map.html?addr="+obj,
+				content: "<iframe width='350' height='300' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='https://surl.amap.com/1uyiP2Qbnv'></iframe>",
+				shadeClose: true,
+				shade: 0.8,
+				zIndex: layer.zIndex //重点1
+					,
+			});
+		}
+
+		function ajax_getChatById(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				if (chat_page==0) {
+					$(".chat-header").html(
+						'<img src="'+chat_photo+'" alt="avatar" height="55px" />\
+											<div class="chat-about">\
+												<div class="chat-with">'+chat_name+'</div>\
+												<div class="chat-num-messages">一共有'+ary.length+'条通信</div>\
+											</div>\
+											<i class="fa fa-star"></i>'
+					);
+				}
+				if(ary==null||ary=="null"||ary.length<10){
+					$(".chat-history .layui-flow-more").html("没有更多消息了");
+				}
+				if(ary != null && ary != "null"){
+					for (let i = 0; i < ary.length; i++) {
+						switch (ary[i].lab){
+							case "img":
+								var str_msg='<img src="'+decodeURIComponent(ary[i].desc.url)+'" style="max-width: 100%;">';
+								break;
+							case "audio":
+								var str_msg='audio';
+								break;
+							case "video":
+								var str_msg='video';
+								break;
+							default:
+								var str_msg=ary[i].lab;
+								break;
+						}
+						if(ary[i].from==session.openid){
+							$(".chat-history ul").prepend(
+								'<li class="clearfix">\
+															<div class="message-data align-right">\
+																<span class="message-data-time">'+getDateString(parseInt(ary[i]["create_time"])*1000)+'</span> &nbsp; &nbsp;\
+																<span class="message-data-name">'+decodeURIComponent(session.nickname)+'</span> <i class="layui-badge-dot layui-bg-blue"></i>\
+															</div>\
+															<div class="message other-message float-right">\
+																'+str_msg+'\
+															</div>\
+														</li>'
+							);
+						}else{
+							$(".chat-history ul").prepend('<li>\
+													<div class="message-data">\
+														<span class="message-data-name"><i class="layui-badge-dot layui-bg-green"></i>'+chat_name+'</span>\
+														<span class="message-data-time">'+getDateString(parseInt(ary[i]["create_time"])*1000)+'</span>\
+													</div>\
+													<div class="message my-message">\
+														'+str_msg+'\
+													</div>\
+												</li>'
+							);
+						}
+						
+					}
+				}
+				chat.initVal({
+					send_name:decodeURIComponent(session.nickname),
+					response_name:chat_name,
+					to:(ary[0].from==session.openid?ary[0].to:ary[0].from)
+				});
+				
+				if (chat_page==0) {
+					chat.scrollToBottom();
+				}else{
+					$(".chat-history ul li")[ary.length-1].scrollIntoView();
+				}
+			}
+		}
+
+		function updateInvite(to) {
+			var addr_str = "";
+			for (let i = 0; i < OFFLINE_STORE.length; i++) {
+				addr_str += "<option value='" + i + "'>" + OFFLINE_STORE[i] + "</option>"
+			}
+			var content =
+				'	<div class="layui-form-item">\
+								<div class="layui-inline">\
+									<label class="layui-form-label">时间</label>\
+									<div class="layui-input-block">\
+										<input type="text" name="date" id="date"  lay-verify="required"  placeholder="请选择邀约时间" autocomplete="off" class="layui-input">\
+									</div>\
+								</div>\
+							</div>\
+							<div class="layui-form-item">\
+								<label class="layui-form-label">地点</label>&nbsp;&nbsp;&nbsp;\
+								<div class="layui-inline">\
+									<select name="addr" id="addr"  lay-verify="required" lay-skin="select" class="layui-select">\
+										' +
+				addr_str + '\
+									</select>\
+								</div>\
+							</div>';
+			layer.open({
+				type: 1 //此处以iframe举例
+					,
+				title: '请选择邀请时间与地点',
+				area: ['500px', '260px'],
+				shade: 0,
+				maxmin: true,
+				offset: "auto",
+				content: content,
+				btn: ['提交', '关闭'],
+				yes: function(index, layero) {
+					layer.load();
+					var date = $("#date").val();
+					var addr = $("#addr").val();
+					if ("" == date) {
+						return false;
+					} else {
+						var meet_time = Date.parse(new Date(date)) / 1000;
+						var data = {
+							"operate": "sendMsg",
+							"lab": "invite",
+							"to": to,
+							"status": 2,
+							"addr": addr,
+							"meet_time": meet_time
+						};
+						Ajax(ajax_sendMsg, data);
+					}
+				},
+				btn2: function(index, layero) {
+					layer.closeAll();
+				},
+				zIndex: layer.zIndex //重点1
+					,
+				success: function(layero) {
+					layer.setTop(layero); //重点2
+					layui.laydate.render({
+						elem: '#date',
+						type: 'datetime',
+						value: new Date(),
+						min: 0
+					});
+				}
+			})
+		}
+
+
+		function ajax_sendMsg(obj) {
+			if (obj.Code > 0) {
+				layer.closeAll();
+				layer.msg(obj.Msg);
+			} else {
+				// var ary = JSON.parse(obj.Result);
+				// console.log(ary);
+				layer.closeAll();
+				layer.msg("操作成功！");
+			}
+		}
+		
+		layui.upload.render({
+			elem: '#upload-img'
+			,multiple: true
+			,url: ""
+			,accept:"images"
+			,size:2048
+			,field:'imgfile'
+			,acceptMime:'image/*'
+			,choose: function(obj){
+				var item=this.item;
+				console.log(item);
+				files = this.files = obj.pushFile();  //将每次选择的文件追加到文件队列
+				lab = "chat";
+				newfile = "img/chat/" + user_id + "/";
+				obj.preview(function (index, file, result) {
+					// $("img[name='touxiang']").attr("src",result);
+				});
+				
+				this.url = "../upload.php?file="+encodeURIComponent( newfile );
+				this.url += "&file_id="+this.field;	
+				this.url += "&uid=web";
+			},before: function(obj){
+				layer.load(1);
+			}
+			,done: function(data,index){
+			  //上传完毕
+			  if(typeof(data.msg) != 'undefined'){
+				if(data.msg == ''){
+					delete files[index];
+					chat.messageToSend=data.url;
+					chat.renderImg();
+					
+				}else {
+					layer.msg(decodeURIComponent(data.msg));
+				}
+			  }else{
+				  layer.msg("发送异常");
+			  }
+			  layer.closeAll('loading'); //关闭loading
+			}
+			,error: function(){
+				//请求异常回调
+				layer.msg("请求异常!");
+				layer.closeAll('loading'); //关闭loading
+			}
+		});
+		
+		layui.upload.render({
+			elem: '#upload-video'
+			,multiple: true
+			,url: ""
+			,accept:"video"
+			,acceptMime:'video/*'
+			,size:2048
+			,field:'videofile'
+			,choose: function(obj){
+				var item=this.item;
+				console.log(item);
+				files = this.files = obj.pushFile();  //将每次选择的文件追加到文件队列
+				lab = "chat";
+				newfile = "video/chat/" + user_id + "/";
+				obj.preview(function (index, file, result) {
+					// $("img[name='touxiang']").attr("src",result);
+				});
+				
+				this.url = "../upload.php?file="+encodeURIComponent( newfile );
+				this.url += "&file_id="+this.field;	
+				this.url += "&uid=web";
+			},before: function(obj){
+				layer.load(1);
+			}
+			,done: function(data,index){
+			  //上传完毕
+			  if(typeof(data.msg) != 'undefined'){
+				if(data.msg == ''){
+					delete files[index];
+					var data ={"operate":"addImg","lab":lab,"url":data.url};
+					if(lab=='headicon'){//头像修改
+						let i = {"operate":"updateImg","id":user_id,"photo":data.url};
+						Ajax(function(obj){
+							if(obj.Code>0)layer.msg(obj.Msg);
+							else {
+								var ary = JSON.parse(obj.Result); 
+								console.log(ary);
+								window.location.reload();
+							}
+						},i);
+					}
+					Ajax(ajax_addImg,data);
+				}else {
+					layer.msg(decodeURIComponent(data.msg));
+				}
+			  }else{
+				  layer.msg("图片上传异常");
+			  }
+			  layer.closeAll('loading'); //关闭loading
+			}
+			,error: function(){
+				//请求异常回调
+				console.log("图片上传失败!");
+				layer.closeAll('loading'); //关闭loading
+			}
+		});
+		
+		// $(window).scroll(function () {
+		// 	var wst = $(window).scrollTop(); //滚动条距离顶端值
+		// 	if(wst <= 10){
+		// 		if(chat_page<chat_pages){
+					
+		// 		}else{
+					
+		// 		}
+		// 	}else{
+		// 		$(".").attr("class","layui-hide");
+		// 	}
+		// });
+		
+	</script>
+</html>

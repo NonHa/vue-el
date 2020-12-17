@@ -1,0 +1,34 @@
+<template>
+  <div>
+    <van-radio-group v-model="radio" >
+      <van-radio icon-size="0.1rem" v-for="(item, index) in radioList"  :name="index" :key="index">
+        {{ item.value }}
+        <template #icon="props">
+          <img  class="img-icon" :src="props.checked ? activeIcon : inactiveIcon" />
+        </template>
+      </van-radio>
+      
+    </van-radio-group>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    radioList: {
+      type: Array
+    }
+  },
+  data() {
+    return {
+      radio: '1',
+      inactiveIcon: 'http://chuantu.xyz/t6/741/1603512027x-1224481926.png',
+     activeIcon: 'http://chuantu.xyz/t6/741/1603512070x992248267.png',
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  
+</style>

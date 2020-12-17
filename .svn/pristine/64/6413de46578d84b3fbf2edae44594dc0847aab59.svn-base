@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>搜索中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<link  rel="stylesheet" type="text/css" href="css/main.css">
+		<style type="text/css">
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 导航栏 -->
+			<div class="layui-header layui-bg-black layui-hide-xs">
+				<div class="layui-main">
+					<div class="layui-logo" style="color:Aqua;">
+						<h1>一瓢婚恋网</h1>
+					</div>
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="../index.html">首页</a></li>
+						<li class="layui-nav-item">
+							<a href="#">会员群体</a>
+							<dl class="layui-nav-child">
+								<dd><a href="vip.html?v=creater">联合创始人</a></dd>
+								<dd><a href="vip.html?v=vip">名士/名媛</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="physical_store.html">实体门店</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-right">
+						<li class="layui-nav-item"><a href="message.html">消息<span class="layui-badge-dot"></span></a></li>
+						<li class="layui-nav-item">
+							<a href="userbase.html" id=""><img name="touxiang" id="touxiang" src="img/default.jpg" class="layui-nav-img">
+								<font id="nickname">我</font>
+							</a>
+							<dl class="layui-nav-child">
+								<dd><a href="userbase.html">基本资料</a></dd>
+								<dd><a href="security.html">安全设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a id="login" href="#" onclick="login1()" role="button" class="" data-toggle="modal">登录</a></li>
+						<li class="layui-nav-item"><a href="#" id="exit" onclick="exit()" class="">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 主页面 -->
+			<div id="" class="layui-container">
+				<br><br><br>
+				<div class="layui-layout-right" style="margin-top: 50px;">
+					<input class=" layui-input-block" type="" name="" id="idsearch" value="" placeholder="通过ID或昵称搜索" />
+					<button class="layui-btn btn-default" onclick="usersearch()"> <i class="layui-icon layui-icon-search"></i>
+					</button>
+				</div>
+
+				<form class="layui-form" lay-filter="basesearch" method="post">
+					<blockquote class="layui-elem-quote">
+						基本搜索：
+					</blockquote>
+					<div class="layui-form-item">
+						<label class="layui-form-label">性别</label>
+						<div class="layui-input-inline">
+							<select name="sex" type="text" class="layui-input">
+								<option value="-1">请选择性别</option>
+								<option value="1">男</option>
+								<option value="2">女</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">年龄</label>
+						<div class="layui-input-inline small-col">
+							<select name="min_age" lay-filter="min_age" lay-skin="select">
+								<option value="-1">不限</option>
+							</select>
+						</div>
+						<div class="layui-form-mid">至</div>
+						<div class="layui-input-inline small-col">
+							<select name="max_age" lay-filter="max_age" lay-skin="select">
+								<option value="-1">不限</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">身高(cm)</label>
+						<div class="layui-input-inline small-col">
+							<select name="min_height" lay-filter="min_height" lay-skin="select">
+								<option value="-1">不限</option>
+							</select>
+						</div>
+						<div class="layui-form-mid">至</div>
+						<div class="layui-input-inline small-col">
+							<select name="max_height" lay-filter="max_height" lay-skin="select">
+								<option value="-1">不限</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">体重(kg)</label>
+						<div class="layui-input-inline small-col">
+							<select name="min_weight" lay-filter="min_weight" lay-skin="select">
+								<option value="-1">不限</option>
+							</select>
+						</div>
+						<div class="layui-form-mid">至</div>
+						<div class="layui-input-inline small-col">
+							<select name="max_weight" lay-filter="max_weight" lay-skin="select">
+								<option value="-1">不限</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="layui-form-item" id="area-picker">
+						<div class="layui-form-label">工作地点</div>
+						<div class="layui-input-block" style="max-width: 190px;">
+							<select name="province" class="province-selector" data-value="不限省" lay-verify="required" id="province-1"
+							 lay-filter="province-1">
+								<option value="">请选择省</option>
+							</select>
+						</div>
+						<div class="layui-form-label"></div>
+						<div class="layui-input-block" style="max-width: 190px;">
+							<select name="city" class="city-selector" data-value="不限市" lay-verify="required" id="city-1" lay-filter="city-1">
+								<option value="">请选择市</option>
+							</select>
+						</div>
+						<div class="layui-form-label"></div>
+						<div class="layui-input-block" style="max-width: 190px;">
+							<select name="county" class="county-selector" data-value="不限区" lay-verify="required" id="county-1" lay-filter="county-1">
+								<option value="">请选择区</option>
+							</select>
+						</div>
+					</div>
+					<div id="vipsearch">
+						<blockquote class="layui-elem-quote">
+							会员搜索：
+						</blockquote>
+						<div class="layui-form-item">
+							<label class="layui-form-label">学历</label>
+							<div class="layui-input-inline">
+								<select name="education"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="1">高中</option>
+									<option value="2">专科</option>
+									<option value="3">本科</option>
+									<option value="4">硕士</option>
+									<option value="5">博士</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">月收入</label>
+							<div class="layui-input-block ">
+								<select name="min_salary"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="1">3000</option>
+									<option value="2">5000</option>
+									<option value="3">8000</option>
+									<option value="4">12000</option>
+									<option value="5">20000</option>
+									<option value="6">50000</option>
+								</select>
+							</div>
+							<div class="layui-form-mid">至</div>
+							<div class="layui-input-block">
+								<select name="max_salary"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="1">3000</option>
+									<option value="2">5000</option>
+									<option value="3">8000</option>
+									<option value="4">12000</option>
+									<option value="5">20000</option>
+									<option value="6">50000</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">婚姻状况</label>
+							<div class="layui-input-inline">
+								<select name="marital_status"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="0">未婚</option>
+									<option value="1">离异</option>
+									<option value="2">丧偶</option>
+								</select>
+							</div>
+							<label class="layui-form-label">烟</label>
+							<div class="layui-input-inline">
+								<select name="smoke"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="0">不接受吸烟</option>
+									<option value="1">可以偶尔抽一点</option>
+									<option value="2">可以经常抽烟</option>
+								</select>
+							</div>
+							<label class="layui-form-label">酒</label>
+							<div class="layui-input-inline">
+								<select name="drink"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="0">不接受喝酒</option>
+									<option value="1">可以偶尔喝一点</option>
+									<option value="2">可以经常喝酒</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">家庭状况</label>
+							<div class="layui-input-inline">
+								<select name="family_status"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="0">未婚</option>
+									<option value="1">离异</option>
+									<option value="2">丧偶</option>
+								</select>
+							</div>
+							<label class="layui-form-label">经济条件</label>
+							<div class="layui-input-inline">
+								<select name="money_status"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="0">要有房</option>
+									<option value="1">要有车</option>
+									<option value="2">房车均有</option>
+								</select>
+							</div>
+							<label class="layui-form-label">是否要孩子</label>
+							<div class="layui-input-inline">
+								<select name="child_status"  lay-skin="select">
+									<option value="-1">不限</option>
+									<option value="0">不要孩子</option>
+									<option value="1">要孩子</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				<div style="width: 100%;">
+					<button lay-submit class="layui-btn layui-btn-fluid" >筛选</button>
+				</div>
+				</form>
+				<div class="">
+					<fieldset class="layui-elem-field layui-field-title" align="center">
+						<legend>搜索结果</legend>
+					</fieldset>
+					<div class="layui-row layui-col-space5">
+						<!--流加载-->
+						<ul class="flow-default userflow"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 右下角边栏 -->
+		<div style="position: fixed; right: 20px; bottom: 100px; z-index: 50;" class="layui-hide-xs">
+			<ul>
+				<li title="联系客服">
+					<div id="callme" class="clickItem"><i class="layui-icon layui-icon-service" style="font-size: 50px; color: #ff007f;"></i></div>
+				</li>
+				<li title="关注我们">
+					<div id="showqr" class="clickItem"><i class="layui-icon layui-icon-star" style="font-size: 50px; color: #aaff7f;"></i></div>
+				</li>
+				<li title="回到顶部">
+					<div id="toTop" class="clickItem"><i class="layui-icon layui-icon-top" style="font-size: 50px; color: #55aaff;"></i></div>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/util.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/data.js"></script>
+	<script src="js/search.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function() {
+			add_ahw();
+			Ajax(function(obj){
+				if(obj.Code>0)alert(obj.Msg);
+				else {
+					session = obj.session;
+					user_id = session.userid;
+					checkLogin();
+					showdata(obj);
+					if (!session.isvip || session.isvip == 0) {
+						var readForm = layui.$('[lay-filter="vipsearch"]');
+						readForm.find('input,textarea,select').prop('disabled', true);
+						readForm.find('.layui-layedit iframe').contents().find('body').prop('contenteditable', false);
+						$("#vipsearch").on('click',checkvip);
+						layui.form.render();
+					}
+				}
+			} , {"operate": "getRecommend"});
+			
+		});
+	</script>
+
+</html>

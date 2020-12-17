@@ -1,0 +1,176 @@
+<template>
+  <div style="background: #FFF0F0; padding-bottom: 1rem">
+     <img class="vip_img" src="../../assets/pic_love_detail_pages.png" alt="">
+    <div style="background: #FFF0F0">
+      <van-radio-group v-model="radio">
+        <van-cell-group >
+          <van-cell v-for="(item, index) in optionList" :title="item.name" clickable @click="radio = index" :key="index">
+            <template #right-icon>
+              <div class="price">{{ item.price }}</div>
+              <van-radio :name="index" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+
+      <div class="link_content">
+          <div class="base_search">
+            <div class="main_title">
+              <span>权益说明</span>
+            </div>
+          </div>
+
+          <div class="common">
+            线下8折消费+建档+线上IP+VIP一对一；介绍5次+线上不限次数邀约。
+          </div>
+          <div class="time_area">
+           服务期：3年
+          </div>
+      </div>
+      <div class="link_content_btn">
+        
+       <van-button  type="primary" >立即开通</van-button>
+        <van-button class="link_phone" type="primary" >联系顾问</van-button>
+    </div>
+     
+    </div> 
+
+  </div>
+</template>
+
+<script>
+import Radio from '../components/Radio'
+
+export default {
+  components: { Radio },
+  props: {},
+
+  watch: {
+   
+    $route(to, from) {
+      if (from.path == '/home/message') {
+         this.stateMes = this.sucState
+      } else if (from.path == '/customer/visite') {
+          this.state = '邀约待接受'
+      }
+      
+    }
+  },
+  data() {
+    return {
+      radio: '',
+       optionList: [
+        
+          { name: '联合创始人', price: '¥20000' }, 
+          { name: '钻石会员', price: '¥20000' }, 
+          { name: '精英会员', price: '¥10000' }, 
+          { name: '普通会员', price: '¥3800' }, 
+          { name: '候选人', price: '¥399' }, 
+          
+      ],
+    }
+  },
+  created() {
+      this.actionsOption = this.actions
+    
+  },
+  methods: {
+    goBackHome() {
+      this.$router.push({ name: 'Mine' })
+    },
+     getItem(val) {
+       if (val == 0) {
+         this.actionsOption = this.actions
+       } else {
+         this.actionsOption = this.actions2
+
+       }
+    },
+    afterRead() {
+
+    },
+    goVisite() {
+
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import '../../style/mixin';
+
+.vip_img {
+  width: 100%;
+}
+.van-cell-group {
+    width: 19.8rem;
+    margin-left: 0.7rem;
+    background: #FFF0F0
+}
+.van-cell {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.6rem;
+  background: #FFF9F2;
+  border-radius: 0.3rem;
+  border: 2px solid #CEA476;
+  @include wh(100%, 3.5rem);
+
+}
+.van-cell__title {
+ 
+    @include sc(0.9rem, #262B40);
+font-family: PingFangSC-Semibold, PingFang SC;
+font-weight: 600;
+line-height: 2.1rem;
+}
+.van-radio__icon {
+  height: 2.5rem;
+}
+.price {
+  position: absolute;
+  right: 3rem;
+  top: 0.9rem;
+  @include sc(0.8rem, #855C30);
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+}
+
+.common, .time_area {
+  @include sc(0.8rem, #262B40);
+  font-weight: 400;
+  line-height: 30px;
+}
+.base_search {
+  border: 0;
+}
+.time_area {
+  margin-top: 0.9rem;
+}
+.van-button--primary {
+    background-color: #404868;
+    border: 1px solid #404868;
+    
+    border-radius: 0.1rem;
+  }
+  .link_content_btn {
+  padding: 0 0.9rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+.link_content {
+  border: 0;
+}
+
+.link_phone {
+  margin-top: 1rem;
+  
+  background-color: #FFF0F0;
+}
+.van-radio  {
+  height: 2rem !important;
+}
+.link_phone .van-button__text {
+  color: #404868;
+}
+</style>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<form action="../webapi.php?r=0.111111111" method="post">
+			
+			<div class="">
+				<label>operate</label>
+				<input type="text" name="operate" placeholder="operate">
+			</div>
+				
+			<div class="">
+				<label><input type="text" placeholder="key" onchange="changeName('key1')"></label>
+				<input type="text" id="key1" name="key1" placeholder="val1">
+			</div>
+			
+			<div class="">
+				<label><input type="text" placeholder="key" onchange="changeName('key2')"></label>
+				<input type="text" id="key2" name="key2" placeholder="val2">
+			</div>
+			<div class="">
+				<label><input type="text" placeholder="key" onchange="changeName('key3')"></label>
+				<input type="text" id="key3" name="key3" placeholder="val3">
+			</div>
+			<div class="">
+				<label><input type="text" placeholder="key" onchange="changeName('key4')"></label>
+				<input type="text" id="key4" name="key4" placeholder="val4">
+			</div>
+			<div class="">
+				<label><input type="text" placeholder="key" onchange="changeName('key5')"></label>
+				<input type="text" id="key5" name="key5" placeholder="val5">
+			</div>
+			<div class="">
+				<label><input type="text" placeholder="key" onchange="changeName('key6')"></label>
+				<input type="text" id="key6" name="key6" placeholder="val6">
+			</div>
+			
+			<input type="submit" value="test"/>
+		</form>
+	</body>
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		var $=layer.$;
+		function changeName(obj){
+			var val = event.target.value;
+			document.getElementById(obj).setAttribute("name",val);
+			// $("#"+obj).Attr("name",val);
+		}
+	</script>
+</html>

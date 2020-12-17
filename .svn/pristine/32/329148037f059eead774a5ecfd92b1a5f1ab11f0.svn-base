@@ -1,0 +1,180 @@
+<template>
+  <div style="background-color: #F7F7F8" >
+    <!-- <NavBarHead class="nav_other_class" :title="title" :border="false" @goBack="goBackArticle" @showItem="showArticleItem"></NavBarHead> -->
+   
+   <BaseHeader @goHome="goBackHome" :sucState="visiteState" :headMes="headMes" :address="address" :success="true"></BaseHeader>
+   
+      
+    <div class="link_content_visite">
+        <span>{{ titleMes }}</span>
+        <span class="visite_content">{{ content }}</span>
+    </div>
+    <div class="button" >
+      <van-row v-if='!againVisite' gutter="8">
+        <van-col span="10">
+          <van-button plain class="btn_color" type="primary">取消邀约</van-button>
+           <!-- <van-button class="btn_color" type="primary" @click="goVisite">取消邀约</van-button> -->
+        </van-col>
+        <van-col span="14">
+          <van-button   type="primary" @click="goVisite">修改邀约</van-button>
+        </van-col>
+       
+      </van-row>
+     
+    </div>
+  </div>
+</template>
+
+<script>
+
+import NavBarHead from '../components/NavBarTab'
+import calendar from '../components/Calendar '
+import Radio from '../components/Radio'
+import BaseHeader from '../components/BaseHeader'
+export default {
+  components: { NavBarHead, calendar, Radio, BaseHeader},
+  data() {
+    return {
+      title: '',
+      titleMes: '您的邀约开场白：',
+      content: '严女士 你好，能否有幸约你线下见一面呢？',
+      headMes: '与 严女士 的线下邀约~',
+      address: '地点：长沙市岳麓区后湖一瓢婚恋书馆',
+      baseMessage: [
+        { name: '工作单位', filed: '长沙市周南中学'},
+        { name: '职业', filed: '教师'},
+        { name: '年收入', filed: '10w~20w'},
+        { name: '学历', filed: '本科'},
+        { name: '毕业学校', filed: '长沙理工大学'},
+        { name: '身高', filed: '160cm'},
+        { name: '体重', filed: '45kg'},
+        { name: '星座', filed: '处女座'},
+        { name: '婚姻状态', filed: '从未结婚'},
+      ],
+      showState: true,
+      visiteState: true,
+      againVisite: false,
+      radioList: [
+        { value: 'XXX你好，能否有幸约你线下见一面呢？'},
+        { value: '你好，很想更进一步认识你，可否能线下见面彼此了解一下呢？'},
+        { value: '有缘遇见你，希望能线下见面交个朋友~'},
+      ]
+    }
+  },
+  watch: {
+    $route: {
+      handler(val) {
+        console.log('val ->',val);
+       if (JSON.stringify(val.params) != '{}') {
+         console.log(val.params);
+          this.showState = val.params.state == 'SUC' ? false : true
+          this.againVisite = val.params.state == 'CAN' ? true : false
+          this.titleMes = '对方回复：'
+          this.content = val.params.state == 'SUC' ?   '有缘遇见你，愿我们有个愉快的约会~' : '抱歉！我无法赴约，祝愿你早日找到良人…'
+          
+          if (val.params.state == 'SUC') {
+            this.visiteState = true
+          } else {
+            this.visiteState = false
+
+          }
+          console.log( 'state ->',this.visiteState);
+       } else {
+         console.log('111');
+          this.titleMes = '您的邀约开场白：'
+          this.content = '严女士 你好，能否有幸约你线下见一面呢？' 
+          
+          
+       }
+      }
+    }
+  },
+  methods: {
+    goBackHome() {
+      this.$router.push({ path: '/customer/visite'})
+    },
+    showHomeItem() {
+
+    },
+    goMoreMes() {
+      this.$router.push({ path: '/customer/message'})
+
+    },
+    goMoreChoose() {
+      this.$router.push({ path: '/customer/choose'})
+
+    },
+    goVisite() {
+      this.$router.push({ path: '/customer/visite'})
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+  .link_content_visite {
+    margin-top: 6rem;
+    margin-left: 0.9rem;
+     @include wh(19.6rem, 6.5rem);
+   font-family: PingFangSC-Semibold, PingFang SC;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    // @include wh(19.6rem, 12rem);
+
+
+  }
+  .link_content_visite span{
+    @include sc(0.9rem,#323232);
+   font-weight: 600;
+    margin-left: 1.1rem;
+    line-height: 3.1rem;
+    display: inline-block;
+  }
+  .link_content_visite .visite_content {
+    @include sc(0.8rem,#262B40);
+    font-weight: 400;
+
+    line-height: 1.1rem;
+  }
+  .button {
+   position: fixed;
+   bottom: 0;
+    width: 19.6rem;
+    margin-left: 0.9rem;
+  }
+  .van-button--primary {
+    background-color: #FF807B;
+    @include sc(0.9rem,#FFFFFF);
+    border: 1px solid #FF807B;
+     @include wh(100%, 2.5rem);
+
+  }
+  .btn_color {
+   
+    background-color: #fff;
+  }
+  .btn_color .van-button__text {
+       @include sc(0.9rem,#FF807B);
+
+  }
+  .caledar_item {
+    margin-top: 5rem;
+    margin-left: 0.9rem;
+    width: 19.6rem;
+    
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+  }
+  .link_content {
+    overflow: hidden;
+  }
+  .link_content, .base_search {
+    background-color: #FFFFFF;
+  }
+   .base_search {
+     margin-top: 0.9rem;
+   }
+</style>

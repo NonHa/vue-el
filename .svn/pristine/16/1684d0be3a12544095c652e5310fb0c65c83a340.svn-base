@@ -1,0 +1,62 @@
+<template>
+  <div>
+     <div class="link_content">
+        <div class="base_search">
+          <div class="main_title">
+            <span>基本资料</span>
+          </div>
+          <Cell :cellList="cellList"></Cell>
+        </div>
+        
+      </div>
+      <div class="link_content">
+        <div class="base_search">
+          <div class="main_title">
+            <span>详细资料</span>
+          </div>
+          <Cell :cellList="cellList2"></Cell>
+        </div>
+        
+      </div>
+  </div>
+</template>
+
+<script>
+import Cell from '../components/Cell'
+
+export default {
+   components: { Cell },
+  data() {
+    return {
+      cellList: [
+        { title: 'ID', value: '689024'},
+        { title: '年龄', value: '22岁'},
+        { title: '身高', value: '160cm'},
+        { title: '体重', value: '45kg'},
+        { title: '星座', value: '处女座'},
+        { title: '年收入', value: '10w~20w'},
+        { title: '学历', value: '本科'},
+        { title: '生活工作地', value: '长沙-天心区'},
+        { title: '职业', value: '教师'},
+        { title: '期望结婚时间', value: '三年内'},
+      ],
+       cellList2: [
+        { title: '民族', value: '汉族'},
+        { title: '户籍', value: '湖南-益阳'},
+        { title: '饮酒', value: '无'},
+        { title: '吸烟', value: '无'},
+        { title: '房产情况', value: '无'},
+        { title: '车辆情况', value: '大众'},
+        { title: '婚姻状态', value: '从未结婚'},
+        { title: '有无子女', value: '无'},
+        
+      ]
+    }
+  },
+  
+}
+</script>
+
+<style lang="scss" scoped>
+  
+</style>

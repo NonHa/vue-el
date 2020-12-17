@@ -1,0 +1,284 @@
+<template>
+  <div style="background-color: #F7F7F8" >
+    <!-- <NavBarHead class="nav_other_class" :title="title" :border="false" @goBack="goBackArticle" @showItem="showArticleItem"></NavBarHead> -->
+   
+   <setCancel @goHome="goBackHome" :accept="true" :address="address" :headMes="headMes"></setCancel>
+  
+    <div class="link_content">
+        <div class="link_content_visite">
+          <span>自动回复：</span>
+          <span class="visite_content">抱歉！我无法赴约，祝愿你早日找到良人…</span>
+      </div>
+     <div class="button" >
+       <van-row >
+       
+        <van-col span="24">
+          <van-button   type="primary" @click="goVisite">重新邀约</van-button>
+        </van-col>
+       
+      </van-row>
+    </div>
+      <!-- <van-row  gutter="8">
+        <van-col span="10">
+          <van-button plain class="btn_color" type="primary" @click="dotAcceptVisite">拒绝邀约</van-button> -->
+           <!-- <van-button class="btn_color" type="primary" @click="goVisite">取消邀约</van-button> -->
+        <!-- </van-col>
+        <van-col span="14">
+          <van-button   type="primary" @click="AcceptVisite">接受邀约</van-button>
+        </van-col>
+       
+      </van-row>
+      <div class="wanring">
+        *对方还未完成实名认证，请您谨慎接受邀约
+      </div> -->
+    </div>
+      
+     
+  </div>
+</template>
+
+<script>
+
+import NavBarHead from '../components/NavBarTab'
+import calendar from '../components/Calendar '
+import Radio from '../components/Radio'
+import BaseHeader from '../components/BaseHeader'
+import setCancel from '../components/setCancel'
+export default {
+  components: { NavBarHead, calendar, Radio, setCancel},
+  data() {
+    return {
+      title: '',
+      headMes: '已拒绝TA的邀约',
+      address: '地点：长沙市岳麓区后湖一瓢婚恋书馆',
+      baseMessage: [
+        { name: '工作单位', filed: '长沙市周南中学'},
+        { name: '职业', filed: '教师'},
+        { name: '年收入', filed: '10w~20w'},
+        { name: '学历', filed: '本科'},
+        { name: '毕业学校', filed: '长沙理工大学'},
+        { name: '身高', filed: '160cm'},
+        { name: '体重', filed: '45kg'},
+        { name: '星座', filed: '处女座'},
+        { name: '婚姻状态', filed: '从未结婚'},
+      ],
+      radioList: [
+        { value: '很高兴认识你，我们一瓢婚恋馆见~'},
+        { value: '有缘遇见你，愿我们有个愉快的约会~'},
+        
+      ]
+    }
+  },
+  methods: {
+    goBackHome() {
+      this.$router.push({ path: '/home/message'})
+    },
+    showHomeItem() {
+
+    },
+    goMoreMes() {
+      this.$router.push({ path: '/customer/message'})
+
+    },
+    goMoreChoose() {
+      this.$router.push({ path: '/customer/choose'})
+
+    },
+    goVisite() {
+       this.$dialog.confirm({
+                    title: '温馨提示',
+                    message: '线下邀请已成功发送，请您耐心等待对方的回应。',
+                    showConfirmButton: true,
+                    showCancelButton: false
+                }).then(() => {
+                  this.$router.push({ path: '/customer/visiteSuccess'})
+                    // 点击确定按钮时做什么？
+                }).catch(() => {
+                    // on cancel
+                });
+
+    },
+     dotAcceptVisite() {
+      this.$router.push({ name: 'acceptVisite', params: { state: 'cancel'}})
+      
+    },
+     AcceptVisite() {
+      this.$router.push({ name: 'acceptVisite', params: { state: 'accept'}})
+
+    },
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+  
+
+  .nav_other_class {
+    background-color: rgba(0,0,0,0) !important;
+    // opacity: 0
+  }
+  
+ 
+  
+  .like_num {
+   height: 0.9rem;
+    @include sc(0.8rem, #8C8C8C);
+
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+
+    line-height: 0.9rem;
+  }
+
+  
+  .van-row {
+   
+    height: 2rem;
+    color: #646464 !important;
+    font-size: 0.8rem !important;
+      // @include sc(0.8rem,#646464);
+    font-family: PingFangSC-Regular, PingFang SC !important;
+    font-weight: 400 !important;
+    
+    line-height: 2rem;
+  }
+  .introduce_mes {
+    @include sc(0.9rem,#646464);
+    margin-top: 0.9rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    line-height: 1.1rem;
+  }
+  .van-grid-item:last-child .van-image::before {
+    content: '';
+    position: absolute;
+    
+      @include wh(100%, 100%);
+   
+    opacity: 0.39;
+    background-color: #000;
+
+  }
+  
+  .link_content_visite {
+    margin-left: 0;
+   
+  }
+  .more_picture {
+    position: absolute;
+    @include sc(1rem,#FFFFFF);
+    
+  }
+
+  .sure_check {
+      @include wh(100%, 6.5rem);
+      background: #FAFAFA;
+      border-radius: 0.3rem;
+      margin-top: 0.9rem;
+      border: 2px solid #E0E0E0;
+      display: flex;
+  }
+  .sure_check div {
+    padding: 0.9rem;
+    text-align: center;
+    flex: 1;
+  }
+  .sure_check img {
+    display: block;
+    margin-left: 0.8rem;
+      @include wh(3.2rem, 3.2rem);
+
+  }
+  .sure_check span {
+    @include sc(0.8rem,#262B40);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    
+    line-height: 24px;
+  }
+  .van-tag--primary.van-tag--plain {
+    @include sc(0.8rem,#505050);
+
+  }
+  .van-tag--primary {
+    background-color: #F6F6F6;
+  }
+  .van-tag {
+    border: 0;
+    margin-left: 0.3rem;
+    margin-top: 0.4rem;
+    padding: 0.4rem 1rem;
+    
+  }
+  .lw_look {
+    @include wh(3.2rem, 3.2rem);
+  }
+
+  .gave_more {
+      @include wh(100%, 6.5rem);
+      display: flex;
+  }
+  .gave_more .sure_name {
+    padding: 0.9rem;
+    text-align: center;
+    flex: 1;
+   
+
+  }
+  .sure_name div {
+     @include wh(5rem, 5rem);
+    border-radius: 50%;
+    border: 1px solid #fff;
+  }
+  .pink {
+    // border: 1px solid ;
+   
+    box-shadow: 0px 6px 30px 0px rgba(255, 128, 123, 0.3);
+    
+  }
+  
+ 
+ 
+  .van-button--primary {
+    background-color: #FF807B;
+    @include sc(0.9rem,#FFFFFF);
+    border: 1px solid #FF807B;
+     @include wh(100%, 2.5rem);
+
+  }
+ 
+  .link_content {
+    margin-top: 6rem;
+    overflow: hidden;
+  }
+  .link_content, .base_search {
+    background-color: #FFFFFF;
+  }
+   .base_search {
+     margin-top: 0.9rem;
+   }
+
+   .btn_color {
+   
+    background-color: #fff;
+  }
+  .btn_color .van-button__text {
+       @include sc(0.9rem,#FF807B);
+
+  }
+  .wanring {
+       @include sc(0.7rem,#404868);
+       text-align: center;
+    font-family: PingFangSC-Regular, PingFang SC;
+    margin-top: 0.9rem;
+    line-height: 0.9rem;
+  }
+
+  .button {
+   position: fixed;
+   bottom: 0;
+    width: 19.6rem;
+    // margin-left: 0.9rem;
+  }
+</style>

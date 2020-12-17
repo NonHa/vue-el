@@ -1,0 +1,200 @@
+<template>
+  <div>
+     <div class="img_show">
+        <img  src="../../assets/bg_ invitation_pink.png" alt="">
+        <div class="go_back_right">
+          <img @click="goBackHome" src="../../assets/icon_return_white.png" alt="">
+        </div>
+        <div class="show_more_left">
+          <img src="../../assets/icon_more_white.png" alt="">
+        </div>
+        <div class="mesVisite">
+          {{ headMes }}
+        </div>
+      <div v-if="!success && !visiteDone && !accept" class="imageMes">
+        <div  class="imageMes_head">
+           <div class="avator">
+            <img  src="../../assets/bg_ invitation_pink.png" alt="">
+            
+          </div>
+          <div class="name_address">
+            <div class="name">
+              <span>
+                  严女士，22岁
+              </span>
+            </div>
+            <div class="address">
+              <span class="message_address">
+                长沙市周南中学/教师/10w~20w
+              </span>
+        
+              </div>
+          </div>
+        </div>
+          <div class="images_address">
+            <span class="address_mes">
+            {{ address }}
+            </span>
+          </div>
+      </div>
+       <div v-else-if="success && !visiteDone && !accept" class="imageMes">
+        <div  class="imageMes_head">
+          
+          <div class="name_address2">
+            <div class="name2">
+            <span>
+                邀约待接受
+            </span>
+          </div>
+          <div class="address2">
+            <span  class="message_address">
+              时间：2020-10-28 10:30
+            </span>
+        
+          </div>
+          </div>
+           <div class="avator2">
+            <img  src="../../assets/bg_ invitation_pink.png" alt="">
+            
+          </div>
+        </div>
+        <div style="margin-left: 1.4rem" class="images_address">
+          <span  class="address_mes">
+            {{ address }}
+          </span>
+        </div>
+      </div>
+       <div v-else-if="!accept" class="imageMes">
+        <div  class="imageMes_head">
+          
+          <div class="name_address2">
+            <div class="name2">
+            <span>
+                邀约成功
+            </span>
+          </div>
+          <div class="address2">
+            <span  class="message_address">
+             时间：2020-10-28 10:30
+            </span>
+        
+          </div>
+          </div>
+           <div class="avator2">
+            <img  src="../../assets/bg_ invitation_pink.png" alt="">
+            
+          </div>
+        </div>
+        <div style="margin-left: 1.4rem" class="images_address">
+          <span  class="address_mes">
+            {{ address }}
+          </span>
+        </div>
+      </div>
+       <div v-else-if="accept" class="imageMes">
+       <div  class="imageMes_head">
+          <div class="avator">
+            <img  src="../../assets/bg_ invitation_pink.png" alt="">
+            
+          </div>
+          <div class="name_address">
+            <div class="name">
+              <span>
+                  严女士，22岁
+              </span>
+            </div>
+            <div class="address">
+              <span class="message_address">
+                长沙市周南中学/教师/10w~20w
+              </span>
+        
+              </div>
+          </div>
+        </div>
+        <div class="message_tip">
+          李先生 你好，能否有幸约你线下见一面呢？
+          <img src="../../assets/quotation_marks.png" alt="">
+        </div>
+          <div class="images_address2">
+            <span class="address_mes">
+            见面地点：长沙市岳麓区后湖一瓢婚恋书馆
+            </span>
+          </div>
+          <div class="images_address3">
+            <span class="address_mes">
+            见面时间：2020-10-28 10:30
+            </span>
+            <span class="modify">修改</span>
+          </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    headMes: {
+      type: String
+    },
+    success: {
+      type: Boolean
+    },
+    address: {
+      type: String
+    },
+    visiteDone: {
+      type: Boolean
+    },
+    sucState: {
+      type: Boolean
+    },
+    accept: {
+      type: Boolean
+    }
+  },
+  watch: {
+    stateMes: {
+      handler(val) {
+        console.log(val, 'mes');
+        if (val) {
+          this.state = '邀约成功'
+        } else {
+          this.state = '邀约已拒绝'
+
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    $route(to, from) {
+      if (from.path == '/home/message') {
+         this.stateMes = this.sucState
+      } else if (from.path == '/customer/visite') {
+          this.state = '邀约待接受'
+      }
+      
+    }
+  },
+  data() {
+    return {
+      state: '邀约待接受',
+      stateMes: false
+    }
+  },
+  created() {
+    console.log(this.sucState, 'state');
+   
+    console.log(this.stateMes);
+  },
+  methods: {
+    goBackHome() {
+      this.$emit('goHome')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+ 
+</style>

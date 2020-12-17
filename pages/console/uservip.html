@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=1080px, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<script src="js/base.js" type="text/javascript"></script>
+		<style type="text/css">
+			tr td img {
+				width: 30px;
+			}
+
+			tr td a {
+				color: #01AAED;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="">
+			<div class="layui-row">
+				<div class="layui-col-md12 layui-form">
+					<table class="layui-table" lay-filter="user-table" id="user-table" lay-skin="nob" lay-size="lg">
+						<colgroup>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>
+								</th>
+								<th>id</th>
+								<th>头像</th>
+								<th>昵称</th>
+								<th>电话</th>
+								<th>关注时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- <tr ondblclick="location='user_detail.html?'" >
+								<td><input type="checkbox" name="userChecked" id="1" value="1" title="" lay-skin="primary"></td>
+								<td>1</td>
+								<td><img src="{{decodeURIComponent this.photo}}"></td>
+								<td>{000}</td>
+								<td>{{000}}</td>
+								<td>{{000}}</td>
+								<td><a href="user_detail.html?">详细资料 </a> <a href="#" name="vipSet" onclick="delUser()">会员设置 </a></td>
+							</tr> -->
+						</tbody>
+					</table>
+					<div class="layui-row">
+						<div class="layui-col-lg3">
+							<input type="checkbox" id="allChoose" name="allChoose" lay-filter="allChoose" title="全选" lay-skin="primary">
+							<button type="button" class="layui-btn layui-btn-danger" name="vipSet" onclick="delUsers()"> 会员设置</button>
+						</div>
+						<div class="layui-col-lg9">
+							<div id="demo7"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script id="user-template" type="text/x-handlebars-template">
+		{{#each this}}
+			<tr ondblclick="location='user_detail.html?id={{this.id}}'" >
+				<td><input type="checkbox" name="userChecked" id="{{this.id}}" value="{{this.id}}" title="" lay-skin="primary"></td>
+				<td>{{this.id}}</td>
+				<td><img src="{{decodeURIComponent this.photo}}"></td>
+				<td>{{decodeURIComponent this.nickname}}</td>
+				<td>{{this.tel}}</td>
+				<td>{{getDateString this.join}}</td>
+				<td><a href="user_detail.html?id={{this.id}}">详细资料 </a> <a href="#" name="vipSet" onclick="delUser({{this.id}})">删除 </a></td>
+			</tr>
+		{{/each}}
+	</script>
+	<link rel="stylesheet" href="../../resource/layui-v2.5.6/layui/css/layui.css">
+	<script src="../chat-widget/dist/handlebars.min.js"></script>
+	<script src="../../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		Handlebars.registerHelper('decodeURIComponent', function(aString) {
+			return decodeURIComponent(aString);
+		})
+		Handlebars.registerHelper('getDateString', function(aString) {
+			return getDateString(parseInt(aString)*1000);
+		})
+	</script>
+	<script type="text/javascript">
+		var $ = layui.$,
+			form = layui.form,
+			layer = layui.layer,
+			laypage = layui.laypage;
+		var vid = 0;
+
+		form.on('checkbox(allChoose)', function(data) {
+			var child = $("tbody tr td input[type='checkbox']");
+			child.each(function(index, item) {
+				item.checked = data.elem.checked;
+			});
+			form.render('checkbox');
+		});
+
+		$(function() {
+			var href = window.location.search.substr(1);
+			vid = GetArgsFromHref(href, "vid");
+			if (vid == "") vid = 0;
+			var data = {
+				"operate": "CountUserVip",
+				vid: vid
+			};
+			Ajax(ajax_count, data);
+		});
+
+
+		function ajax_count(obj) {
+			if (obj.Code > 0) {
+				layer.msg(obj.Msg);
+				return;
+			} else {
+				//layer.msg(obj.Result);
+				count = obj.Result;
+				if (count == 0) return;
+				laypage.render({
+					elem: 'demo7',
+					count: count,
+					layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip'],
+					jump: function(obj) {
+						console.log(obj.curr);
+						var data = {
+							"operate": "ListUserVip",
+							"page": obj.curr - 1,
+							"pre": "10",
+							vid: vid
+						};
+						Ajax(ajax_list, data);
+					}
+				});
+			}
+		}
+
+		function ajax_list(obj) {
+			if (obj.Code > 0) {
+				layer.msg(obj.Msg);
+				return;
+			} else {
+				//layer.msg(obj.Result);
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				if(ary==0||ary==false){
+					return;
+				}
+				var template = Handlebars.compile($("#user-template").html());
+				$("tbody").html(template(ary));
+				form.render();
+				if (parseInt(vid) == 0) {
+					$("[name='vipSet']").html("设为会员");
+				} else{
+					$("[name='vipSet']").html("停用会员");
+				}
+			}
+		}
+
+		function delUser(ids) {
+			if (parseInt(vid) == 0) {
+				 layer.msg('请选择会员类型', {
+				        time: 20000, //20s后自动关闭
+				        btn: ['联合创始人', '钻石会员', '精英会员'],
+						yes: function() {
+							layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+								time: 20000, //20s后自动关闭
+								btn: ['确定', '取消'],
+								yes: function() {
+									layer.closeAll();
+									Ajax(function(){
+										if (obj.Code > 0) {
+											layer.msg(obj.Msg);
+											return;
+										} else {
+											window.location.reload();
+										}
+									}, {"operate": "addUserVip","ids": ids,vip_id:1});
+								},
+								btn2: function() {
+									layer.closeAll();
+									return false;
+								}
+							});
+						},
+						btn2: function() {
+							layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+								time: 20000, //20s后自动关闭
+								btn: ['确定', '取消'],
+								yes: function() {
+									layer.closeAll();
+									var data = {"operate": "addUserVip","ids": ids,vip_id:2};
+									Ajax(function(){
+										if (obj.Code > 0) {
+											layer.msg(obj.Msg);
+											return;
+										} else {
+											window.location.reload();
+										}
+									}, data);
+								},
+								btn2: function() {
+									layer.closeAll();
+									return false;
+								}
+							});
+						},
+						btn3: function() {
+							layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+								time: 20000, //20s后自动关闭
+								btn: ['确定', '取消'],
+								yes: function() {
+									layer.closeAll();
+									var data = {"operate": "addUserVip","ids": ids,vip_id:3};
+									Ajax(function(){
+										if (obj.Code > 0) {
+											layer.msg(obj.Msg);
+											return;
+										} else {
+											window.location.reload();
+										}
+									}, data);
+								},
+								btn2: function() {
+									layer.closeAll();
+									return false;
+								}
+							});
+						}
+				      });
+			} else{
+				layer.msg('操作id有：' + ids + '。操作后的用户将无法撤回，确定要操作吗？', {
+					time: 20000, //20s后自动关闭
+					btn: ['确定', '取消'],
+					yes: function() {
+						layer.closeAll();
+						var data = {
+							"operate": "stopUserVip",
+							"ids": ids
+						};
+						Ajax(function(){
+							if (obj.Code > 0) {
+								layer.msg(obj.Msg);
+								return;
+							} else {
+								window.location.reload();
+							}
+						}, data);
+					},
+					btn2: function() {
+						layer.closeAll();
+						return false;
+					}
+				});
+			}
+			
+		}
+
+		function delUsers() {
+			var arr = [];
+			$("input:checkbox[name='userChecked']:checked").each(function(i) {
+				arr[i] = $(this).val();
+			});
+			ids = arr.join(","); //将数组合并成字符串
+			if(ids){
+				console.log(ids);
+				delUser(ids);
+			}
+		}
+	</script>
+</html>

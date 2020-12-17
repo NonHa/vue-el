@@ -1,0 +1,517 @@
+<template>
+  <div>
+     <div class="img_show">
+        <img class="img_bg" src="../../assets/bg_personal_center.png" alt="">
+        <div class="go_back_right">
+          <img @click="goBackHome" src="../../assets/icon_return_black.png" alt="">
+         
+        </div>
+         <div class="show_more_left">
+         预览主页
+        </div>
+         <div class="title">
+          编辑资料
+        </div>
+       
+      <div  class="imageMes">
+          <div class="content_show">
+            <div class="avator_content">
+              <img src="../../images/dog.jpg" alt="">
+            </div>
+            <van-uploader class="tip">
+              点击上传形象照
+            </van-uploader>
+        </div>
+      </div>
+        
+     <div class="link_content" style="margin-top: 5rem">
+      <div class="base_search">
+        <div class="main_title">
+          <span>我的相册</span>
+        </div>
+       <van-uploader :after-read="afterRead" />
+      </div>
+      
+    </div>
+     <div class="link_content" style="border-bottom: 0.5rem solid #F7F7F8;">
+      <div class="base_search">
+        <div class="main_title">
+          <span>内心独白</span>
+        </div>
+        <van-field
+          v-model="message"
+          rows="4"
+          autosize
+          class="field_padding"
+          type="textarea"
+          placeholder="请描述您的内心独白…"
+        />
+       </div>
+      
+    </div>
+    <div style="background: #fff">
+      <van-tabs  style="margin-top: 0.9rem" v-model="active" @change="getItem" color= "#FF807B" line-width="1.1rem" line-height="0.25rem" swipe-threshold sticky :title-active-color="activeColor" :title-inactive-color="activeColor">
+      <van-tab v-for="(item, index) in mineMes" :title="item" :key="index" >
+      </van-tab>
+    </van-tabs>
+   </div>
+     
+    
+
+   <div v-if="active == '0'">
+     <div style="border-bottom: 0.5rem solid #F7F7F8;">
+       <van-cell 
+        class="cell_other"  
+        v-for="(item, index) in actions" 
+        :title="item.name" 
+        value-class="valur_class" 
+        :value="item.value" 
+        @click="item.show = true"
+        title-class="cell_class" 
+        :key="index" 
+        is-link />
+        <van-action-sheet 
+            v-for="(item, index2) in actions" 
+           
+            v-model="item.show" 
+            :actions="(index2 != 10 || index2 != 2 || index2 != 12) ? vipActionSheet[item.selectList] : []" 
+            :key="index2" 
+            @select="onSelect(item, $event)"
+            close-on-click-action 
+          >
+          <div v-if="index2 == 10" class="content">
+             <van-area 
+              title="标题" 
+
+              :area-list="areaList" 
+              columns-num="2"
+               @cancel="item.show = false"
+              @confirm="sureAreaVip(item, $event)"/>
+           </div>
+          <van-datetime-picker
+          v-if="index2 == 2"
+            v-model="currentDate"
+            type="date"
+            title="选择年月日"
+            :min-date="minDate"
+            :max-date="maxDate"
+            cancel-button-text=" "
+           
+            @confirm="sureBrithday(item, $event)"
+          />
+           <van-datetime-picker
+            v-if="index2 == 12"
+            v-model="currentDate"
+            type="year-month"
+           
+            title="选择年月"
+            :min-date="minDate"
+            :max-date="maxDate"
+            cancel-button-text=" "
+           
+            @confirm="marileDay(item, $event)"
+          />
+        </van-action-sheet>
+
+       
+     </div>
+      <van-dialog v-model="dialogShow" title="请填写昵称" :showConfirmButton="false">
+         
+        </van-dialog>
+      <!-- home -->
+      <div class="link_content" >
+        <div class="base_search">
+          <div class="main_title">
+            <span>家庭情况</span>
+          </div>
+          <van-field
+          v-model="message"
+          rows="4"
+          autosize
+          class="field_padding"
+          type="textarea"
+          placeholder="请描述您的家庭情况…"
+        />
+        </div>
+        
+      </div>
+
+       <div class="link_content" >
+      <div class="base_search">
+        <div class="main_title">
+          <span>职业规划</span>
+        </div>
+        <van-field
+          v-model="message"
+          rows="4"
+          autosize
+          class="field_padding"
+          type="textarea"
+          placeholder="请描述您对未来职业的规划…"
+        />
+      </div>
+      
+    </div>
+
+     <div class="link_content" >
+      <div class="base_search">
+        <div class="main_title">
+          <span>情感经历</span>
+        </div>
+        <van-field
+          v-model="message"
+          rows="4"
+          autosize
+          class="field_padding"
+          type="textarea"
+           placeholder="请描述您的情感经历…"
+        />
+      </div>
+      
+    </div>
+   </div>
+   <div v-if="active == '1'">
+     <van-cell 
+      class="cell_other"
+      v-for="(item, index) in actions2" 
+      :title="item.name" 
+      value-class="valur_class"
+      :value="item.value" 
+      title-class="cell_class" 
+       @click="item.show = true"
+      :key="index" 
+      is-link />
+       <van-action-sheet 
+            v-for="(item, index2) in actions2" 
+            v-model="item.show" 
+            :actions="index2 != 14 ? vipActionSheet[item.selectList] : []" 
+            :key="index2" 
+            @select="onSelect(item, $event)"
+            close-on-click-action 
+          >
+           <van-datetime-picker
+            v-if="index2 == 14"
+            v-model="currentDate"
+            type="year-month"
+           
+            title="选择年月"
+            :min-date="minDate"
+            :max-date="maxDate"
+            cancel-button-text=" "
+           
+            @confirm="marileDay(item, $event)"
+          />
+      
+        </van-action-sheet>
+   </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { actionSheet, vipActionSheet, areaList } from '../components/actioneSheet'
+
+export default {
+  props: {
+    
+  },
+  watch: {
+    stateMes: {
+      handler(val) {
+        console.log(val, 'mes');
+        if (val) {
+          this.state = '邀约成功'
+        } else {
+          this.state = '邀约已拒绝'
+
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    $route(to, from) {
+      if (from.path == '/home/message') {
+         this.stateMes = this.sucState
+      } else if (from.path == '/customer/visite') {
+          this.state = '邀约待接受'
+      }
+      
+    }
+  },
+  data() {
+    return {
+      state: '邀约待接受',
+      stateMes: false,
+      dialogShow: false,
+      active: '0',
+      message: '',
+      actionSheet: actionSheet,
+      vipActionSheet: vipActionSheet,
+      areaList: areaList,
+      minDate: new Date(1900, 0, 1),
+      maxDate: new Date(2025, 10, 1),
+      currentDate: new Date(),
+      activeColor: '#FF807B',
+      mineMes: ['基本资料', '择偶标准',],
+      actionsOption: [],
+       actions: [
+          { name: '昵称', value: '不限',show: false },
+          { name: '性别', value: '不限',show: false, selectList: 'sex' }, 
+          { name: '出生日期', value: '不限',show: false }, 
+          { name: '身高' , value: '不限',show: false},
+          { name: '体重' , value: '不限',show: false},
+          { name: '星座' , value: '不限',show: false,  selectList: 'constellations'},
+          { name: '年收入', value: '不限',show: false },
+          { name: '学历' , value: '不限',show: false,selectList: 'educations'},
+          { name: '毕业学校' , value: '不限',show: false},
+          { name: '工作单位' , value: '不限',show: false},
+          { name: '工作生活地', value: '不限',show: false },
+          { name: '职业', value: '不限',show: false },
+          { name: '期望结婚时间', value: '不限',show: false },
+          { name: '婚姻状态', value: '不限',show: false, selectList: 'marital' },
+          { name: '有无子女', value: '不限',show: false,selectList: 'children' },
+          { name: '是否想要孩子', value: '不限',show: false, selectList: 'checkName' },
+          { name: '饮酒', value: '不限',show: false, selectList: 'drinks' },
+          { name: '吸烟', value: '不限',show: false, selectList: 'smokes'},
+          
+      ],
+       actions2: [
+        
+          { name: '年龄', value: '不限',show: false }, 
+          { name: '身高', value: '不限',show: false },
+         
+          { name: '年收入', value: '不限',show: false },
+          { name: '学历' , value: '不限',show: false,selectList: 'educations'},
+         
+          { name: '工作生活地', value: '不限',show: false },
+          { name: '户籍（老家）', value: '不限',show: false },
+          { name: '婚姻状况' , value: '不限',show: false,selectList: 'marital'},
+         
+         
+          { name: '饮酒', value: '不限',show: false,selectList: 'drinks'  },
+          { name: '吸烟', value: '不限',show: false,selectList: 'smokes' },
+           { name: '有无子女' , value: '不限',show: false,selectList: 'children'},
+           { name: '是否想要孩子' , value: '不限',show: false,selectList: 'checkName'},
+            { name: '体重', value: '不限',show: false },
+          { name: '星座' , value: '不限',show: false, selectList: 'constellations'},
+           { name: '职业' , value: '不限',show: false},
+           { name: '期望结婚时间', value: '不限',show: false },
+      ],
+    }
+  },
+  created() {
+      this.actionsOption = this.actions
+    
+  },
+  methods: {
+     onSelect(item, val) {
+      // val = false
+      // val.value = val.name
+      console.log(item);
+      console.log(val);
+      item.value = val.name
+    },
+    onSelectVip(item, val) {
+      // val = false
+      // val.value = val.name
+      console.log(item);
+      console.log(val);
+      item.value = val.name
+    },
+    sureAreaVip(val, eve) {
+      val.show = false
+      val.value = ''
+      eve.forEach(v => {
+        val.value += v.name
+      })
+    },
+    sureBrithday(val, eve) {
+      let year = eve.getFullYear()
+      let month = eve.getMonth() + 1
+      let day = eve.getDate()
+     
+      if (month >= 1 && month <= 9) { month = `0${month}` }
+      if (day >= 1 && day <= 9) { day = `0${day}` }
+     
+      val.value = `${year}-${month}-${day}`
+      val.show = false
+      
+    },
+    marileDay(val, eve) {
+      let year = eve.getFullYear()
+      let month = eve.getMonth() + 1
+      
+      if (month >= 1 && month <= 9) { month = `0${month}` }
+     
+      val.value = `${year}-${month}`
+      val.show = false
+      
+    },
+    goBackHome() {
+      this.$router.push({ name: 'Mine' })
+    },
+    
+     getItem(val) {
+       if (val == 0) {
+         this.actionsOption = this.actions
+       } else {
+         this.actionsOption = this.actions2
+
+       }
+    },
+    afterRead() {
+
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import '../../style/mixin';
+
+.img_show {
+  height: 9rem;
+}
+.show_more_left {
+  width: 4rem;
+   @include sc(0.6rem, #262B40);
+}
+ .imageMes {
+  //  display: flex;
+    @include wh(19.6rem, 8rem);
+  background-color: #fff;
+  top: 4rem
+
+ }
+ .van-tabs {
+    width: 52%;
+    background-color: #fff;
+  }
+ .imageMes img {
+    @include wh(5.5rem, 5.5rem);
+    
+ }
+ .title {
+   position: absolute;
+   width: 5rem;
+   top: 1rem;
+	left: 55%;
+  transform: translateX(-50%);
+   
+   @include sc(0.7rem, #262B40);
+  
+ }
+ 
+   .content_show {
+    position: absolute;
+    top: 1.2rem;
+    display: flex;
+    padding: 0.9rem;
+    align-items: center;
+   
+    height: 5rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+  }
+  .avator_content {
+   
+    @include wh(4rem, 4rem);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    flex: 1;
+    background-color: #f2f3f5;
+    overflow: hidden;
+  }
+
+  .avator_content img {
+    @include wh(100%, 100%);
+
+  }
+  .van-uploader__input-wrapper {
+    @include sc(0.8rem, #505050);
+
+  }
+  .tip {
+    position: absolute;
+    left: 12rem;
+    top: 1.5rem;
+    @include wh(6rem, 0.8rem);
+    font-size: 0.6px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    @include sc(0.8rem, #505050);
+
+  }
+   .tip::after {
+      content: '';
+    @include wh(0.7rem, 0.7rem);
+    
+    position: absolute;
+    top:0.6rem ;
+    left: 5rem;
+    background: url('../../assets/icon_more_small_black.png') no-repeat center;
+    background-size: cover;
+   }
+  .title_name {
+    flex: 1;
+    margin-left: 0.5rem;
+    line-height: 2rem;
+  }
+  .title_name .name{
+    width: 108px;
+    font-weight: 600;
+
+    line-height: 50px;
+    position: relative;
+    @include sc(1.1rem, #262B40);
+
+
+  }
+  .title_name .name div {
+    position: absolute;
+    top: 0.3rem;
+    left: 3rem;
+    @include wh(3rem, 1.1rem);
+    border-radius: 15px;
+    line-height: 1.1rem;
+    text-align: center;
+    @include sc(0.6rem, #FF807B);
+
+    border: 1px solid #FF807B;
+  }
+   .title_name .title{
+    @include sc(0.6rem, #505050);
+    font-weight: 400;
+    line-height: 3.5rem;
+  }
+  .time {
+   
+    @include sc(0.6rem,#505050);
+    font-weight: 400;
+    margin-top: 1.4rem;
+    margin-left: 5rem;
+
+  }
+
+   .valur_class {
+      @include sc(0.8rem,#8C8C8C);
+     
+    font-family: PingFangSC-Regular, PingFang SC;
+   }
+   .field_padding {
+     margin-top: 0.9rem;
+     padding: 0rem;
+      height: 7rem; 
+      border-radius: 10px;
+   }
+   
+   .link_content, .base_search {
+     border: 0;
+   }
+   .tabs_padding {
+     border-bottom: 0.5rem solid #F7F7F8;
+   }
+   .van-cell__title  {
+     margin-left: 0.6rem;
+   }
+  
+</style>

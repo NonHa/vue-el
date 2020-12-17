@@ -1,0 +1,288 @@
+<template>
+  <div>
+  <div class="search">
+    <van-row>
+      <van-col span="2">
+       
+          <img @click="goHome" src="../../assets/icon_return.png" alt="">
+        
+      </van-col>
+      <van-col  span="22">
+        <van-search class="search_input" v-model="value" placeholder="搜索用户昵称或ID" background="#F2F2F2" />
+      </van-col>
+      
+    </van-row>
+    
+     
+  </div>
+  <div class="link_content">
+      <div class="base_search">
+        <div class="main_title">
+          <span>基本搜索</span>
+        </div>
+        <van-cell 
+          class="cell_other" 
+          v-for="(item, index) in actions" 
+          :title="item.name" 
+          value-class="valur_class" 
+          :value="item.value" 
+          title-class="cell_class" 
+          @click="item.show = true"
+          :key="index" 
+          is-link />
+       <van-action-sheet 
+            v-for="(item, index2) in actions" 
+            v-model="item.show" 
+            :actions="index2 != 1 ? actionSheet[index2] : []" 
+            :key="index2" 
+            @select="onSelect(item, $event)"
+            close-on-click-action 
+          >
+           <div v-if="index2 == 1" class="content">
+             <van-area 
+              title="标题" 
+             
+              :area-list="areaList" 
+              columns-num="2"
+               @cancel="item.show = false"
+              @confirm="sureArea(item, $event)"/>
+           </div>
+           
+        </van-action-sheet>
+      </div>
+      
+  </div>
+ 
+  <div class="vip_content">
+    <div class="base_search_vip">
+        <div class="main_title" style="display: inline-block; width: 19.2rem">
+          <span style="width: 23%">高级搜索</span>
+          <div class="vip_user">升级会员后即可使用</div>
+        </div>
+        <van-cell 
+          class="cell_other" 
+          v-for="(item, index) in actions2" 
+         
+          :title="item.name" 
+          value-class="valur_class" 
+          :value="item.value" 
+          title-class="cell_class" 
+          :key="index"
+          @click="item.showVip = true" 
+          is-link />
+         <van-action-sheet 
+            v-for="(item, index2) in actions2" 
+           
+            v-model="item.showVip" 
+            :actions="index2 != 1 ? vipActionSheet[item.selectList] : []" 
+            :key="index2" 
+            @select="onSelectVip(item, $event)"
+            close-on-click-action 
+          >
+           <div v-if="index2 == 1" class="content">
+             <van-area 
+              title="标题" 
+             
+              :area-list="areaList" 
+              columns-num="2"
+               @cancel="item.showVip = false"
+              @confirm="sureAreaVip(item, $event)"/>
+           </div>
+        </van-action-sheet>
+        
+      </div>
+  </div>
+     <van-row>
+      <van-col span="12">
+       
+         <van-button type="primary">重置</van-button>
+        
+      </van-col>
+      <van-col  span="12">
+       <van-button class="mainBtn" type="primary">确定</van-button>
+      </van-col>
+      
+    </van-row>
+  </div>
+</template>
+
+<script>
+import { actionSheet, vipActionSheet, areaList } from '../components/actioneSheet'
+
+export default {
+  data() {
+    return {
+      iconUrl: './samll_search.png',
+      value: '',
+      show: true,
+      actions: [
+        { name: '年龄范围', value: '不限',show: false }, 
+        { name: '工作生活地', value: '不限',show: false }, 
+        { name: '身高范围',value: '不限', show: false }, 
+        { name: '年收入',value: '不限', show: false }],
+      actions2: [
+          { name: '职业', value: '不限',showVip: false },
+          { name: '户籍', value: '不限',showVip: false, house: true },
+          { name: '星座', value: '不限',showVip: false, selectList: 'constellations' },
+          { name: '学历', value: '不限',showVip: false, selectList: 'educations'},
+          { name: '房产情况', value: '不限',showVip: false, selectList: 'hourse' },
+          { name: '车辆情况', value: '不限',showVip: false, selectList: 'car' },
+          { name: '婚姻状态', value: '不限',showVip: false, selectList: 'marital' },
+          { name: '有无子女', value: '不限',showVip: false, selectList: 'children' },
+          { name: '实名认证', value: '不限',showVip: false, selectList: 'checkName'},
+          { name: '视频认证', value: '不限',showVip: false, selectList: 'checkVideo' },
+          
+      ],
+     actionSheet: actionSheet,
+      vipActionSheet: vipActionSheet,
+      areaList: areaList
+    }
+  },
+   components: {
+       
+    },
+  methods: {
+    onSelect(item, val) {
+      console.log(item);
+      // val = false
+      // val.value = val.name
+    
+      item.value = val.name
+    },
+    onSelectVip(item, val) {
+      // val = false
+      // val.value = val.name
+      console.log(item);
+      console.log(val);
+      item.value = val.name
+    },
+    sureArea(val, eve) {
+      val.show = false
+      val.value = ''
+      eve.forEach(v => {
+        val.value += v.name
+      })
+     
+    },
+    sureAreaVip(val, eve) {
+      val.showVip = false
+      val.value = ''
+      eve.forEach(v => {
+        val.value += v.name
+      })
+    },
+    goHome() {
+      this.$router.push({path: '/home'})
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import '../../style/mixin';
+  .van-search {
+    height: 2.1rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+  }
+  .van-search__content {
+    padding-left: 0.5rem;
+  }
+  .search_input  .van-search__content .van-cell .van-field__left-icon {
+    margin-top: 2rem !important;
+  }
+  .search {
+    position: relative;
+    padding: 0 0.9rem;
+   
+    @include wh(100%, 2.5rem);
+
+  }
+ 
+  .search img {
+    position: absolute;
+    @include ct;
+    top: 58%;
+    @include wh(1.1rem, 1.1rem);
+  }
+  .vip_user {
+    display: inline-block;
+    @include wh(7rem, 1.2rem);
+    @include sc(0.6rem,#CEA476);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.2rem; 
+    border-radius: 4px;
+    border: 1px solid #CEA476;
+  }
+  .link_content {
+    padding: 0 0.9rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid #E0E0E0; 
+    font-family: PingFangSC-Semibold, PingFang SC;
+  }
+  .base_search {
+    margin-top: 1.1rem;
+  }
+  .main_title {
+    line-height: 1.1rem;
+      @include sc(0.9rem,#262B40);
+  }
+  .main_title::before {
+   content: '';
+    
+    display: inline-block;
+    background: #FF807B;
+    border-radius: 0.1rem;
+    @include wh(0.3rem, 0.9rem);
+  }
+   .main_title span {
+      font-weight: 600; 
+     display: inline-block;
+     padding-left: 0.3rem;
+      @include wh(90%, 1.1rem);
+
+     
+   }
+   .cell_class {
+     
+  font-family: PingFangSC-Regular, PingFang SC;
+      @include sc(0.8rem,#262B40);
+
+   }
+   .valur_class {
+      @include sc(0.8rem,#8C8C8C);
+    font-family: PingFangSC-Regular, PingFang SC;
+   }
+ 
+   .vip_content {
+      padding: 0 0.9rem;
+     
+    font-family: PingFangSC-Semibold, PingFang SC;
+   }
+   .box {
+     background-color: #E0E0E0;
+      @include wh(100%, 0.4rem);
+     
+   }
+   .vip_content {
+     margin-top: 1.1rem;
+   }
+   .van-button--primary {
+     background-color: #ACAFBA;
+     border: 1px solid #ACAFBA;
+   }
+   .van-button {
+      @include wh(100%, 3rem);
+
+   }
+   .mainBtn {
+      background-color:#404868;
+     border: 1px solid #404868;
+   }
+   .van-button__text {
+      @include sc(0.8rem,#FFFFFF);
+     
+   }
+</style>

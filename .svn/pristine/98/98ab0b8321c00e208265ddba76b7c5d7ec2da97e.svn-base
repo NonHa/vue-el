@@ -1,0 +1,95 @@
+<template>
+  <div>
+     <mt-tabbar v-model="message" fixed>
+            <mt-tab-item v-for="(item, index) in optionList" :id="item.id" :key="index">
+                <img slot="icon" :src="tabs[index]">
+                {{ item.name }}
+            </mt-tab-item>
+        </mt-tabbar>
+  </div>
+</template>
+
+<script>
+
+export default {
+  data() {
+    return {
+      message: this.selected,
+      tabs: [
+        require("../../assets/icon_home_select.png"),require("../../assets/icon_activity.png"),
+        require("../../assets/icon_news.png"),require("../../assets/icon_mine.png")
+      ]
+    }
+  },
+  props: {
+    selected: {
+      type: String
+    },
+    optionList: {
+      type: Array
+    }
+    
+  },
+  components: {},
+  watch: {
+    $route: {
+      handler(to, from) {
+        if (to.path == '/home') {
+          this.message = 'Main'
+        } else if (to.path == '/home/active') {
+          this.message = 'Active'
+
+        } else if (to.path == '/home/message') {
+          this.message = 'Message'
+ 
+        } else if (to.path == '/home/mine') {
+          this.message = 'Mine'
+ 
+        } 
+      }
+    },
+     message: function (val, oldVal) {
+        // 这里就可以通过 val 的值变更来确定去向
+        switch(val){
+            case 'Main':
+              this.tabs = [require("../../assets/icon_home_select.png"),require("../../assets/icon_activity.png"),
+                  require("../../assets/icon_news.png"),require("../../assets/icon_mine.png")],
+                this.$router.push('/home');
+            break;
+            case 'Active':
+                this.$router.push('/home/active');
+                this.tabs = [
+                  require("../../assets/icon_home.png"),require("../../assets/icon_activity_select.png"),
+                  require("../../assets/icon_news.png"),require("../../assets/icon_mine.png")
+                ]
+            break;
+            case 'Message':
+              this.tabs = [
+                require("../../assets/icon_home.png"),require("../../assets/icon_activity.png"),
+                  require("../../assets/icon_news_select.png"),require("../../assets/icon_mine.png")
+              ]
+                this.$router.push('/home/message');
+            break;
+            case 'Mine':
+              this.tabs = [
+                require("../../assets/icon_home.png"),require("../../assets/icon_activity.png"),
+                  require("../../assets/icon_news.png"),require("../../assets/icon_mine_select.png")
+              ]
+                this.$router.push('/home/mine');
+            break;
+        }
+    }
+
+  },
+  methods: {
+    selectedChange(val) {
+      console.log('select', val);
+      // console.log('this.select', this.selected);
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  
+</style>

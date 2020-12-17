@@ -1,0 +1,148 @@
+<template>
+  <div style="background: #F7F7F8;">
+    <div class="swipe_head">
+      <van-swipe class="my-swipe" style="height: 8rem;" :autoplay="2000" indicator-color="white">
+      <van-swipe-item v-for="(image, index) in imgList" :key="index">
+         <img v-lazy="image" />
+      </van-swipe-item>
+      
+    </van-swipe>
+    </div>
+
+   <div style="background: #fff">
+      <van-tabs  style="margin-top: 0.9rem" v-model="active" @change="getItem" color= "#FF807B" line-width="1.1rem" line-height="0.25rem" swipe-threshold sticky :title-active-color="activeColor" :title-inactive-color="activeColor">
+      <van-tab v-for="(item, index) in article" :title="item" :key="index" >
+       
+      </van-tab>
+    </van-tabs>
+   </div>
+    <div style="padding: 0 0.9rem; background: #FFFFFF;">
+       <div v-if="activeItem == 0" @click="goArticleMes"  class="article_item">
+          <div class="img_item" >
+            <img src="../../assets/pull_strings_ select.png" alt="">
+            <div class="doing">
+              进行中
+            </div>
+          </div>
+          <div class="content_item">
+           <div style="line-height: 1.1rem;">
+              <h3>优质精英单身联会, 你想要的好对象在这里！</h3>
+           </div>
+            <div style="line-height: 1rem; margin-top: 0.5rem">
+              <p>时间：2020-10-12 14:00</p>
+            </div>
+            <div style="line-height: 0.7rem; margin-top: 0.6rem">
+              <span>84</span>
+            </div>
+          </div>
+    </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+
+export default {
+   components: {},
+  data() {
+    return {
+      imgList: [
+        'https://img.yzcdn.cn/vant/apple-1.jpg',
+        'https://img.yzcdn.cn/vant/apple-1.jpg',
+        'https://img.yzcdn.cn/vant/apple-1.jpg',
+        'https://img.yzcdn.cn/vant/apple-1.jpg',
+      ],
+      active: '1',
+       selected:"active",
+      activeColor: '#FF807B',
+       activeItem:0,
+      article: ['全部活动', '热门活动',]
+    }
+  },
+  
+
+  methods: {
+     getItem(val) {
+     this.activeItem = val
+    },
+    goArticleMes() {
+      this.$router.push({ path: '/active/doing', query: { doing: true}})
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+
+  .swipe_head {
+    padding: 0.9rem;
+    @include wh(100%, 9rem);
+
+  }
+  .van-swipe-item img {
+    @include wh(100%, 100%);
+
+  }
+
+  .van-tabs {
+    width: 52%;
+    background-color: #fff;
+  }
+  .article_item {
+    display: flex;
+    // margin-top: 0.9rem;
+    padding: 0.9rem 0;
+    background-color: #fff;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+    // @include wh(100%, 5.2rem);
+  }
+  .img_item {
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    @include wh(8rem, 5rem);
+  }
+  .img_item img {
+    @include wh(100%, 100%);
+
+  }
+  .doing {
+    position: absolute;
+    top: 0;
+    right: 0;
+    @include wh(2.4rem, 1rem);
+    @include sc(0.6rem, #FFFFFF);
+    background-color: #FF807B;
+    text-align: center;
+    line-height: 1rem;
+    
+    border-radius: 0px 8px 0px 8px;
+
+  }
+  .content_item {
+    flex: 3;
+    padding-left: 0.9rem;
+    font-family: PingFangSC-Medium, PingFang SC;
+    
+  }
+  h3 {
+    
+    font-weight: 500;
+        @include sc(0.8rem, #262B40);
+  }
+  .content_item p {
+        white-space: nowrap; 
+      width: 100%;
+      overflow: hidden;
+      text-overflow:ellipsis;
+        @include sc(0.6rem, #6E6E6E);
+
+  }
+  .content_item span {
+      @include sc(0.6rem, #8C8C8C);
+
+  }
+</style>

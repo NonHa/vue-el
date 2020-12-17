@@ -1,0 +1,414 @@
+<template>
+  <div >
+    <!-- <NavBarHead class="nav_other_class" :title="title" :border="false" @goBack="goBackArticle" @showItem="showArticleItem"></NavBarHead> -->
+    <div class="img_show">
+      <img src="../../images/dog.jpg" alt="">
+      <div  @click="goBackHome" class="go_back_right">
+        <img src="../../assets/icon_return_white.png" alt="">
+      </div>
+      <div class="show_more_left">
+        <img src="../../assets/icon_more_white.png" alt="">
+      </div>
+    </div>
+    <div class="message_head">
+      <div class="name">
+       <span>
+          严女士，22岁
+       </span>
+       <img src="../../assets/icon_like_ select_big.png" alt="">
+      </div>
+      <div class="address">
+        <span class="message_address">
+          长沙市周南中学/教师/10w~20w
+        </span>
+        <span class="like_num">
+          21人喜欢
+        </span>
+      </div>
+    </div>
+
+     <div class="link_content">
+        <div class="base_search">
+          <div class="main_title">
+            <span>基本搜索</span>
+            <div class="more_message" @click="goMoreMes">查看更多</div>
+          </div>
+        <van-row style="margin-top: 0.2rem" v-for="(item, index) in baseMessage" :key="index">
+            <van-col span="8">{{item.name}}</van-col>
+            <van-col span="8">{{item.filed}}</van-col>
+          
+          </van-row>
+        </div>
+        <div class="base_search">
+          <div class="main_title">
+            <span>自我介绍</span>
+          </div>
+          <div class="introduce_mes">
+            最好的感情会让两个人变得越来越好，希望会遇见可以陪伴我一生的你。
+          </div>
+          </div>
+      </div>
+
+      <div class="link_content">
+        <div class="base_search">
+          <div class="main_title">
+            <span>TA的相册</span>
+          </div>
+        <van-grid :border="false" :column-num="3">
+          <van-grid-item v-for="value in 6" :key="value">
+            <van-image  src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <div class="more_picture" v-show="value == 6">
+              +4
+            </div>
+          </van-grid-item>
+         
+        </van-grid>
+        </div>
+        <div class="base_search">
+          <div class="main_title">
+            <span>TA的认证</span>
+          </div>
+        <div class="sure_check">
+          <div class="sure_name">
+            <img src="../../assets/real_name_select.png" alt="">
+            <span>实名认证</span>
+          </div>
+          <div class="sure_education">
+            <img src="../../assets/education_select.png" alt="">
+            <span>学历认证</span>
+
+          </div>
+          <div class="sure_work">
+            <img src="../../assets/work_select.png" alt="">
+            <span>工作认证</span>
+
+          </div>
+        </div>
+        </div>
+      </div>
+
+       <div class="link_content">
+        <div class="base_search">
+          <div class="main_title">
+            <span>择偶标准</span>
+            <div class="more_message" @click="goMoreChoose">查看更多</div>
+
+          </div>
+          <div class="introduce_mes">
+          <van-tag text-color="#505050" round type="primary">22~32岁</van-tag>
+          <van-tag text-color="#505050" round type="primary">175~185cm</van-tag>
+          <van-tag text-color="#505050" round type="primary">20W~100W</van-tag>
+          <van-tag text-color="#505050" round type="primary">长沙-天心区</van-tag>
+          <van-tag text-color="#505050" round type="primary">从未结婚</van-tag>
+          <van-tag text-color="#505050" round type="primary">三年内结婚</van-tag>
+          </div>
+        </div>
+       <div class="base_search">
+          <div class="main_title">
+            <span>家庭情况</span>
+          </div>
+          <div class="introduce_mes">
+          有一个姐姐，家里有五口人
+          </div>
+        </div>
+        <div class="base_search">
+          <div class="main_title">
+            <span>职业规划</span>
+          </div>
+          <div class="introduce_mes">
+          年底先把自己喜欢的公寓买了，公司正处于上升期，工作上升空间大，工作类型比较稳定。
+          </div>
+        </div>
+        <div class="base_search">
+          <div class="main_title">
+            <span>情感经历</span>
+          </div>
+          <div class="introduce_mes">
+          谈过一段比较长时间的恋爱，因为性格不太合适，加上现实原因就分开了。
+          </div>
+        </div>
+      </div>
+
+       <div class="link_content_item">
+       
+          <div class="base_search">
+            <div class="main_title">
+            <span>TA的礼物</span>
+            </div>
+            <div class="lw_look">
+              
+            </div>
+             <div class="base_search">
+         
+            <div class="gave_more">
+              <div class="sure_name">
+                <div class="gold">
+                  <img src="../../assets/icon_gift.png" alt="">
+                  <span>礼物</span>
+                </div>
+              </div>
+              <div @click="toVisite" class="sure_name">
+                <div class="pink">
+                  <img src="../../assets/icon_invitation.png" alt="">
+                <span style="color:#FF807B ">邀约</span>
+                </div>
+
+              </div>
+              <div class="sure_name">
+               <div class="blue">
+                  <img src="../../assets/icon_pull_strings.png" alt="">
+                <span style="color: #404868">牵线</span>
+               </div>
+
+              </div>
+        </div>
+        </div>
+            </div>
+          
+          </div>
+        </div>
+  </div>
+</template>
+
+<script>
+
+import NavBarHead from '../components/NavBarTab'
+
+export default {
+  components: { NavBarHead },
+  data() {
+    return {
+      title: '',
+      baseMessage: [
+        { name: '工作单位', filed: '长沙市周南中学'},
+        { name: '职业', filed: '教师'},
+        { name: '年收入', filed: '10w~20w'},
+        { name: '学历', filed: '本科'},
+        { name: '毕业学校', filed: '长沙理工大学'},
+        { name: '身高', filed: '160cm'},
+        { name: '体重', filed: '45kg'},
+        { name: '星座', filed: '处女座'},
+        { name: '婚姻状态', filed: '从未结婚'},
+      ]
+    }
+  },
+  methods: {
+    goBackHome() {
+      console.log('111');
+      this.$router.push({ path: '/home'})
+    },
+    showHomeItem() {
+
+    },
+    goMoreMes() {
+      this.$router.push({ path: '/customer/message'})
+
+    },
+    goMoreChoose() {
+      this.$router.push({ path: '/customer/choose'})
+
+    },
+    toVisite() {
+      this.$router.push({ path: '/customer/visite'})
+
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+  
+
+  .nav_other_class {
+    background-color: rgba(0,0,0,0) !important;
+    // opacity: 0
+  }
+  .img_show {
+    position: relative;
+    @include wh(100%, 20rem);
+   
+  }
+  .img_show img{
+    @include wh(100%, 100%);
+
+  }
+  
+  .show_more_left {
+    right: 0.9rem;
+  }
+  .message_head {
+    padding: 1.1rem 1.1rem;
+    border-bottom: 1px solid #E0E0E0;
+     font-family: PingFangSC-Semibold, PingFang SC;
+  }
+  .name {
+    @include wh(100%, 1.3rem);
+    @include sc(1.1rem, #262B40);
+    display: flex;
+    font-weight: 600;
+    line-height: 1.6rem;
+  }
+  .name span {
+    flex: 1;
+  }
+  .name img {
+    margin-right: 0.8rem;
+    @include wh(1.5rem, 1.5rem);
+
+  }
+   .address {
+     display: flex;
+     margin-top: 0.7rem;
+   }
+   .address::before {
+    content: '';
+    @include wh(0.9rem, 0.9rem);
+    
+    position: absolute;
+    background: url('../../assets/icon_address.png') no-repeat center;
+    background-size: cover;
+  }
+ 
+  .address .message_address {
+    @include sc(0.8rem, #505050);
+    height: 0.9rem;
+    font-weight: 400;
+    line-height: 0.9rem;
+    padding-left: 1rem;
+    flex: 1;
+  }
+  .like_num {
+   height: 0.9rem;
+    @include sc(0.8rem, #8C8C8C);
+
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+
+    line-height: 0.9rem;
+  }
+
+  
+  .van-row {
+   
+    height: 2rem;
+    color: #646464 !important;
+    font-size: 0.8rem !important;
+      // @include sc(0.8rem,#646464);
+    font-family: PingFangSC-Regular, PingFang SC !important;
+    font-weight: 400 !important;
+    
+    line-height: 2rem;
+  }
+  .introduce_mes {
+    @include sc(0.9rem,#646464);
+    margin-top: 0.9rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    line-height: 1.1rem;
+  }
+  .van-grid-item:last-child .van-image::before {
+    content: '';
+    position: absolute;
+    
+      @include wh(100%, 100%);
+   
+    opacity: 0.39;
+    background-color: #000;
+
+  }
+  .more_picture {
+    position: absolute;
+    @include sc(1rem,#FFFFFF);
+    
+  }
+
+  .sure_check {
+      @include wh(100%, 6.5rem);
+      background: #FAFAFA;
+      border-radius: 0.3rem;
+      margin-top: 0.9rem;
+      border: 2px solid #E0E0E0;
+      display: flex;
+  }
+  .sure_check div {
+    padding: 0.9rem;
+    text-align: center;
+    flex: 1;
+  }
+  .sure_check img {
+    display: block;
+    margin-left: 0.8rem;
+      @include wh(3.2rem, 3.2rem);
+
+  }
+  .sure_check span {
+    @include sc(0.8rem,#262B40);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    
+    line-height: 24px;
+  }
+  .van-tag--primary.van-tag--plain {
+    @include sc(0.8rem,#505050);
+
+  }
+  .van-tag--primary {
+    background-color: #F6F6F6;
+  }
+  .van-tag {
+    border: 0;
+    margin-left: 0.3rem;
+    margin-top: 0.4rem;
+    padding: 0.4rem 1rem;
+    
+  }
+  .lw_look {
+    @include wh(3.2rem, 3.2rem);
+  }
+
+  .gave_more {
+      @include wh(100%, 6.5rem);
+      display: flex;
+  }
+  .gave_more .sure_name {
+    padding: 0.9rem;
+    text-align: center;
+    flex: 1;
+   
+
+  }
+  .sure_name div {
+     @include wh(5rem, 5rem);
+    border-radius: 50%;
+    border: 1px solid #fff;
+  }
+  .pink {
+    // border: 1px solid ;
+   
+    box-shadow: 0px 6px 30px 0px rgba(255, 128, 123, 0.3);
+    
+  }
+  .gold {
+    
+box-shadow: 0px 6px 30px 0px rgba(206, 164, 118, 0.4);
+  }
+  .blue {
+    
+box-shadow: 0px 6px 30px 0px rgba(64, 72, 104, 0.16);
+  }
+  .gave_more img {
+    display: block;
+    margin-top: 1rem;
+    margin-left: 1.5rem;
+      @include wh(1.9rem, 1.9rem);
+
+  }
+  .gave_more span {
+    @include sc(0.7rem,#CEA476);
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    
+    line-height: 0.9rem;
+  }
+</style>

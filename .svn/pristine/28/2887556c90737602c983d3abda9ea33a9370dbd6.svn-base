@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content=" initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/json.js" type="text/javascript"></script>
+    <script src="js/base.js" type="text/javascript"></script>
+    <title></title>
+    <style type="text/css">
+        .page_tools {float:left;width:960px;height:120px; margin-left:30px;border-left:1px solid #e0e0e0; border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;}
+        .page_tools .btn {float:right;height:14px;font-size:14px;line-height:14px; color:#323232;padding:8px 20px;margin:20px 12px 0px 6px;border:1px solid #DBDCE0;
+            text-align:center;cursor: pointer;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; overflow: hidden;}
+        .page_tools .input{float:left;float:right;width:70px;margin:20px 0px 0px 12px;height:14px;padding: 8px 5px;font-size:14px;line-height:14px;border:1px solid #e0e0e0;
+            -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; overflow: hidden;}
+        .page_tools .one {float:right;height:14px; padding:9px 12px;margin:20px 0px 0px 6px;border:1px solid #DBDCE0;
+            text-align:center;cursor: pointer;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; overflow: hidden;}
+        .page_tools .page {float:right;min-width:20px;height:14px;font-size:14px;line-height:14px; color:#323232;padding:8px 12px;margin:20px 0px;}
+        .page_tools .prev { width: 0; height: 0; border-top: 6px solid transparent; border-right: 6px solid #646464; border-bottom: 6px solid transparent;}
+		.page_tools .next { width: 0;  height: 0; border-top: 6px solid transparent; border-left: 6px solid #646464;border-bottom: 6px solid transparent;}
+        
+        .title {float:left; width:64px;height:16px;padding-bottom:6px;margin:30px 896px 20px 30px;font-size:16px; color:#323232; line-height:16px;border-bottom:2px solid #009688; }
+        .button {float:left;width:120px;height:14px;margin-left:30px;font-size:14px;line-height:14px; color:#fff;padding:9px 0px;
+            text-align:center;cursor: pointer;background-color:#009688;-moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; overflow: hidden;}
+        .count {float:left;width:190px;height:14px;margin-left:630px;font-size:14px;line-height:14px; color:#646464;padding:9px 0px;
+            text-align:right; overflow: hidden;}
+        .table-selall {float:left; width:960px;height:48px;margin:10px 0px 0px 30px; background-color:#F4F5F9;border:1px solid #e0e0e0;}
+        .table-selall .selall {float:left;width:30px;height:14px;font-size:14px;line-height:14px; color:#323232;padding:17px 0px;margin-right:20px;}
+        .table-selall .btn {float:left;height:14px;font-size:14px;line-height:14px; color:#F0F0F0;padding:8px 20px;margin:8px 3px;border:1px solid #DBDCE0;
+            text-align:center;background-color:#FF5722;cursor: pointer; border-radius: 4px;}
+        
+        .rec { float:left;width:962px;margin-left:30px; }
+        .rec table { border-collapse:collapse;width:100%; font-size:13px; line-height:20px; color:#646464;}
+        .rec tr { border-left:1px solid #e0e0e0; height:60px; border-right:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;}
+        .rec td { text-align:center; vertical-align:middle;border:none; }
+    </style>
+    <script type="text/javascript">  
+        var user  =  GetCookie("login_uid");
+        var count = 0;
+        var page = 0;
+        
+        function check( x ){
+            var id = x.id;
+            var checkbox = document.getElementById("selall");
+			var itembox = document.getElementsByName("sel");   
+            
+            if(id=="selall"){
+                var m = false;
+                if(hasClass(checkbox,"base_check_on"))m = true;
+                
+                for(var i=0; i<itembox.length; i++){
+                    if(m)addClass(itembox[i], "base_check_on");
+                    else removeClass(itembox[i], "base_check_on");
+                }
+            }
+            else {
+                var m = true;
+                for(var i=0; i<itembox.length; i++){
+                    if(!hasClass(itembox[i],"base_check_on")){m = false;break;}
+                }
+                
+                if(m)addClass(checkbox, "base_check_on");
+                else removeClass(checkbox, "base_check_on");
+            }
+        }
+        
+        function showpagetools(){
+            var m = Math.ceil(count/20);
+            document.getElementById("pages").innerHTML = (page+1) +"/" + m;
+            if(page>0)document.getElementById("prev").style.display = "block";
+            else document.getElementById("prev").style.display = "none";
+            
+            if(page<m-1)document.getElementById("next").style.display = "block";
+            else document.getElementById("next").style.display = "none";
+        }
+        
+        function gopage( p ){
+            var m = Math.ceil(count/20);
+            var newpage = 0;
+            if(p==0){
+                newpage = parseInt(document.getElementById("selpage").value) -1;
+                if(newpage === 0);
+                else if(!newpage)return;
+            }
+            else if(p<0)newpage = page - 1;
+            else newpage = page + 1;
+            
+            if(page == newpage)return;
+            if(newpage<0)return;
+            if(newpage>m-1)return;
+
+            page = newpage;
+            var data = {"operate":"ListAdmin","page":page, "pre":"20"};
+            Ajax(ajax_list, data);
+        }
+        
+        function reset( nid ){
+            if(nid==108)return;
+            var data = {"operate":"ClearAdmin","id":nid};
+            Ajax(ajax_del, data);
+        }   
+            
+		function del( nid ){
+            if(nid==108)return;
+            var data = {"operate":"DelAdmin","ids":nid};
+            Ajax(ajax_del, data);
+        }   
+            
+		function delall( ){
+            var itembox = document.getElementsByName("sel");
+			var str = "";
+            for(var i=0; i<itembox.length; i++)
+				if(hasClass(itembox[i],"base_check_on"))str += itembox[i].title+",";
+            if(str=="")return;
+            str = str.substr(0,str.length-1);
+     
+            var msg = "你确定要删除此人？";            
+			if(confirm(msg)){
+                var data = {"operate":"DelAdmin","ids":str};
+                Ajax(ajax_set, data);
+            }
+        }
+        
+        
+        function ajax_del(obj){
+            if(obj.Code>0)alert("有记录没有修改。");
+            SetCookie("cur_page",page,0);
+            window.location.reload();
+        }
+        
+        function edit( nid ){
+            SetCookie("cur_page",page,0);
+        	location = "admin_edit.html?i="+nid;
+        }
+        
+        function ajax_list(obj){
+            if(obj.Code>0){ alert(obj.Msg);return; }
+            else {
+                //alert(obj.Result);
+                var ary = JSON.parse( obj.Result );
+                var str = '';
+                for(var i=0;i<ary.length;i++){
+                    if(ary[i].id == 10001)continue;
+                    var time = getDateString(ary[i].time*1000);
+                    str += '<tr><td style="width:52px"><div name="sel" class="base_check" title="'+ary[i].id+'" style="margin:0px 16px;"></div></td>';
+                    str += '<td style="width:90px;text-align:left">'+ary[i].id + '</td>';
+                    str += '<td style="width:120px;text-align:leftt">'+ary[i].name + '</td>';
+                    str += '<td style="width:260px;text-align:right;">最后登录: '+ time + '</td><td style="color:#337AD9;text-align:right;padding-right:40px;">';
+                    str += '<a href="#" onclick="edit('+ary[i].id +');return false;">修改</a>&nbsp;<a href="#" onclick="del('+ary[i].id +');return false;">删除</a>&nbsp;<a href="#" onclick="reset('+ary[i].id+');return false;">重置密码</a></td></tr>';
+                    
+                }
+                document.getElementById("table").innerHTML = str; 
+                init_baseinput(check);
+       
+                showpagetools();
+           }
+        }
+        
+        function ajax_count(obj){
+            if(obj.Code>0){ alert(obj.Msg);return; }
+            else {
+                //alert(obj.Result);
+                count = obj.Result;
+                document.getElementById("count").innerHTML = (count-1);
+                if(count == 0)return;                
+                
+                var str = GetCookie("cur_page");
+            	if(str===false)page = 0;
+            	else page = parseInt(str);
+            	DelCookie("cur_page");
+                
+                var data = {"operate":"ListAdmin","page":page, "pre":"20"}; 
+            	Ajax(ajax_list, data);
+            }
+        }
+        window.onload = function(){             
+            if(user != 10001){location = "dashboard.html";  return; }          
+            init_baseinput(check); 
+            
+            var data = {"operate":"CountAdmin"}; 
+            Ajax(ajax_count, data);            
+        }
+        
+    </script>
+</head>
+<body>
+    <div class="title">管理员</div>
+    <div class="emptybar" style="min-height:10px;"></div>
+    <a href="###" onclick="edit(0);return false;"><div class="button">＋添加管理员</div></a>
+    <div class="count">共有管理员 <span id="count" style="color:#009688;font-size:18px;font-weight:bold"></span> 人</div>
+    
+    <div class="table-selall">
+        <div id="selall" class="base_check" style="margin:16px 6px 16px 16px;"></div>
+        <div class="selall">全选</div>
+        <a onclick="delall(1)"><div class="btn">删除</div></a>
+		<font size="3" color="gray" style="margin-left: 550px;line-height: 3;">管理员默认密码为：111111</font>
+    </div>
+    
+    <div class="rec">
+        <table id="table">
+            
+		</table>
+    </div>
+    <div class="page_tools">
+        <a onclick="gopage(0)"><div class="btn">跳转</div></a>
+        <input class="input" name="selpage" type="text" maxlength="6" id="selpage" onkeyup="value=value.replace(/[^0-9]/g,'')" />
+        <a onclick="gopage(1)"><div class="one" id="next"><div class="next"></div></div></a>
+        <div class="page" id="pages">1/1</div>
+        <a onclick="gopage(-1)"><div class="one" id="prev"><div class="prev"></div></div></a>
+    </div>
+</body>
+</html>

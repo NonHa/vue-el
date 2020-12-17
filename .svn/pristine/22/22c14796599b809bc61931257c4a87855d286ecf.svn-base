@@ -1,0 +1,52 @@
+<template>
+  <div >
+    <div class="activeColor">
+       <van-tabs v-model="active" @click="getTabIndex" class="accset" color= "#FF807B"  line-width="1.1rem" line-height="0.25rem" swipe-threshold sticky  >
+      <van-tab v-for="(item, index) in tabList" :title="item" :key="index" title-inactive-color="#FF807B">
+        <eve-day v-show="home"></eve-day>
+      </van-tab>
+    </van-tabs>
+    </div>
+  </div>
+</template>
+
+<script>
+import eveDay from '../home/eveDay'
+export default {
+  components: { eveDay },
+  props: {
+    tabList: {
+      type: Array
+    },
+    home: {
+      type: Boolean
+    }
+  },
+  data() {
+    return {
+      selected: '1',
+      active: 0,
+      activeColor: '#FF807B'
+    }
+  },
+  methods: {
+    getTabIndex(index) {
+      this.$emit('getItem', index)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  .van-tabs__line {
+    background-color: #FF807B;
+  }
+  // .van-tab--active .van-tab__text{
+  //   color: #FF807B !important;
+
+  // }
+  // .van-tab--active {
+  //   color: #FF807B !important;
+
+  // }
+</style>

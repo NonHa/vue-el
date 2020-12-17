@@ -1,0 +1,173 @@
+import App from '../App'
+
+const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
+const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
+const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
+const active = r => require.ensure([], () => r(require('../page/active/index')), 'active')
+const activeDoing = r => require.ensure([], () => r(require('../page/active/activeDoing')), 'active')
+const mine = r => require.ensure([], () => r(require('../page/mine/index')), 'mine')
+const message = r => require.ensure([], () => r(require('../page/message/index')), 'message')
+const search = r => require.ensure([], () => r(require('../page/search/index')), 'search')
+const article = r => require.ensure([], () => r(require('../page/article/index')), 'article')
+const articleMes = r => require.ensure([], () => r(require('../page/article/message')), 'articleMessage')
+const customer = r => require.ensure([], () => r(require('../page/customer/index')), 'customer')
+const customerMes = r => require.ensure([], () => r(require('../page/customer/cleanMessage')), 'customer')
+const customerChoose = r => require.ensure([], () => r(require('../page/customer/choose')), 'customer')
+const customerVisite = r => require.ensure([], () => r(require('../page/customer/visite')), 'customer')
+const visiteSuccess = r => require.ensure([], () => r(require('../page/customer/visiteSuccess')), 'customer')
+const visiteDone = r => require.ensure([], () => r(require('../page/customer/visiteDone')), 'customer')
+const acceptVisite = r => require.ensure([], () => r(require('../page/message/acceptVisite')), 'message')
+const acceptResult = r => require.ensure([], () => r(require('../page/message/acceptResult')), 'message')
+const acceptCancel = r => require.ensure([], () => r(require('../page/message/acceptCancel')), 'message')
+const acceptSuccess = r => require.ensure([], () => r(require('../page/message/acceptSuccess')), 'message')
+const setAcceptCancel = r => require.ensure([], () => r(require('../page/message/setAcceptCancel')), 'message')
+const setAcceptSuccess = r => require.ensure([], () => r(require('../page/message/setSuccess')), 'message')
+const mineCheck = r => require.ensure([], () => r(require('../page/mine/mineCheck')), 'mine')
+const mineEdit = r => require.ensure([], () => r(require('../page/mine/editMessage')), 'mine')
+const login = r => require.ensure([], () => r(require('../page/login/index')), 'login')
+const love = r => require.ensure([], () => r(require('../page/love/index')), 'love')
+const vip = r => require.ensure([], () => r(require('../page/saleVip/index')), 'vip')
+
+export default [{
+    path: '/',
+    component: App,
+    children: [
+        {
+            path: '',
+            redirect: '/login'
+        },
+        {
+            path: '/home',
+            component: home,
+            children: [
+                {
+                    path: 'active',
+                    component: active,
+                    name: 'Active',
+                    // meta: { title: '预约', icon: 'education', noCache: true, roles: ['root', 'admin', 'operator'] }
+                },
+                {
+                    path: 'mine',
+                    component: mine,
+                    name: 'Mine',
+                    // meta: { title: '预约', icon: 'education', noCache: true, roles: ['root', 'admin', 'operator'] }
+                },
+                {
+                    path: 'message',
+                    component: message,
+                    name: 'Message',
+                    // meta: { title: '预约', icon: 'education', noCache: true, roles: ['root', 'admin', 'operator'] }
+                },
+               
+            ]
+        },
+       
+        {
+            path: '/search',
+            component: search
+        },
+        {
+            path: '/searchMessage',
+            component: articleMes
+        },
+        {
+            path: '/article',
+            component: article
+        },
+        {
+            path: '/customer',
+            component: customer
+        },
+        {
+            path: '/customer/message',
+            component: customerMes
+        },
+        {
+            path: '/customer/choose',
+            component: customerChoose
+        },
+        {
+            path: '/customer/visite',
+            component: customerVisite
+        },
+        {
+            name: 'visiteSuccess',
+            path: '/customer/visiteSuccess',
+            component: visiteSuccess
+        },
+        {
+            path: '/customer/visiteDone',
+            component: visiteDone
+        },
+        {   
+            name: 'acceptVisite',
+            path: '/message/acceptVisite',
+            component: acceptVisite
+        },
+        {   
+            name: 'acceptResult',
+            path: '/message/acceptResult',
+            component: acceptResult
+        },
+        {   
+            name: 'acceptCancel',
+            path: '/message/cancel',
+            component: acceptCancel
+        },
+        {   
+            name: 'setAcceptSuccess',
+            path: '/message/success',
+            component: setAcceptSuccess
+        },
+        {   
+            name: 'setAcceptCancel',
+            path: '/message/setCancel',
+            component: setAcceptCancel
+        },
+        {   
+            name: 'acceptSuccess',
+            path: '/message/success',
+            component: acceptSuccess
+        },
+        {   
+            name: 'mineCheck',
+            path: '/mine/check',
+            component: mineCheck
+        },
+        {
+            path: '/active/doing',
+            component: activeDoing
+        },
+        {
+            name: 'mineEdit',
+            path: '/mine/edit',
+            component: mineEdit
+        },
+        {
+            name: 'login',
+            path: '/login',
+            component: login
+        },
+        {
+            name: 'love',
+            path: '/love',
+            component: love
+        },
+        {
+            name: 'vip',
+            path: '/vip',
+            component: vip
+        },
+        {
+            path: '/city/:cityid',
+            component: city
+        },
+
+        // 所有店铺列表页
+        {
+            path: '/msite',
+            component: msite,
+            meta: { keepAlive: true }
+        }
+    ]
+}]

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=1080px, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<script src="js/base.js" type="text/javascript"></script>
+		<style type="text/css">
+
+		</style>
+
+	</head>
+
+	<body>
+		<div class="layui-container">
+			<div class="layui-row">
+				<div class="layui-col-md12 ">
+					<div class="layui-tab">
+						<ul class="layui-tab-title">
+							<li class="layui-this">详细资料</li>
+							<li>征婚条件</li>
+						</ul>
+						<div class="layui-tab-content">
+							<!-- 
+								详细资料
+							 -->
+							<div class="layui-tab-item layui-show">
+								<form class="layui-form" lay-filter="baseinfo" method="post" action="../webapi.php?rand=0.1002121545435">
+									<!-- 1.体重 2.身高  4.籍贯 5.民族 3.职业 6.收入状况-->
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">生日</label>
+											<div class="layui-input-inline">
+												<input type="text" name="birthday" lay-verify="required" class="layui-input" id="brithday" placeholder="选择日期">
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">身高</label>
+											<div class="layui-input-inline">
+												<select name="height" lay-verify="required" lay-search="" lay-skin="select">
+													<option value="">单位:cm</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">体重</label>
+											<div class="layui-input-inline">
+												<select name="weight" lay-verify="required" lay-search lay-skin="select">
+													<option value="">单位：kg</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">学历</label>
+											<div class="layui-input-inline">
+												<select name="education" lay-verify="required" lay-search lay-skin="select">
+													<option value="">请选择</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">毕业学校</label>
+											<div class="layui-input-inline">
+												<input type="text" name="graduated_school" lay-verify="required" placeholder="输入您的毕业学校" autocomplete="off"
+												 class="layui-input">
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">民族</label>
+											<div class="layui-input-inline">
+												<select id="nation" name="nation" lay-verify="required" lay-search="" lay-skin="select">
+													<option value="">请选择</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">籍贯</label>
+											<div class="layui-input-inline">
+												<input type="text" name="hometown" lay-verify="required" placeholder="哪里人" autocomplete="off" class="layui-input">
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">职业</label>
+										<div class="layui-input-inline">
+											<input type="text" name="job" lay-verify="required" placeholder="输入您的职业" autocomplete="off" class="layui-input">
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">月收入</label>
+											<div class="layui-input-inline" style="width: 200px;">
+												<select name="salary" lay-verify="required" lay-search="" lay-skin="select">
+													<option value="">请选择</option>
+													<option value="0">3000-5000</option>
+													<option value="1">5001-8000</option>
+													<option value="2">8001-12000</option>
+													<option value="3">12001-20000</option>
+													<option value="4">20001-50000</option>
+													<option value="5">50000以上</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- 7.是否吸烟or喝酒 8.婚姻状况 9.经济条件 10.是否有孩子？是否想要孩子 -->
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">烟</label>
+											<div class="layui-input-inline">
+												<select name="smoke" lay-search="" lay-skin="select">
+													<option value="0">不吸烟</option>
+													<option value="1">吸烟</option>
+													<option value="2">偶尔会抽一下</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">酒</label>
+											<div class="layui-input-inline">
+												<select name="drink" lay-search="" lay-skin="select">
+													<option value="0">不喝酒</option>
+													<option value="1">喝酒</option>
+													<option value="2">偶尔会喝一点</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item" id="area-picker">
+										<div class="layui-form-label">工作地点</div>
+										<div class="layui-input-inline" style="width: 200px;">
+											<select name="province" class="province-selector" data-value="" lay-verify="required" id="province-1"
+											 lay-filter="province-1">
+												<option value="">请选择省</option>
+											</select>
+										</div>
+										<div class="layui-input-inline" style="width: 200px;">
+											<select name="city" class="city-selector" data-value="" lay-verify="required" id="city-1" lay-filter="city-1">
+												<option value="">请选择市</option>
+											</select>
+										</div>
+										<div class="layui-input-inline" style="width: 200px;">
+											<select name="county" class="county-selector" lay-verify="required" id="county-1" lay-filter="county-1">
+												<option value="">请选择区</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">婚姻状况</label>
+										<div class="layui-input-block">
+											<!-- （0未婚；1离异；2丧偶；3已婚） <strong></strong> -->
+											<input type="radio" name="marital_status" title="单身" value="0">
+											<input type="radio" name="marital_status" title="离异" value="1">
+											<input type="radio" name="marital_status" title="丧偶" value="2">
+											<input type="radio" name="marital_status" title="已婚" value="3">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">何时结婚</label>
+										<div class="layui-inline">
+											<!-- 何时结婚（0:看情况而定；1:1年内；2：2年内；3:3年内）  -->
+											<select name="when_marry" lay-verify="required" lay-skin="select">
+												<option value="0">看情况而定</option>
+												<option value="1">1年内</option>
+												<option value="2">2年内</option>
+												<option value="3">3年内</option>
+											</select>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">经济条件</label>
+											<div class="layui-input-inline">
+												<input type="checkbox" name="house" title="有房" value="1">
+												<input type="checkbox" name="car" title="有车" value="1">
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">是否有孩子</label>
+										<div class="layui-input-inline">
+											<input type="radio" name="child" title="有孩子" value="1">
+											<input type="radio" name="child" title="无孩子" value="0">
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">星座</label>
+											<div class="layui-inline">
+												<select name="constellation" lay-verify="required" lay-skin="select">
+													<option value="">请选取星座</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">是否想要孩子</label>
+										<div class="layui-input-block">
+											<!-- （0不要；1想要；2还没想好 -->
+											<input type="radio" name="wanna_child" title="不想要孩子" value="0">
+											<input type="radio" name="wanna_child" title="想要孩子" value="1">
+											<input type="radio" name="wanna_child" title="暂时没想好" value="2">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button class="layui-btn" lay-submit id="sub_1">修改</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							
+							
+							<!--
+							
+							
+								征婚条件
+								
+								
+							 -->
+							 
+							 
+							<div class="layui-tab-item">
+								<form class="layui-form" action="../webapi.php?rand=0.1002121545435" method="post" lay-filter="spouse_condition">
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方年龄</label>
+										<div class="layui-input-inline">
+											<select name="min_age" lay-filter="min_age" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+										<div class="layui-form-mid">至</div>
+										<div class="layui-input-inline">
+											<select name="max_age" lay-filter="max_age" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方身高</label>
+										<div class="layui-input-inline">
+											<select name="min_height" lay-filter="min_height" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+										<div class="layui-form-mid">至</div>
+										<div class="layui-input-inline">
+											<select name="max_height" lay-filter="max_height" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方体重</label>
+										<div class="layui-input-inline">
+											<select name="min_weight" lay-filter="min_weight" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+										<div class="layui-form-mid">至</div>
+										<div class="layui-input-inline">
+											<select name="max_weight" lay-filter="max_weight" lay-skin="select">
+												<option value="-1">不限</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">对方月收入</label>
+											<div class="layui-input-inline">
+												<select name="min_salary" lay-search="" lay-skin="select">
+													<option value="-1">不限</option>
+													<option value="1">3000</option>
+													<option value="2">5000</option>
+													<option value="3">8000</option>
+													<option value="4">12000</option>
+													<option value="5">20000</option>
+													<option value="6">50000</option>
+												</select>
+											</div>
+											<div class="layui-form-mid">至</div>
+											<div class="layui-input-inline">
+												<select name="max_salary" lay-search="" lay-skin="select">
+													<option value="-1">不限</option>
+													<option value="1">3000</option>
+													<option value="2">5000</option>
+													<option value="3">8000</option>
+													<option value="4">12000</option>
+													<option value="5">20000</option>
+													<option value="6">50000</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item" id="area-picker2">
+										<div class="layui-form-label">工作地点</div>
+										<div class="layui-input-inline" style="width: 200px;">
+											<select name="province" class="province-selector" lay-verify="required" id="province-2" lay-filter="province-2">
+												<option value="">请选择省</option>
+											</select>
+										</div>
+										<div class="layui-input-inline" style="width: 200px;">
+											<select name="city" class="city-selector" lay-verify="required" id="city-2" lay-filter="city-2">
+												<option value="">请选择市</option>
+											</select>
+										</div>
+										<div class="layui-input-inline" style="width: 200px;">
+											<select name="county" class="county-selector" lay-verify="required" id="county-2" lay-filter="county-2">
+												<option value="">请选择区</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">对方学历</label>
+											<div class="layui-input-inline">
+												<select name="education" lay-verify="required" lay-search="" lay-skin="select">
+													<option value="-1">不限</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">婚姻状况</label>
+											<div class="layui-input-inline">
+												<select name="marital_status" lay-verify="required" lay-search="" lay-skin="select">
+													<option value="-1">不限</option>
+													<option value="0">未婚</option>
+													<option value="1">离异</option>
+													<option value="2">丧偶</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">抽烟</label>
+											<div class="layui-input-inline">
+												<select name="smoke" lay-search="" lay-skin="select">
+													<option value="-1">不限</option>
+													<option value="0">不接受吸烟</option>
+													<option value="1">可以偶尔抽一点</option>
+													<option value="2">可以经常抽烟</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-inline">
+											<label class="layui-form-label">喝酒</label>
+											<div class="layui-input-inline">
+												<select name="drink" lay-search="" lay-skin="select">
+													<option value="-1">不限</option>
+													<option value="0">不接受喝酒</option>
+													<option value="1">可以偶尔喝一点</option>
+													<option value="2">可以经常喝酒</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方经济</label>
+										<div class="layui-input-block">
+											<input type="checkbox" name="house" title="有房" value="1">
+											<input type="checkbox" name="car" title="有车" value="1">
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">对方家庭</label>
+										<div class="layui-input-block">
+											<input type="radio" name="child" title="不限" value="-1">
+											<input type="radio" name="child" title="无孩子" value="0">
+											<input type="radio" name="child" title="有孩子" value="1">
+										</div>
+										<div class="layui-input-block">
+											<input type="radio" name="wanna_child" title="不限" value="-1">
+											<input type="radio" name="wanna_child" title="不想要孩子" value="0">
+											<input type="radio" name="wanna_child" title="想要孩子" value="1">
+											<input type="radio" name="wanna_child" title="暂时没想好" value="2">
+										</div>
+									</div>
+									<div class="layui-form-item layui-form-text">
+										<label class="layui-form-label">爱情宣言</label>
+										<div class="layui-input-block">
+											<textarea name="desc" placeholder="" class="layui-textarea"></textarea>
+										</div>
+									</div>
+									<br><br>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button class="layui-btn" lay-submit lay-filter="formDemo" id="sub_2">修改</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+	<script id="user-template" type="text/x-handlebars-template">
+
+	</script>
+	<link rel="stylesheet" href="../../resource/layui-v2.5.6/layui/css/layui.css">
+	<script src="../chat-widget/dist/handlebars.min.js"></script>
+	<script src="../../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="../js/data.js" ></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript">
+		Handlebars.registerHelper('decodeURIComponent', function(aString) {
+			return decodeURIComponent(aString);
+		})
+		Handlebars.registerHelper('getDateString', function(aString) {
+			return getDateString(parseInt(aString));
+		})
+	</script>
+	<script type="text/javascript">
+		var $ = layui.$,
+			form = layui.form,
+			layer = layui.layer,
+			laypage = layui.laypage;
+		var id = 0;
+
+
+
+		$(document).ready(function(){
+			var ag= $("select[name='age']");
+			var ta= $("select[name='height']");
+			var wei=$("select[name='weight']");
+			for(var i=18;i<=60;i++){
+				ag.append("<option value ="+i+">"+i+"</option>");
+			}
+			
+			for(var i=120;i<=220;i++){
+				ta.append("<option value ="+i+">"+i+"</option>");
+			}
+			for(var j=30;j<100;j++){
+				wei.append("<option value ="+j+">"+j+"</option>");
+			}
+			var option = "";
+			for(var i = 0; i <
+				nations.length; i++) {
+				option += '<option value="' + (i + 1) + '">' + nations[i] + '</option>';
+			}
+			$(option).appendTo("#nation");
+			
+			var constellation=$("select[name='constellation']");
+			for(var i=0;i<constellations.length;i++){
+				constellation.append("<option value ="+i+">"+constellations[i].Name+"</option>");
+			}
+			
+			var education_e=$("select[name='education']");
+			for(var i=0;i<EDUCATIONS.length;i++){
+				education_e.append("<option value ="+i+">"+EDUCATIONS[i]+"</option>");
+			}
+			add_ahw();
+			
+			var form = layui.form;
+			form.on('submit', function(data){
+				console.log(data.elem.id); //被执行事件的元素DOM对象，一般为button对象
+				console.log(data.form); //被执行提交的form对象，一般在存在form标签时才会返回
+				if(1==data.field.house);
+				else data.field.house = 0;
+				if(1==data.field.car);
+				else data.field.car = 0;
+				if(""!=data.field.county)data.field.job_addr = data.field.county;
+				else if(""!=data.field.city)data.field.job_addr = data.field.city;
+				else if(""!=data.field.province)data.field.job_addr = data.field.province;
+				else data.field.job_addr="0";
+				delete data.field.province;
+				delete data.field.city;
+				delete data.field.county;
+				console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+				if (data.elem.id=="sub_1") {
+					var postData = {
+						"ary": JSON.stringify(data.field),
+						"operate": "updateBasicInfo",
+						id: id
+					};
+					Ajax(ajax_submit,postData);
+				} else{
+					var postData = {
+						"ary": JSON.stringify(data.field),
+						"operate": "updateSpouseCondition",
+						id: id
+					};
+					Ajax(ajax_submit, postData);
+				}
+				return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			});
+		});
+		window.onload=function() {
+			var href = window.location.search.substr(1);
+			id = GetArgsFromHref(href, "id");
+			if (id == "") return false;
+			var data = {
+				"operate": "getUserDetail",
+				id: id
+			};
+			Ajax(ajax_getUserDetail, data);
+			var data = {
+				"operate": "getSpouseCondition",
+				id: id
+			};
+			Ajax(ajax_getSpouseCondition, data);
+		};
+		function ajax_submit(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				layer.msg("提交成功");
+			}
+		}
+		function ajax_getUserDetail(obj) {
+			if (obj.Code > 0) {
+				layer.msg(obj.Msg);
+				return;
+			} else {
+				var ary = JSON.parse(obj.Result);
+				if(0==ary.basicInfo.house)ary.basicInfo.house="";
+				if(0==ary.basicInfo.car)ary.basicInfo.car="";
+				
+				form.val("baseinfo",ary.basicInfo);
+				//手动地区
+				areaval(ary.basicInfo.job_addr);
+				
+			}
+		}
+		function ajax_getSpouseCondition(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				console.log(ary);
+				var form = layui.form;
+				form.val("spouse_condition", ary);
+				areaval2(ary.job_addr);
+		
+			}
+		};
+		function add_ahw(){
+			
+			var min_age = $("select[name='min_age']");
+			var max_age = $("select[name='max_age']");
+			var min_height = $("select[name='min_height']");
+			var max_height = $("select[name='max_height']");
+			var min_weight = $("select[name='min_weight']");
+			var max_weight = $("select[name='max_weight']");
+			for (let i = 18; i <= 99; i++) {
+				min_age.append("<option value =" + i + ">" + i + "</option>");
+				max_age.append("<option value =" + i + ">" + i + "</option>");
+			}
+			for (let i = 120; i <= 220; i++) {
+				min_height.append("<option value =" + i + ">" + i + "</option>");
+				max_height.append("<option value =" + i + ">" + i + "</option>");
+			}
+			for (let i = 30; i <= 99; i++) {
+				min_weight.append("<option value =" + i + ">" + i + "</option>");
+				max_weight.append("<option value =" + i + ">" + i + "</option>");
+			}
+			
+			var form=layui.form;
+			//age监听
+			//改了最小值，处理最大值
+			form.on('select(min_age)', function(data) {
+				var minage=parseInt(data.value);
+				var maxage=parseInt(max_age.val());
+				max_age.html("");
+				max_age.append("<option value =-1>不限</option>");
+				var minopt=(minage==-1?18:(minage+1));
+				for(let i=minopt;i<=99;i++){
+					max_age.append("<option value =" + i + ">" + i + "</option>");
+				}
+				if(minage < maxage||minage==-1){
+					max_age.val(maxage);
+				}
+				
+				form.render();
+			});
+			//改了最大值，处理最小值
+			form.on('select(max_age)', function(data) {
+				var maxage=parseInt(data.value);
+				var minage=parseInt(min_age.val());
+				min_age.html("");
+				min_age.append("<option value =-1>不限</option>");
+				var maxopt=(maxage==-1?100:maxage);
+				for(let i=18;i<maxopt;i++){
+					min_age.append("<option value =" + i + ">" + i + "</option>");
+				}
+				if(maxage > minage || maxage==-1){
+					min_age.val(minage);
+				}
+				form.render();
+			});
+			
+			//height监听
+			form.on('select(min_height)', function(data) {
+				var minheight=parseInt(data.value);
+				var maxheight=parseInt(max_height.val());
+				max_height.html("");
+				max_height.append("<option value =-1>不限</option>");
+				var minopt=(minheight==-1?120:(minheight+1));
+				for(let i=minopt;i<=220;i++){
+					max_height.append("<option value =" + i + ">" + i + "</option>");
+				}
+				if(minheight < maxheight||minheight==-1){
+					max_height.val(maxheight);
+				}
+				form.render();
+			});
+			form.on('select(max_height)', function(data) {
+				var maxheight=parseInt(data.value);
+				var minheight=parseInt(min_height.val());
+				min_height.html("");
+				min_height.append("<option value =-1>不限</option>");
+				var maxopt=(maxheight==-1?221:maxheight);
+				for(let i=120;i<maxopt;i++){
+					min_height.append("<option value =" + i + ">" + i + "</option>");
+				}
+				if(maxheight > minheight || maxheight==-1){
+					min_height.val(minheight);
+				}
+				form.render();
+			});
+			
+			//weight监听
+			form.on('select(min_weight)', function(data) {
+				var minweight=parseInt(data.value);
+				var maxweight=parseInt(max_weight.val());
+				max_weight.html("");
+				max_weight.append("<option value =-1>不限</option>");
+				var minopt=(minweight==-1?30:(minweight+1));
+				for(let i=minopt;i<=99;i++){
+					max_weight.append("<option value =" + i + ">" + i + "</option>");
+				}
+				if(minweight < maxweight||minweight==-1){
+					max_weight.val(maxweight);
+				}
+				form.render();
+			});
+			form.on('select(max_weight)', function(data) {
+				var maxweight=parseInt(data.value);
+				var minweight=parseInt(min_weight.val());
+				min_weight.html("");
+				min_weight.append("<option value =-1>不限</option>");
+				var maxopt=(maxweight==-1?100:maxweight);
+				for(let i=30;i<maxopt;i++){
+					min_weight.append("<option value =" + i + ">" + i + "</option>");
+				}
+				if(maxweight > minweight || maxweight==-1){
+					min_weight.val(minweight);
+				}
+				form.render();
+			});
+			
+		}
+	</script>
+</html>

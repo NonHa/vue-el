@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content=" initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <script src="js/json.js" type="text/javascript"></script>
+    <script src="js/base.js" type="text/javascript"></script>
+    <title></title>
+    <style type="text/css">
+        .title {float:left;width:64px;height:16px;padding-bottom:6px;margin:30px 0px 40px 30px;font-size:16px; color:#323232; 
+            line-height:16px;border-bottom:2px solid #009688; }
+        .button {float:left; width:120px;height:14px;font-size:14px;line-height:14px; color:#fff;padding:9px 0px;text-align:center;
+            cursor: pointer;background-color:#009688;  -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; overflow: hidden;}
+        
+        .label {float:left;clear:left;width:120px;height:14px;color:#323232;font-size:14px;line-height:14px;margin:9px 0px 9px 40px;}
+        .input{float:left;width:160px;height:14px;color:#323232;font-size:14px;line-height:14px;padding:8px 5px;border:1px solid #c1c1c1;
+            font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;}
+        .info {float:left;width:370px;height:14px;margin:5px 340px 2px 160px;color:#a1a1a1;font-size:14px;line-height:16px;}
+    </style>
+    <script type="text/javascript">
+        function showerr(oid,msg,err){
+            var obj = document.getElementById(oid);
+            obj.innerHTML = msg;
+            if(err)obj.style.color = "#009688";
+            else obj.style.color = "#A1A1A1";
+        }
+        
+        function save(){
+            var user  =  GetCookie("login_uid");
+            
+            var str = document.getElementById("old").value;
+            if(str.length<6){showerr("old_info","最短6个字符",true);return false;}
+            else if(!isNumberOrLetter(str)){showerr("old_info","仅字母或数字",true);return false;}
+            else showerr("old_info","注意大小写",false);      
+            var oldpw = str; 
+            
+            var str = document.getElementById("new").value;
+            if(str.length<6){showerr("new_info","最短6个字符",true);return false;}
+            else if(!isNumberOrLetter(str)){showerr("new_info","仅字母或数字",true);return false;}
+            else showerr("new_info","字母数字，最短6个字符",false);      
+            var newpw = str; 
+            
+            var str = document.getElementById("again").value;
+            if(str!=newpw){showerr("again_info","两次输入不致",true);return false;}           
+            else showerr("again_info","请确保两次输入一致",false);     
+    
+            document.getElementById("btn").onclick = function (){ void(0);return false; }; 
+            var data = {"operate":"ModifyPassword","user":user,"oldpw":oldpw,"newpw":newpw};
+            Ajax(ajax_save, data);
+        }
+        
+        function ajax_save(obj){
+            if(obj.Code>0)alert( obj.Msg );
+            else  {
+				alert("密码修改成功！");
+				location = "dashboard.html";
+			}
+        }
+        
+    </script>
+</head>
+<body>
+    <div class="title">修改密码</div>
+    
+    <div class="label">原密码：</div>
+    <input class="input" type="password" maxlength="16" id="old" />
+   	<div class="info" style="margin-bottom:40px;" id="old_info">注意大小写</div> 
+    
+    <div class="label">新密码：</div>
+    <input class="input" type="password" maxlength="16" id="new" />
+   	<div class="info" style="margin-bottom:40px;" id="new_info">字母数字，最短6个字符</div> 
+    
+    <div class="label">确认新密码：</div>
+    <input class="input" type="password" maxlength="16" id="again" />
+   	<div class="info" style="margin-bottom:60px;" id="again_info">请确保两次输入一致</div> 
+    
+    <div class="label"></div>
+    <a href="#" onclick="save();return false;" id="btn"><div class="button">保存</div></a>
+    
+	<div class="emptybar" style="min-height:40px;"></div>
+    
+</body>
+</html>

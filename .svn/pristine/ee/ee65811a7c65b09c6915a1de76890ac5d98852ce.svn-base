@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<title>一瓢婚恋-线下咖啡馆位置</title>
+		<style type="text/css">
+			#container {
+				width: 100%;
+				height: 350px;
+			}
+			body{
+				margin: 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+	</body>
+
+	<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=1b9bb776c5665a211eb0a47a1f9e9bad"></script>
+	<script type="text/javascript">
+		var tilelayer = new AMap.TileLayer({
+			zooms: [3, 20], //可见级别
+			visible: true, //是否可见
+			opacity: 1, //透明度
+			zIndex: 0, //叠加层级
+		})
+		var map = new AMap.Map('container', {
+			layers: [tilelayer] ,//当只想显示标准图层时layers属性可缺省
+			zoom: 13, //级别
+			center: [112.943948,28.157772],
+		});
+		var marker = new AMap.Marker({
+			position: [112.943948,28.157772],
+			title:"一瓢咖啡馆"
+		});
+		map.add(marker);
+	</script>
+</html>

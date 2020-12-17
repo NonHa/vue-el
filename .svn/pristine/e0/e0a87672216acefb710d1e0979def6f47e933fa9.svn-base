@@ -1,0 +1,262 @@
+<template>
+  <div>
+    <div class="all_day_content">
+      <div v-for="(item, index) in homeList.recommander" class="all_day_content_item" :key="index" @click="goCustomerPage">
+        <div class="checkSure">
+          <img src="../../assets/successful_certification.png" alt="">
+          <!-- <img :src="item.photo" alt=""> -->
+          认证客户
+        </div>
+        <div class="picture">
+          <!-- <img src="../../assets/icon_photo.png" alt=""> -->
+          <div class="picture_num">
+              2
+          </div>
+        </div>
+        <img :src="item.photo" alt="">
+        <div class="user_message">
+         <span class="home_title">
+           {{ item.nickname }}
+           <!-- 何女士 -->
+         </span>
+         <span class="unique_message">
+           联合创始人
+         </span>
+         <p>26岁/长沙/10W~20W/天蝎座</p>
+         <p class="content">最好的感情会让两个人变得越来好，希望会遇见你，最好的感情会让两个人变得越来好，希望…</p>
+          <div class="like_add_touch">
+            <img src="../../assets/icon_like.png" alt="">喜欢
+            <img style="margin-left: 1.1rem" src="../../assets/pull_strings.png" alt="">牵线
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- <div class="swrip_img">
+      <van-swipe :loop="false" :width="300" indicator-color="nono">
+        <van-swipe-item>
+          <img @click="goArtivle" src="../../assets/bg_ emotional.png" alt="">
+        </van-swipe-item>
+        <van-swipe-item>
+           <img src="../../assets/bg_ love.png" alt="">
+        </van-swipe-item>
+       
+    </van-swipe>
+    </div> -->
+  </div>
+</template>
+
+<script>
+
+
+export default {
+  data() {
+    return {
+        homeList: {"user":
+                    {"0":"1",
+                    "id":"1",
+                    "1":"oE5C-vvRAsYHqb9FBCuTqN0ipWuM",
+                    "openid":"oE5C-vvRAsYHqb9FBCuTqN0ipWuM",
+                    "2":"%E5%90%B4%E6%94%80",
+                    "nickname":"%E5%90%B4%E6%94%80",
+                    "3":"http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FS2DjEN3t1SW9DwDLBqegib1LFvqxvrf8m49s9XfqDtvcg8EibpibrGq2WGYESmQvBO5sUTj5t49l6ftEpya4K1ia74qzU7q2lDfZ%2F132",
+                    "photo":"http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FS2DjEN3t1SW9DwDLBqegib1LFvqxvrf8m49s9XfqDtvcg8EibpibrGq2WGYESmQvBO5sUTj5t49l6ftEpya4K1ia74qzU7q2lDfZ%2F132",
+                    "4":"1",
+                    "sex":"1",
+                    "5":"1",
+                    "isvip":"1",
+                    "6":"0",
+                    "isreal":"0",
+                    "7":"5f4dcc3b5aa765d61d8327deb882cf99",
+                    "key":"5f4dcc3b5aa765d61d8327deb882cf99",
+                    "8":"1600002752",
+                    "join":"1600002752",
+                    "9":"18968804976",
+                    "tel":"18968804976","10":null,"group":null},
+                    "public":{"0":"3","id":"3","1":"0","inter":"0","2":"","string":""},
+                    "hotjob":{"0":"8","id":"8","1":"0","inter":"0","2":"","string":""},
+                    "neworder":{"0":"9","id":"9","1":"0","inter":"0","2":"","string":""},
+                    "recommander":[
+                        {
+                            "id":"1",
+                            "openid":"oE5C-vvRAsYHqb9FBCuTqN0ipWuM",
+                            "nickname":"%E5%90%B4%E6%94%80",
+                            "sex":"1",
+                            "photo":"http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FS2DjEN3t1SW9DwDLBqegib1LFvqxvrf8m49s9XfqDtvcg8EibpibrGq2WGYESmQvBO5sUTj5t49l6ftEpya4K1ia74qzU7q2lDfZ%2F132",
+                            "desc":"test\u6d4b\u8bd5\u6e2c\u8a66\uff1f?$#%\uffe5#1234567890",
+                            "job_addr":"440305",
+                            "hometown":"\u6e56\u5357\u5a04\u5e95",
+                            "real_name":"0",
+                            "real_edu":"0",
+                            "marry_status":"0",
+                            "vip_id":"3",
+                            "uservip_status":"1"},
+                        {"id":"13","openid":"oE5C-vp6kMseFndhRJYfbtNh7gL0","nickname":"%E9%9B%AA","sex":"2",
+                        "photo":"http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FN7L1YPxL2kbUib4Tl99U73xFI1m5cp4oRr8DQB6HhptkQcY998YHWwB3oLuX3CBzdfgM5vNkrz0Kiantcog0TibuPhzCvLqqNke%2F132",
+                        "desc":null,"job_addr":null,"hometown":null,"real_name":null,"real_edu":null,
+                        "marry_status":null,"vip_id":"1","uservip_status":"1"},
+                        {"id":"28","openid":"oE5C-vk6Aw5hKLlzMcOpLpSL55zE","nickname":"%E5%AD%99%E5%89%91%E9%94%8B","sex":"1","photo":"http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FN7L1YPxL2kbUib4Tl99U738grIdKpkg8Fr7Pb52bAmcOPib6ukYdN6P3L2HmFnlwPZX1AGZDWhKS6waZA9DfnGicnRYbSdjgQzU%2F132","desc":null,"job_addr":null,"hometown":null,"real_name":null,"real_edu":null,"marry_status":null,"vip_id":"2","uservip_status":"1"}]}
+
+          
+          }
+      },
+      
+      created() {
+        this.homeList.recommander.forEach(item => {
+          item.nickname = decodeURIComponent(item.nickname)
+          item.photo = decodeURIComponent(item.photo)
+        //  console.log(item.photo);
+        })
+      
+      },
+      methods: {
+        goArtivle() {
+          this.$router.push({path : '/article'})
+        },
+        goCustomerPage() {
+          this.$router.push({path : '/customer'})
+
+        }
+      }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import '../../style/mixin';
+    .all_day_content {
+     
+      padding: 0.9rem;
+      @include wh(100%, 30rem);
+    }
+    .all_day_content_item {
+      position: relative;
+       border-radius: 5px;
+      background-color: #FFFFFF;
+
+      @include wh(100%, 100%);
+       font-family: PingFangSC-Semibold, PingFang SC;
+    }
+    .all_day_content_item .checkSure, .picture {
+      position: absolute;
+      top: 0.8rem;
+      left: 0.9rem;
+      text-align: center;
+      line-height: 0.9rem;
+      background: #262B40;
+      border-radius: 0px 100px 100px 0px;
+      opacity: 0.49;
+      @include wh(3.2rem, 0.9rem);
+      @include sc(0.7rem,#FFFFFF);
+      
+    }
+    .all_day_content_item .checkSure::before {
+      position: absolute;
+      display: inline-block;
+     
+      @include wh(1rem, 0.9rem);
+
+      background-image: url('../../assets/successful_certification.png');
+    }
+    .checkSure img{
+      position: absolute;
+      top: 0;
+      left: -0.7rem;
+      @include wh(1rem, 0.9rem);
+      
+    }
+    .picture {
+      
+      left: 16.8rem;
+      border-radius: 0.5rem;
+      opacity: 0.49;
+      
+      overflow: hidden;
+      line-height: 0.9rem;
+       @include wh(2.2rem, 0.9rem);
+     
+    }
+    
+    .picture::before {
+      content: '';
+      position: absolute;
+      top: 0.1rem;
+      left: 0.3rem;
+      background: url('../../assets/icon_photo.png') no-repeat center;
+      background-size: 100% 100%;
+       @include wh(0.7rem, 0.7rem);
+
+    }
+    .picture_num {
+       @include sc(0.7rem,#FFFFFF);
+       @include wh(2rem, 0.9rem);
+      line-height: 1.1rem;
+      margin-left: 0.5rem;
+    }
+    img {
+      @include wh(100%, 18rem);
+
+    }
+    .user_message {
+      padding: 1.2rem;
+      padding-top: 0.5rem;
+     
+    }
+    .user_message p {
+        @include sc(0.7rem,#8C8C8C);
+        margin-bottom: 0.5rem;
+    }
+     .user_message .content {
+        @include sc(0.8rem,#505050);
+
+     }
+    .home_title {
+        @include sc(0.9rem,#262B40);
+        
+      font-weight: 600;
+
+      line-height: 30px;
+      
+    }
+    
+    .unique_message {
+      display: inline-block;
+      background-color: #CEA476;
+      line-height: 0.9rem;
+      text-align: center;
+      margin-left: 0.3rem;
+      margin-bottom: 0.1rem;
+      border-top-left-radius: 0.45rem;
+      border-bottom-right-radius: 0.45rem;
+      
+        @include sc(0.6rem, #FFFFFF);
+      @include wh(4rem, 0.9rem);
+
+    }
+    .like_add_touch {
+      margin-top: 1.5rem;
+        @include sc(0.7rem, #262B40);
+
+      @include wh(100%, 1.4rem);
+
+    }
+    .like_add_touch img {
+      vertical-align:middle;
+      margin-right: 0.2rem;
+      @include wh(1.4rem, 1.4rem);
+
+    }
+    .swrip_img {
+     height: 5rem;
+    }
+    
+    .swrip_img img {
+       @include wh(100%, 6rem);
+    }
+    van-swipe-item {
+      // @include wh(50%, 6rem);
+      width: 50% !important;
+    }
+    .van-swipe__indicators {
+      display: none !important;
+    }
+</style>

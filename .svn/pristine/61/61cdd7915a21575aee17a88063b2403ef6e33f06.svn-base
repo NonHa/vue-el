@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=1080px, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="icon" href="../img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<script src="js/base.js" type="text/javascript"></script>
+		<style type="text/css">
+			html {
+				height: 100%;
+			}
+
+			body {
+				height: 100%;
+				margin: 0;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="layui-body">
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">总览</a>
+							<dl class="layui-nav-child">
+								<dd><a href="dashboard.html" target="rightFrame">控制台</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item" id="power-0">
+							<a href="javascript:;">系统管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="admin.html" target="rightFrame">角色管理</a></dd>
+								<dd><a href="wxmenu.html" target="rightFrame">微信菜单</a></dd>
+								<dd><a href="slide.html" target="rightFrame">幻灯片</a></dd>
+								<dd><a href="setup.html" target="rightFrame">系统设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item" id="power-1">
+							<a href="javascript:;">用户管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="uservip.html?vid=1" target="rightFrame">联合创始人</a></dd>
+								<dd><a href="uservip.html?vid=2" target="rightFrame">钻石会员</a></dd>
+								<dd><a href="uservip.html?vid=3" target="rightFrame">精英会员</a></dd>
+								<dd><a href="uservip.html?vid=0" target="rightFrame">非会员用户</a></dd>
+								<dd><a href="user_search.html" target="rightFrame">搜索用户</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item" id="power-2">
+							<a href="javascript:;">日常管理</a>
+							<dl class="layui-nav-child">
+								<dd><a href="real-vip.html" target="rightFrame">会员申请</a></dd>
+								<dd><a href="real-name.html" target="rightFrame">实名认证</a></dd>
+								<dd><a href="real-edu.html" target="rightFrame">学历认证</a></dd>
+								<dd><a href="real-referrer.html" target="rightFrame">推荐人认证</a></dd>
+								<dd><a href="order.html" target="rightFrame">预约管理</a></dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+
+	</body>
+	<link rel="stylesheet" href="../../resource/layui-v2.5.6/layui/css/layui.css">
+	<script src="../../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		var $ = layui.$;
+		var power = GetCookie("login_power").split(',');
+		for (var i = 0; i < power.length; i++) {
+			if (power[i] == 0) {
+				$("#power-"+i).hide();
+			}
+		}
+	</script>
+</html>

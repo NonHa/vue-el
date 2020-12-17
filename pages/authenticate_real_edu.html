@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>个人中心</title>
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="../resource/layui-v2.5.6/layui/css/layui.css">
+		<link rel="icon" href="img/yipiao-2.png" type="image/x-icon">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<style type="text/css">
+
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 导航栏 -->
+			<div class="layui-header layui-hide-xs layui-bg-black">
+				<div class="layui-container">
+					<a href="../index.html">
+						<div class="layui-logo" style="color:Aqua;">
+							<h1>一瓢婚恋网</h1>
+						</div>
+					</a>
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="../index.html">首页</a></li>
+						<li class="layui-nav-item">
+							<a href="#">会员群体</a>
+							<dl class="layui-nav-child">
+								<dd><a href="vip.html?v=creater">联合创始人</a></dd>
+								<dd><a href="vip.html?v=vip">名士/名媛</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a href="physical_store.html">实体门店</a></li>
+					</ul>
+					<ul class="layui-nav layui-layout-right">
+						<li class="layui-nav-item"><a href="message.html">消息<span class="layui-badge-dot"></span></a></li>
+						<li class="layui-nav-item">
+							<a href="userbase.html" id=""><img name="touxiang" id="touxiang" src="img/default.jpg" class="layui-nav-img">
+								<font id="nickname">我</font>
+							</a>
+							<dl class="layui-nav-child">
+								<dd><a href="userbase.html">基本资料</a></dd>
+								<dd><a href="security.html">安全设置</a></dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item"><a id="login" href="#" onclick="login1()" role="button" class="" data-toggle="modal">登录</a></li>
+						<li class="layui-nav-item"><a href="#" id="exit" onclick="exit()" class="">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 主页面 -->
+			<div class="layui-container">
+				<!-- 表单 -->
+				<div id="mainbar" class="layui-col-xs12 layui-col-sm9 layui-col-md9">
+					<br />
+					<div class="layui-row text-center">
+						<h2>学历认证</h2>
+					</div>
+					<hr class="layui-bg-green"><br />
+					<div class="layui-row text-center">
+						<form class="layui-form" lay-filter="real-name-form" method="post" action="">
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label">学历</label>
+									<div class="layui-input-inline">
+										<select name="real_edu" id="edu-options" lay-verify="required" lay-search lay-skin="select">
+											<option value="">请选择</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label">毕业学校</label>
+									<div class="layui-input-inline">
+										<input type="text" name="real_school" id="id_num" lay-verify="required" placeholder="请输入毕业学校" onchange="checkIDCard()"
+										 autocomplete="off" class="layui-input">
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<label class="layui-form-label-col">请上传 《毕业证复印件》 或<a target="_blank" href="https://t3.chei.com.cn/chsi/images/yzbg/xlbg-sample.png?V=20180102"
+										 style="">《教育部学历证书电子注册备案表》</a></label>
+									<div class="layui-input-block" id="">
+										<button type="button" class="layui-btn layui-btn-normal site-demo-upload" id="edu_url_btn">
+											<label class="layui-icon layui-icon-upload-drag" style=" font-size: 1.25rem;"></label>
+										</button>
+										<div id="edu_url_pre">
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<br /><br />
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn" lay-submit>立即提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 手机按钮 -->
+			<div>
+				<div class="sidebar-mobile-left layui-hide-md layui-hide-sm" id="leftbtn" >
+					<i class="layui-icon layui-icon-right" style="font-size: 1.5625rem;" ></i>
+				</div>
+				<div id="shade"></div>
+			</div>
+		</div>
+	</body>
+	<script src="../resource/layui-v2.5.6/layui/layui.all.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/data.js"></script>
+	<script type="text/javascript">
+		var form = layui.form;
+		var $ = layui.$;
+
+		var edu_url_url;
+		
+		var edu_str = "";
+		for (let i in EDUCATIONS) {
+			edu_str += "<option value="+i+">"+EDUCATIONS[i]+"</option>";
+		}
+		$("#edu-options").append(edu_str);
+		form.render();
+		
+		$(function() {
+			Ajax(function() {
+				if (obj.Code > 0) alert(obj.Msg);
+				else {
+					session = obj.session;
+					user_id = session.userid;
+					checkLogin();
+					
+					var upload = layui.upload;
+					var lab;
+					upload.render({
+						elem: '.site-demo-upload',
+						acceptMime: 'image/*',
+						multiple: true,
+						url: "",
+						field: "file" //控件name
+							,
+						choose: function(obj) {
+							var item = this.item;
+							console.log(item);
+							lab = "edu_url";
+							var newfile = "img/edu_url/" + session.openid + "/temp";
+							this.field = "edu_url";
+							obj.preview(function(index, file, result) {
+								$('#edu_url_pre').html(
+									'<div style="margin:0 10px; display:inline-block !important; display:inline;  max-width:200px; max-height:200px;">' +
+									'<img  class="showimg" style="width: 100%;height:100%" src="' + result +
+									'" id="' + file.name + '"></div>');
+							});
+							this.url = "../upload.php?file=" + encodeURIComponent(newfile);
+							this.url += "&file_id=" + this.field;
+							this.url += "&uid=web";
+							this.url += "&isUniq=1";
+						},
+						before: function(obj) {
+							layer.load(1);
+						},
+						done: function(data, index) {
+							//上传完毕
+							if (typeof(data.msg) != 'undefined') {
+								if (data.msg == '') {
+									edu_url_url = data.url;
+									layer.msg("上传成功");
+
+								} else {
+									layer.msg(decodeURIComponent(data.msg));
+								}
+							} else {
+								layer.msg("图片上传异常");
+							}
+							layer.closeAll('loading'); //关闭loading
+						},
+						error: function() {
+							//请求异常回调
+							console.log("图片上传失败!");
+							layer.closeAll('loading'); //关闭loading
+						}
+					});
+
+				}
+			}, {
+				operate: "getSession",
+			});
+
+			form.on('submit', function(data) {
+				if (edu_url_url == undefined ) {
+					layer.msg("请上传手持身份证照片再提交！");
+					return false;
+				} else {
+					console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+					console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+
+					data.field.operate = "addRealEduVerify";
+					data.field.edu_url = edu_url_url;
+					console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+
+					Ajax(ajax_submit, data.field);
+					return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+				}
+			});
+
+		});
+
+		function ajax_submit(obj) {
+			if (obj.Code > 0) layer.msg(obj.Msg);
+			else {
+				var ary = JSON.parse(obj.Result);
+				layer.msg("提交成功,请耐心等待管理员审核！");
+				// window.history.back();
+				location = "authenticate.html";
+			}
+		}
+
+		
+	</script>
+</html>

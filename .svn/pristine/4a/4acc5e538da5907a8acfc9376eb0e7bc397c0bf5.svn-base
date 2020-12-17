@@ -1,0 +1,112 @@
+<template>
+  <div style="background-color: #F7F7F8" >
+    <!-- <NavBarHead class="nav_other_class" :title="title" :border="false" @goBack="goBackArticle" @showItem="showArticleItem"></NavBarHead> -->
+   
+   <BaseHeader @goHome="goBackHome" :accept="true" :address="address" :headMes="headMes"></BaseHeader>
+  
+ <div class="link_content_visite">
+        <span>您的回复：</span>
+        <span class="visite_content">有缘遇见你，愿我们有个愉快的约会~</span>
+    </div>
+    <div class="button" v-if="showBtn">
+       <van-row >
+       
+        <van-col span="24">
+          <van-button   type="primary" @click="goVisite">重新邀约</van-button>
+        </van-col>
+       
+      </van-row>
+    </div>
+     
+  </div>
+</template>
+
+<script>
+
+import NavBarHead from '../components/NavBarTab'
+
+import BaseHeader from '../components/BaseHeader'
+export default {
+  components: { NavBarHead, BaseHeader},
+  watch: {
+    $route: {
+      handler(val) {
+        console.log('toute -> ', val);
+       if (val.params.state == 'accept') {
+         this.headMes = '接受TA的邀约'
+         this.showBtn = false
+       } else if (val.params.state == 'cancel'){
+         this.headMes = '已拒绝TA的邀约'
+         this.showBtn = true
+
+       }
+      }
+    }
+  },
+  data() {
+    return {
+      title: '',
+      headMes: '接受TA的邀约',
+      address: '长沙-天心区/期望三年内结婚',
+      showBtn: false,
+      baseMessage: [
+        { name: '工作单位', filed: '长沙市周南中学'},
+        { name: '职业', filed: '教师'},
+        { name: '年收入', filed: '10w~20w'},
+        { name: '学历', filed: '本科'},
+        { name: '毕业学校', filed: '长沙理工大学'},
+        { name: '身高', filed: '160cm'},
+        { name: '体重', filed: '45kg'},
+        { name: '星座', filed: '处女座'},
+        { name: '婚姻状态', filed: '从未结婚'},
+      ],
+      
+    }
+  },
+  methods: {
+    goBackHome() {
+      this.$router.push({ path: '/customer'})
+    },
+    showHomeItem() {
+
+    },
+    goMoreMes() {
+      this.$router.push({ path: '/customer/message'})
+
+    },
+    goMoreChoose() {
+      this.$router.push({ path: '/customer/choose'})
+
+    },
+    goVisite() {
+      this.$router.push({ path: '/home'})
+
+    }
+    
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../style/mixin';
+  
+
+ .link_content_visite {
+   margin-top: 12rem;
+ }
+
+ .van-button--primary {
+    background-color: #FF807B;
+    @include sc(0.9rem,#FFFFFF);
+    border: 1px solid #FF807B;
+     @include wh(100%, 2.5rem);
+
+  }
+
+  .button {
+   position: fixed;
+   bottom: 0;
+    width: 19.6rem;
+    margin-left: 0.9rem;
+  }
+</style>
