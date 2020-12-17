@@ -110,7 +110,7 @@
           <div class="sure_education">
             <img v-if="userMes.auth.edu != 0" src="../../assets/education_select_big.png" alt="">
             <img v-else src="../../assets/education_big.png" alt=""> 
-            <span>学历认证</span>
+            <span>学历认证</span> 
 
           </div>
           <div class="sure_work" >
